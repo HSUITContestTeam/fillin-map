@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/testFragment"
+        android:title="Item" />
+    <item
+        android:id="@+id/shareFragment"
+        android:icon="@android:drawable/ic_menu_share"
+        android:title="공유" />
+    <item
+        android:id="@+id/mapFragment"
+        android:icon="@android:drawable/ic_menu_mapmode"
+        android:title="지도" />
+    <item
+        android:id="@+id/settingFragment"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:title="더 보기" />
+</menu>
