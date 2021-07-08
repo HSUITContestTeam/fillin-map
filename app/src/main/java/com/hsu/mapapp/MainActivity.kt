@@ -11,11 +11,16 @@ import com.hsu.mapapp.databinding.ActivityMapBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var appbarc: AppBarConfiguration
+    private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setNavigation()
+    }
+
+    fun setNavigation() {
         val nhf = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         appbarc = AppBarConfiguration(nhf.navController.graph)
         setupActionBarWithNavController(nhf.navController, appbarc)
