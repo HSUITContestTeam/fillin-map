@@ -7,24 +7,27 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.hsu.mapapp.databinding.ActivityMainBinding
-import com.hsu.mapapp.databinding.ActivityMapBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var appbarc: AppBarConfiguration
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var mainBinding: ActivityMainBinding
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        mainBinding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(mainBinding.root)
 
         setNavigation()
     }
 
-    fun setNavigation() {
+    private fun setNavigation() {
         val nhf = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         appbarc = AppBarConfiguration(nhf.navController.graph)
         setupActionBarWithNavController(nhf.navController, appbarc)
 
-        binding.bottomNavigationView.setupWithNavController(nhf.navController)
+        mainBinding.bottomNavigationView.setupWithNavController(nhf.navController)
     }
+
 }
