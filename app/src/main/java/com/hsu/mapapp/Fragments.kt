@@ -7,8 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.hsu.mapapp.databinding.ActivityMapBinding
-
+import com.hsu.mapapp.databinding.FragmentMapBinding
 
 
 // onCreateView나 onViewCreated view binding 쓰려면 맨아래
@@ -24,8 +23,8 @@ class TestFragment : Fragment(R.layout.activity_test) {
     }
 }
 
-class MapFragment : Fragment(R.layout.activity_map) {
-    private lateinit var _binding: ActivityMapBinding
+class MapFragment : Fragment(R.layout.fragment_map) {
+    private lateinit var _binding: FragmentMapBinding
     private var isFabOpen = false // Fab 버튼 default는 닫혀있음
 
     private val binding get() = _binding!!
@@ -35,7 +34,7 @@ class MapFragment : Fragment(R.layout.activity_map) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = ActivityMapBinding.inflate(inflater, container, false)
+        _binding = FragmentMapBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -64,11 +63,11 @@ class MapFragment : Fragment(R.layout.activity_map) {
         Toast.makeText(this.context, "메인 버튼 클릭!", Toast.LENGTH_SHORT).show()
         // 플로팅 액션 버튼 닫기 - 열려있는 플로팅 버튼 집어넣는 애니메이션
         if (isFabOpen) {
-            ObjectAnimator.ofFloat(_binding.fabShare,"translationY", 0f).apply { start() }
+            ObjectAnimator.ofFloat(_binding.fabShare, "translationY", 0f).apply { start() }
             ObjectAnimator.ofFloat(_binding.fabCapture, "translationY", 0f).apply { start() }
             _binding.fabMain.setImageResource(R.drawable.fab_dots)
         } else { // 플로팅 액션 버튼 열기 - 닫혀있는 플로팅 버튼 꺼내는 애니메이션
-            ObjectAnimator.ofFloat(_binding.fabShare,"translationY", -400f).apply { start() }
+            ObjectAnimator.ofFloat(_binding.fabShare, "translationY", -400f).apply { start() }
             ObjectAnimator.ofFloat(_binding.fabCapture, "translationY", -200f).apply { start() }
             _binding.fabMain.setImageResource(R.drawable.fab_up)
         }

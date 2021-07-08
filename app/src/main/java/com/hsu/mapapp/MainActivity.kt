@@ -13,7 +13,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mainBinding: ActivityMainBinding
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainBinding = ActivityMainBinding.inflate(layoutInflater)
@@ -23,7 +22,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setNavigation() {
-        val nhf = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        val nhf =
+            supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         appbarc = AppBarConfiguration(nhf.navController.graph)
         setupActionBarWithNavController(nhf.navController, appbarc)
 
