@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav"
-    app:startDestination="@id/mapFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/mapFragment"
@@ -12,4 +13,8 @@
         android:id="@+id/testFragment"
         android:name="com.hsu.mapapp.TestFragment"
         android:label="TestFragment" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.hsu.mapapp.LoginFragment"
+        android:label="LoginFragment" />
 </navigation>
