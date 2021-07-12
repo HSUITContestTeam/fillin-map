@@ -10,7 +10,7 @@
         android:name="com.hsu.mapapp.MapFragment"
         android:label="MapFragment" />
     <fragment
-        android:id="@+id/testFragment"
-        android:name="com.hsu.mapapp.TestFragment"
-        android:label="TestFragment" />
+        android:id="@+id/mapListFragment"
+        android:name="com.hsu.mapapp.MapListFragment"
+        android:label="MapListFragment" />
 </navigation>
