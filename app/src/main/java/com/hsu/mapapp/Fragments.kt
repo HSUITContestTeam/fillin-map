@@ -7,9 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.hsu.mapapp.databinding.ActivityLoginBinding
-import com.hsu.mapapp.databinding.ActivityMapBinding
-import com.hsu.mapapp.databinding.ActivityTestBinding
 import com.hsu.mapapp.databinding.FragmentMapBinding
 
 
@@ -78,11 +75,5 @@ class MapFragment : Fragment(R.layout.fragment_map) {
 
         isFabOpen = !isFabOpen
 
-    }
-}
-
-class LoginFragment : Fragment(R.layout.activity_login) {
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val binding = ActivityLoginBinding.bind(view)
     }
 }
