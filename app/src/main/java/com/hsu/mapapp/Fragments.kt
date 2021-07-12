@@ -7,11 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.hsu.mapapp.databinding.ActivityLoginBinding
+import com.hsu.mapapp.databinding.ActivityMapBinding
+import com.hsu.mapapp.databinding.ActivityTestBinding
 import com.hsu.mapapp.databinding.FragmentMapBinding
 
 
 // onCreateView나 onViewCreated view binding 쓰려면 맨아래
 // MapFragment 클래스 참고!
+
 
 //class ShareFragment : Fragment(R.layout.레이아웃이름)
 
@@ -74,5 +78,11 @@ class MapFragment : Fragment(R.layout.fragment_map) {
 
         isFabOpen = !isFabOpen
 
+    }
+}
+
+class LoginFragment : Fragment(R.layout.activity_login) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val binding = ActivityLoginBinding.bind(view)
     }
 }
