@@ -20,6 +20,12 @@ import com.hsu.mapapp.databinding.FragmentMapListBinding
 
 //class SettingFragment : Fragment(R.layout.레이아웃이름)
 
+class SettingFragment : Fragment(R.layout.activity_settings) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+    }
+}
+
 class TestFragment : Fragment(R.layout.activity_test) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 

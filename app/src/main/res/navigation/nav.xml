@@ -13,4 +13,9 @@
         android:id="@+id/mapListFragment"
         android:name="com.hsu.mapapp.MapListFragment"
         android:label="MapListFragment" />
+
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.hsu.mapapp.SettingFragment"
+        android:label="SettingFragment" />
 </navigation>

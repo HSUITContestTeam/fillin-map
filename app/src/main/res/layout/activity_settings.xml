@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/notice"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:backgroundTint="#00000000"
+        android:text="공지사항"
+        android:textColor="#000000"
+        app:layout_constraintBottom_toBottomOf="@+id/notice_image"
+        app:layout_constraintStart_toEndOf="@+id/notice_image"
+        app:layout_constraintTop_toTopOf="@+id/notice_image"
+        app:strokeColor="#FFFFFF" />
+
+    <ImageButton
+        android:id="@+id/notice_image"
+        android:layout_width="71dp"
+        android:layout_height="66dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:background="#FFFFFF"
+        android:backgroundTint="#00FFFFFF"
+        android:src="@drawable/campaign"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/appInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="66dp"
+        android:layout_marginStart="20dp"
+        android:backgroundTint="#00000000"
+        android:text="앱 정보"
+        android:textColor="#000000"
+        app:layout_constraintBottom_toBottomOf="@+id/appInfo_image"
+        app:layout_constraintStart_toEndOf="@+id/appInfo_image"
+        app:layout_constraintTop_toTopOf="@+id/appInfo_image"
+        app:strokeColor="#FFFFFF" />
+
+    <ImageButton
+        android:id="@+id/appInfo_image"
+        android:layout_width="71dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="20dp"
+        android:background="#FFFFFF"
+        android:backgroundTint="#00FFFFFF"
+        android:src="@drawable/info"
+        app:layout_constraintStart_toStartOf="@+id/notice_image"
+        app:layout_constraintTop_toBottomOf="@+id/notice_image" />
+
+    <Button
+        android:id="@+id/myProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="66dp"
+        android:layout_marginStart="20dp"
+        android:backgroundTint="#00000000"
+        android:text="내 프로필"
+        android:textColor="#000000"
+        app:layout_constraintBottom_toBottomOf="@+id/myProfile_image"
+        app:layout_constraintStart_toEndOf="@+id/myProfile_image"
+        app:layout_constraintTop_toTopOf="@+id/myProfile_image"
+        app:layout_constraintVertical_bias="0.0"
+        app:strokeColor="#FFFFFF" />
+
+    <ImageButton
+        android:id="@+id/myProfile_image"
+        android:layout_width="71dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="30dp"
+        android:background="#FFFFFF"
+        android:backgroundTint="#00FFFFFF"
+        app:layout_constraintStart_toStartOf="@+id/appInfo_image"
+        app:layout_constraintTop_toBottomOf="@+id/appInfo_image"
+        app:srcCompat="@drawable/person" />
+
+    <Button
+        android:id="@+id/themeSet"
+        android:layout_width="wrap_content"
+        android:layout_height="66dp"
+        android:layout_marginStart="20dp"
+        android:backgroundTint="#00000000"
+        android:text="테마 설정"
+        android:textColor="#000000"
+        app:layout_constraintBottom_toBottomOf="@+id/themeSet_image"
+        app:layout_constraintStart_toEndOf="@+id/themeSet_image"
+        app:layout_constraintTop_toTopOf="@+id/themeSet_image"
+        app:strokeColor="#FFFFFF" />
+
+    <ImageButton
+        android:id="@+id/themeSet_image"
+        android:layout_width="71dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="20dp"
+        android:background="#FFFFFF"
+        android:backgroundTint="#00FFFFFF"
+        app:layout_constraintStart_toStartOf="@+id/myProfile_image"
+        app:layout_constraintTop_toBottomOf="@+id/myProfile_image"
+        app:srcCompat="@drawable/color" />
+
+    <Button
+        android:id="@+id/notiSet"
+        android:layout_width="wrap_content"
+        android:layout_height="66dp"
+        android:layout_marginStart="20dp"
+        android:backgroundTint="#00000000"
+        android:text="알림 설정"
+        android:textColor="#000000"
+        app:layout_constraintBottom_toBottomOf="@+id/notiSet_image"
+        app:layout_constraintStart_toEndOf="@+id/notiSet_image"
+        app:layout_constraintTop_toTopOf="@+id/notiSet_image"
+        app:strokeColor="#FFFFFF" />
+
+    <ImageButton
+        android:id="@+id/notiSet_image"
+        android:layout_width="71dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="20dp"
+        android:background="#FFFFFF"
+        android:backgroundTint="#00FFFFFF"
+        app:layout_constraintStart_toStartOf="@+id/themeSet_image"
+        app:layout_constraintTop_toBottomOf="@+id/themeSet_image"
+        app:srcCompat="@drawable/noti" />
+
+    <Button
+        android:id="@+id/bugReport"
+        android:layout_width="wrap_content"
+        android:layout_height="66dp"
+        android:layout_marginStart="20dp"
+        android:backgroundTint="#00000000"
+        android:text="버그 신고"
+        android:textColor="#000000"
+        app:layout_constraintBottom_toBottomOf="@+id/bugReport_image"
+        app:layout_constraintStart_toEndOf="@+id/bugReport_image"
+        app:layout_constraintTop_toTopOf="@+id/bugReport_image"
+        app:strokeColor="#FFFFFF" />
+
+    <ImageButton
+        android:id="@+id/bugReport_image"
+        android:layout_width="71dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="30dp"
+        android:background="#FFFFFF"
+        android:backgroundTint="#00FFFFFF"
+        app:layout_constraintStart_toStartOf="@+id/notiSet_image"
+        app:layout_constraintTop_toBottomOf="@+id/notiSet_image"
+        app:srcCompat="@drawable/bug" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

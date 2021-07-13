@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/dark_image"
+        android:layout_width="174dp"
+        android:layout_height="217dp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/light_image"
+        app:layout_constraintStart_toEndOf="@+id/light_image"
+        app:layout_constraintTop_toTopOf="@+id/light_image"
+        app:srcCompat="@drawable/base_map" />
+
+    <ImageView
+        android:id="@+id/light_image"
+        android:layout_width="174dp"
+        android:layout_height="217dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="150dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/base_map" />
+
+    <TextView
+        android:id="@+id/lightMode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="라이트 모드"
+        app:layout_constraintEnd_toEndOf="@+id/light_image"
+        app:layout_constraintStart_toStartOf="@+id/light_image"
+        app:layout_constraintTop_toBottomOf="@+id/light_image" />
+
+    <TextView
+        android:id="@+id/darkMode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="다크 모드"
+        app:layout_constraintBottom_toBottomOf="@+id/lightMode"
+        app:layout_constraintEnd_toEndOf="@+id/dark_image"
+        app:layout_constraintStart_toStartOf="@+id/dark_image" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="272dp"
+        android:layout_height="134dp"
+        android:layout_marginStart="15dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/darkMode"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/lightMode"
+        app:layout_constraintTop_toBottomOf="@+id/lightMode"
+        app:layout_constraintVertical_bias="0.099">
+
+        <RadioButton
+            android:id="@+id/lightButton"
+            android:layout_width="199dp"
+            android:layout_height="wrap_content" />
+
+        <RadioButton
+            android:id="@+id/darkButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+    </RadioGroup>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
