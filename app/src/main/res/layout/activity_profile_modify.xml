@@ -21,11 +21,13 @@
         android:id="@+id/profilemodify_name_tV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
         android:text="닉네임"
         android:textColor="#000000"
-        app:layout_constraintStart_toEndOf="@+id/profilemodify_profile_iV"
-        tools:layout_editor_absoluteY="65dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.092" />
 
     <EditText
         android:id="@+id/profilemodify_name_eT"
@@ -36,10 +38,10 @@
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/profilemodify_profile_iV"
+        app:layout_constraintHorizontal_bias="0.911"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/profilemodify_name_tV"
-        app:layout_constraintVertical_bias="0.056" />
+        app:layout_constraintVertical_bias="0.054" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/profilemodify_save_btn"

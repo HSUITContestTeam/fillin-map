@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.hsu.mapapp.databinding.ActivityProfileBinding
 import com.hsu.mapapp.databinding.ActivitySettingsBinding
 import com.hsu.mapapp.databinding.FragmentMapBinding
 import com.hsu.mapapp.databinding.FragmentMapListBinding
@@ -19,7 +20,6 @@ import com.hsu.mapapp.databinding.FragmentMapListBinding
 
 
 //class ShareFragment : Fragment(R.layout.레이아웃이름)
-
 
 class SettingFragment : Fragment(R.layout.activity_settings) {
     private var _binding: ActivitySettingsBinding? = null
@@ -54,6 +54,14 @@ class SettingFragment : Fragment(R.layout.activity_settings) {
 
         binding.appInfoImage.setOnClickListener {
             startActivity(Intent(context, AppinfoActivity::class.java))
+        }
+
+        binding.myProfile.setOnClickListener {
+            startActivity(Intent(context, ProfileActivity::class.java))
+        }
+
+        binding.myProfileImage.setOnClickListener {
+            startActivity(Intent(context, ProfileActivity::class.java))
         }
     }
 
