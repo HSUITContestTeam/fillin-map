@@ -1,16 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="163dp"
-        android:layout_height="28dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="30dp"
-        android:text="알림설정 페이지!"
+    <Switch
+        android:id="@+id/notiset_vibration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="진동         "
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/notiset_sound"
+        app:layout_constraintTop_toBottomOf="@+id/notiset_sound" />
+
+    <Switch
+        android:id="@+id/notiset_sound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="40dp"
+        android:text="소리         "
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

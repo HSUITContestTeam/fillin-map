@@ -3,10 +3,10 @@ package com.hsu.mapapp
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 
-class NoticeActivity : AppCompatActivity() {
+class BugreportActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?){
-        setTitle("공지사항")
+        setTitle("버그 신고")
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_notice)
+        setContentView(R.layout.activity_bugreport)
     }
 }
