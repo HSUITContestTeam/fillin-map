@@ -23,7 +23,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
     private fun setNavigation() {
         val nhf =
             supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
@@ -31,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(nhf.navController, appbarc)
 
         mainBinding.bottomNavigationView.setupWithNavController(nhf.navController)
+
     }
 
 }
