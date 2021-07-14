@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ShareActionProvider
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
@@ -21,6 +22,8 @@ import com.hsu.mapapp.databinding.*
 
 
 //class ShareFragment : Fragment(R.layout.레이아웃이름)
+
+
 
 class SettingFragment : Fragment(R.layout.activity_settings) {
     private var _binding: ActivitySettingsBinding? = null
@@ -39,6 +42,7 @@ class SettingFragment : Fragment(R.layout.activity_settings) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         SetBtnClickEvent()
     }
+
 
     private fun SetBtnClickEvent() {
         binding.notice.setOnClickListener {

@@ -18,4 +18,8 @@
         android:id="@+id/settingFragment"
         android:name="com.hsu.mapapp.SettingFragment"
         android:label="SettingFragment" />
+    <fragment
+        android:id="@+id/shareFragment"
+        android:name="com.hsu.mapapp.ShareFragment"
+        android:label="ShareFragment" />
 </navigation>

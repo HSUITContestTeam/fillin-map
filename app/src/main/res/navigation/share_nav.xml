@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/share_nav">
+
+    <fragment
+        android:id="@+id/item_friends"
+        android:name="com.hsu.mapapp.FriendsFragment"
+        android:label="FriendsFragment" />
+    <fragment
+        android:id="@+id/item_group"
+        android:name="com.hsu.mapapp.GroupListFragment"
+        android:label="GroupListFragment">
+        <action
+            android:id="@+id/action_item_group_to_shareFragment"
+            app:destination="@id/shareFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.hsu.mapapp.SettingFragment"
+        android:label="SettingFragment" />
+    <action
+        android:id="@+id/action_shareFragment_to_item_group"
+        app:destination="@id/item_group" />
+    <fragment
+        android:id="@+id/shareFragment"
+        android:name="com.hsu.mapapp.ShareFragment"
+        android:label="ShareFragment">
+        <action
+            android:id="@+id/action_shareFragment_to_item_group"
+            app:destination="@id/item_group" />
+    </fragment>
+</navigation>
