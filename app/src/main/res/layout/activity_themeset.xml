@@ -46,8 +46,8 @@
 
     <RadioGroup
         android:id="@+id/radioGroup"
-        android:layout_width="272dp"
-        android:layout_height="134dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -59,7 +59,7 @@
 
         <RadioButton
             android:id="@+id/lightButton"
-            android:layout_width="199dp"
+            android:layout_width="195dp"
             android:layout_height="wrap_content" />
 
         <RadioButton

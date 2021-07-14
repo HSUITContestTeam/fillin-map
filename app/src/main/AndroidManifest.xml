@@ -21,6 +21,9 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".NoticeActivity" />
         <activity android:name=".AppinfoActivity" />
+        <activity android:name=".BugreportActivity" />
+        <activity android:name=".NotisetActivity" />
+        <activity android:name=".ThemesetActivity" />
     </application>
 
 </manifest>

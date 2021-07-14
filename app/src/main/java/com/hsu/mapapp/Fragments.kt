@@ -64,6 +64,30 @@ class SettingFragment : Fragment(R.layout.activity_settings) {
         binding.myProfileImage.setOnClickListener {
             startActivity(Intent(context, ProfileActivity::class.java))
         }
+
+        binding.themeSet.setOnClickListener {
+            startActivity(Intent(context, ThemesetActivity::class.java))
+        }
+
+        binding.themeSetImage.setOnClickListener {
+            startActivity(Intent(context, ThemesetActivity::class.java))
+        }
+
+        binding.notiSet.setOnClickListener {
+            startActivity(Intent(context, NotisetActivity::class.java))
+        }
+
+        binding.notiSetImage.setOnClickListener {
+            startActivity(Intent(context, NotisetActivity::class.java))
+        }
+
+        binding.bugReport.setOnClickListener {
+            startActivity(Intent(context, BugreportActivity::class.java))
+        }
+
+        binding.bugReportImage.setOnClickListener {
+            startActivity(Intent(context, BugreportActivity::class.java))
+        }
     }
 
     override fun onDestroyView() {
