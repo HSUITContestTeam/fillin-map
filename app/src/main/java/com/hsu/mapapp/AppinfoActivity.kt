@@ -8,5 +8,5 @@ class AppinfoActivity : AppCompatActivity() {
         setTitle("앱 정보")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_appinfo) 
-    }
+    } 
 }
