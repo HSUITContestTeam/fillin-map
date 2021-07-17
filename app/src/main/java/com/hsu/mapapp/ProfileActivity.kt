@@ -19,6 +19,8 @@ class ProfileActivity : AppCompatActivity() {
     private fun SetProfileModifyBtnClickEvent() {
         profileBinding.profileModifyBtn.setOnClickListener {
             startActivity(Intent(this, ProfileModifyActivity::class.java))
+            overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_right);
+            finish();
         }
     }
 }
