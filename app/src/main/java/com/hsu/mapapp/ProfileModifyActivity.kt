@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Build
 import android.view.View
 
+
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -16,6 +17,8 @@ import com.hsu.mapapp.databinding.ActivityProfileModifyBinding
 import java.lang.Exception
 
 
+
+
 class ProfileModifyActivity : AppCompatActivity() {
     private lateinit var profileModifyBinding: ActivityProfileModifyBinding
 
@@ -23,6 +26,9 @@ class ProfileModifyActivity : AppCompatActivity() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if(it.resultCode == RESULT_OK && it.data !=null) {
                 var currentImageUri:Uri ? = it.data?.data
+                if (currentImageUri != null) {
+
+                }
                 try {
                     currentImageUri?.let {
                         if(Build.VERSION.SDK_INT < 28) {
@@ -48,12 +54,12 @@ class ProfileModifyActivity : AppCompatActivity() {
         }
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         profileModifyBinding = ActivityProfileModifyBinding.inflate(layoutInflater)
         setContentView(profileModifyBinding.root)
 
+        // 프로필 화면 클릭 시
         profileModifyBinding.profilemodifyProfileIV?.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View) {
                 val intent = Intent(Intent.ACTION_GET_CONTENT)
@@ -75,11 +81,13 @@ class ProfileModifyActivity : AppCompatActivity() {
         private const val PERMISSION_CAMERA = android.Manifest.permission.CAMERA
         private const val PERMISSION_READ_EXTERNAL_STORAGE = android.Manifest.permission.READ_EXTERNAL_STORAGE
         private const val PERMISSION_WRITE_EXTERNAL_STORAGE = android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+        private const val PERMISSION_ACCESS_MEDIA_LOCATION = android.Manifest.permission.ACCESS_MEDIA_LOCATION
 
         private val PERMISSIONS_REQUESTED: Array<String> = arrayOf(
             PERMISSION_CAMERA,
             PERMISSION_READ_EXTERNAL_STORAGE,
             PERMISSION_WRITE_EXTERNAL_STORAGE,
+            PERMISSION_ACCESS_MEDIA_LOCATION
         )
     }
 
