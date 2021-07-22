@@ -1,8 +1,9 @@
-package com.hsu.mapapp
+package com.hsu.mapapp.profile
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.hsu.mapapp.R
 
 import com.hsu.mapapp.databinding.ActivityProfileBinding
 
