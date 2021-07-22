@@ -21,5 +21,27 @@
     <fragment
         android:id="@+id/shareFragment"
         android:name="com.hsu.mapapp.Share_Folder.ShareFragment"
-        android:label="공유화면" />
+        android:label="공유화면" >
+        <action
+            android:id="@+id/action_shareFragment_to_friendsFragment"
+            app:destination="@id/friendsFragment" />
+        <action
+            android:id="@+id/action_shareFragment_to_groupListFragment"
+            app:destination="@id/groupListFragment" />
+        <action
+            android:id="@+id/action_shareFragment_to_friendsSearchFragment2"
+            app:destination="@id/friendsSearchFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/friendsFragment"
+        android:name="com.hsu.mapapp.Share_Folder.FriendsFragment"
+        android:label="FriendsFragment" />
+    <fragment
+        android:id="@+id/groupListFragment"
+        android:name="com.hsu.mapapp.Share_Folder.GroupListFragment"
+        android:label="GroupListFragment" />
+    <fragment
+        android:id="@+id/friendsSearchFragment2"
+        android:name="com.hsu.mapapp.Share_Folder.FriendsSearchFragment"
+        android:label="FriendsSearchFragment" />
 </navigation>

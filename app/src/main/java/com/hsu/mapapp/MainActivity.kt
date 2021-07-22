@@ -4,10 +4,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.hsu.mapapp.Share_Folder.FriendsFragment
+import com.hsu.mapapp.Share_Folder.ShareFragment
 import com.hsu.mapapp.databinding.ActivityLoginBinding
 import com.hsu.mapapp.databinding.ActivityMainBinding
 
@@ -33,8 +36,6 @@ class MainActivity : AppCompatActivity() {
         mainBinding.bottomNavigationView.setupWithNavController(nhf.navController)
 
     }
-
-
 
 
 
