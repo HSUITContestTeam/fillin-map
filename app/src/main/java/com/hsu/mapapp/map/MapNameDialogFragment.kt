@@ -1,4 +1,4 @@
-package com.hsu.mapapp
+package com.hsu.mapapp.map
 
 import android.os.Bundle
 import android.view.LayoutInflater
