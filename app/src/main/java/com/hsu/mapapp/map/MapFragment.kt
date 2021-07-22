@@ -1,17 +1,27 @@
-package com.hsu.mapapp
+package com.hsu.mapapp.map
 
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.hsu.mapapp.R
 import com.hsu.mapapp.databinding.FragmentMapBinding
 
 class MapFragment : Fragment(R.layout.fragment_map) {
     private var _binding: FragmentMapBinding? = null
+
+    private lateinit var adapter: MapAdapter
+    private val datas = mutableListOf<MapItemList>()
+
     private var isFabOpen = false // Fab 버튼 default는 닫혀있음
+    private var isPageOpen = false
 
     private val binding get() = _binding!!
 
@@ -25,7 +35,36 @@ class MapFragment : Fragment(R.layout.fragment_map) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        setRecycler()
+        setAddMapBtn()
         setFABClickEvent()
+        setSlidingAnimation()
+
+    }
+
+    private fun setRecycler() {
+        adapter = MapAdapter(this)
+        binding.recyclerView.adapter = adapter // RecyclerView와 CustomAdapter 연결
+        binding.recyclerView.layoutManager = LinearLayoutManager(this.context)
+        binding.recyclerView.setHasFixedSize(true)
+
+
+        datas.apply {
+            add(MapItemList("Map1"))
+            add(MapItemList("Map2"))
+            add(MapItemList("Map3"))
+
+            adapter.datas = datas
+            adapter.notifyDataSetChanged()
+        }
+
+    }
+
+    private fun setAddMapBtn() {
+        binding.addMapBtn.setOnClickListener {
+            val fm = childFragmentManager
+            MapNameDialogFragment().show(fm, "dialog")
+        }
     }
 
     private fun setFABClickEvent() {
@@ -62,6 +101,45 @@ class MapFragment : Fragment(R.layout.fragment_map) {
 
     }
 
+    @SuppressLint("ResourceAsColor")
+    private fun setSlidingAnimation() {
+        val leftAnimation = AnimationUtils.loadAnimation(this.context, R.anim.map_list_translate_left)
+        val rightAnimation = AnimationUtils.loadAnimation(this.context, R.anim.map_list_translate_right)
+
+        val animationListener = object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation?) { }
+
+            override fun onAnimationEnd(animation: Animation?) {
+                if(isPageOpen) {
+                    binding.slidingList.setVisibility(View.INVISIBLE)
+                    binding.slideBtn.text = "open"
+                    isPageOpen = false
+                }
+                else {
+                    binding.slideBtn.text = "close"
+                    isPageOpen = true
+                }
+            }
+
+            override fun onAnimationRepeat(animation: Animation?) { }
+        }
+
+        leftAnimation.setAnimationListener(animationListener)
+        rightAnimation.setAnimationListener(animationListener)
+
+        binding.slideBtn.setOnClickListener {
+            if(isPageOpen) { // 슬라이딩 리스트 닫기
+                binding.slidingList.startAnimation(rightAnimation)
+            }
+            else { // 슬라이딩 리스트 열기
+                binding.slidingList.setVisibility(View.VISIBLE)
+                binding.slidingList.startAnimation(leftAnimation)
+
+            }
+        }
+
+    }
+
     // onDestoryView에서 binding을 null로 만들지 않으면 Fragment가 사라지지 않아서
     // 메모리 누수가 생긴다고 함. 그래서 _binding을 null로 만들어 줘야 한다~..
     override fun onDestroyView() {
@@ -69,3 +147,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
         _binding = null
     }
 }
+
+
+
+

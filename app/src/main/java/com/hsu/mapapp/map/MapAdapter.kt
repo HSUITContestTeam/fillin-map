@@ -1,19 +1,27 @@
-package com.hsu.mapapp
+package com.hsu.mapapp.map
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.hsu.mapapp.databinding.FragmentMapListBinding
 import com.hsu.mapapp.databinding.MapListItemBinding
 
-class CustomAdapter(private val context: MapListFragment) :
-    RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
+class MapAdapter(private val context: MapFragment) :
+    RecyclerView.Adapter<MapAdapter.ViewHolder>() {
     var datas = mutableListOf<MapItemList>()
+    var isStartBtnSelected = false
 
     inner class ViewHolder(private val binding: MapListItemBinding) :
             RecyclerView.ViewHolder(binding.root) {
                 fun setContent(item: MapItemList) {
                     binding.mapTitle.text = item.mapTitle
+                }
+                fun startOnclick() {
+                    binding.startBtn.setOnClickListener {
+                        binding.startBtn.isSelected = isStartBtnSelected
+                        isStartBtnSelected = !isStartBtnSelected
+                    }
                 }
             }
 
@@ -25,6 +33,7 @@ class CustomAdapter(private val context: MapListFragment) :
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         viewHolder.setContent(datas[position])
+        viewHolder.startOnclick()
     }
 
     override fun getItemCount() = datas.size

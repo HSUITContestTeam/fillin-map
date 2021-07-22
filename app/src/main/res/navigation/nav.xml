@@ -7,11 +7,11 @@
 
     <fragment
         android:id="@+id/mapFragment"
-        android:name="com.hsu.mapapp.MapFragment"
+        android:name="com.hsu.mapapp.map.MapFragment"
         android:label="MapFragment" />
     <fragment
         android:id="@+id/mapListFragment"
-        android:name="com.hsu.mapapp.MapListFragment"
+        android:name="com.hsu.mapapp.map.MapListFragment"
         android:label="MapListFragment" />
 
     <fragment
