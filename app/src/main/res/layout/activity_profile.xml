@@ -70,15 +70,15 @@
 
     <ImageView
         android:id="@+id/profile_PROFILE_iV"
-        android:layout_width="0dp"
-        android:layout_height="102dp"
+        android:layout_width="113dp"
+        android:layout_height="113dp"
+        android:background="#A39E9A9A"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.071"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintVertical_bias="0.05"
+        tools:srcCompat="@drawable/login_id" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/profile_modify_btn"
