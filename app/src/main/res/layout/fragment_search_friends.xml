@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/friendsSearchFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/button6"
+        android:layout_width="101dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="4dp"
+        android:text="Button"
+        app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.04"
+        app:layout_constraintStart_toEndOf="@+id/userName" />
 
     <EditText
         android:id="@+id/editTextTextPersonName4"
@@ -18,21 +30,7 @@
         android:text="Use description Here"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView6"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="129dp"
-        android:layout_height="33dp"
-        android:layout_marginEnd="136dp"
-        android:text="User Name"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.088"
-        app:layout_constraintStart_toEndOf="@+id/imageView4"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.194" />
+        app:layout_constraintTop_toBottomOf="@+id/userName" />
 
     <ImageView
         android:id="@+id/imageView6"
@@ -44,30 +42,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/login_id" />
 
-    <EditText
-        android:id="@+id/editTextTextPersonName2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="157dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name"
+    <TextView
+        android:id="@+id/userName"
+        android:layout_width="129dp"
+        android:layout_height="33dp"
+        android:layout_marginEnd="136dp"
+        android:text="User Name"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button6"
-        android:layout_width="101dp"
-        android:layout_height="37dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginBottom="4dp"
-        android:text="Button"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.04"
-        app:layout_constraintStart_toEndOf="@+id/textView5" />
+        app:layout_constraintHorizontal_bias="0.088"
+        app:layout_constraintStart_toEndOf="@+id/imageView4"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.194" />
 </androidx.constraintlayout.widget.ConstraintLayout>

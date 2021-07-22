@@ -12,6 +12,7 @@ import androidx.databinding.DataBindingUtil.inflate
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -21,6 +22,7 @@ import com.hsu.mapapp.MainActivity
 import com.hsu.mapapp.R
 import com.hsu.mapapp.databinding.ActivityAppinfoBinding.inflate
 import com.hsu.mapapp.databinding.ActivityShareBinding
+import com.hsu.mapapp.databinding.FragmentSearchFriendsBinding
 import java.util.zip.Inflater
 
 class ShareFragment : Fragment(R.layout.activity_share) {
@@ -28,6 +30,8 @@ class ShareFragment : Fragment(R.layout.activity_share) {
     var mainActivity: MainActivity? = null
     private var _binding: ActivityShareBinding? = null
     private val binding get() = _binding!!
+    lateinit var text : String
+    private lateinit var viewModel: ShareViewModel
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -43,6 +47,7 @@ class ShareFragment : Fragment(R.layout.activity_share) {
     ): View {
         _binding = ActivityShareBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true);
+        viewModel = ViewModelProvider(this).get(ShareViewModel::class.java)
         return binding.root
     }
 
@@ -51,21 +56,29 @@ class ShareFragment : Fragment(R.layout.activity_share) {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater){
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.share_menu, menu);
+
         val searchItem = menu.findItem(R.id.item_search)
         val searchView = searchItem.actionView as SearchView
         searchView.queryHint = "검색어를 입력하시오"
+
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                // print 시에 한자씩 입력될때마다 입력되어 있는 값 출력
+                if (query != null) {
+                    text = query
+                }
+                findNavController().navigate(R.id.action_shareFragment_to_friendsSearchFragment2)
+                // 검색어 완료시
                //println(query)
-                return false
+                return true
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                //검색버튼 눌렸을때 실행
+                text = newText;
+
+                //검색어 입력시
                 //println(newText);
 
-                return false
+                return true
             }
         })
     }
@@ -82,10 +95,6 @@ class ShareFragment : Fragment(R.layout.activity_share) {
             R.id.item_group -> {
                 println("그룹목록 클릭")
                 findNavController().navigate(R.id.action_shareFragment_to_groupListFragment)
-            }
-            R.id.item_search -> {
-                println("친구검색 클릭")
-                findNavController().navigate(R.id.action_shareFragment_to_friendsSearchFragment2)
             }
         }
         return true

@@ -30,18 +30,18 @@
             app:destination="@id/groupListFragment" />
         <action
             android:id="@+id/action_shareFragment_to_friendsSearchFragment2"
-            app:destination="@id/friendsSearchFragment2" />
+            app:destination="@id/friendsSearchFragment" />
     </fragment>
     <fragment
         android:id="@+id/friendsFragment"
         android:name="com.hsu.mapapp.Share_Folder.FriendsFragment"
-        android:label="FriendsFragment" />
+        android:label="친구 목록" />
     <fragment
         android:id="@+id/groupListFragment"
         android:name="com.hsu.mapapp.Share_Folder.GroupListFragment"
-        android:label="GroupListFragment" />
+        android:label="그룹 목록" />
     <fragment
-        android:id="@+id/friendsSearchFragment2"
+        android:id="@+id/friendsSearchFragment"
         android:name="com.hsu.mapapp.Share_Folder.FriendsSearchFragment"
-        android:label="FriendsSearchFragment" />
+        android:label="친구 찾기" />
 </navigation>
