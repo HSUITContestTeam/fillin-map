@@ -2,6 +2,8 @@ package com.hsu.mapapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -18,7 +20,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         mainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(mainBinding.root)
-
         setNavigation()
     }
 
@@ -32,5 +33,9 @@ class MainActivity : AppCompatActivity() {
         mainBinding.bottomNavigationView.setupWithNavController(nhf.navController)
 
     }
+
+
+
+
 
 }

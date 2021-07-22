@@ -1,4 +1,4 @@
-package com.hsu.mapapp
+package com.hsu.mapapp.Share_Folder
 
 import android.os.Bundle
 import android.view.Menu
@@ -10,6 +10,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.hsu.mapapp.R
 import com.hsu.mapapp.databinding.ActivityShareBinding
 
 class ShareActivity: AppCompatActivity() {
@@ -38,18 +39,6 @@ class ShareActivity: AppCompatActivity() {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            R.id.item_friends -> {
-                item.onNavDestinationSelected(findNavController(R.id.shareFragment))
-                println("친구목록 클릭")
-            }
-            R.id.item_group -> {
-                item.onNavDestinationSelected(findNavController(R.id.shareFragment))
-            }
-            R.id.item_search ->item.onNavDestinationSelected(findNavController(R.id.shareFragment))
-        }
-        return true
-    }
+
 
 }

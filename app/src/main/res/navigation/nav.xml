@@ -20,6 +20,6 @@
         android:label="SettingFragment" />
     <fragment
         android:id="@+id/shareFragment"
-        android:name="com.hsu.mapapp.ShareFragment"
-        android:label="ShareFragment" />
+        android:name="com.hsu.mapapp.Share_Folder.ShareFragment"
+        android:label="공유화면" />
 </navigation>
