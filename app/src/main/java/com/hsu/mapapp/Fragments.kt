@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.hsu.mapapp.databinding.*
+import com.hsu.mapapp.profile.ProfileActivity
 
 
 // onCreateView나 onViewCreated view binding 쓰려면 맨아래

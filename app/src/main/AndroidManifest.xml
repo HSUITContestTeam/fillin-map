@@ -12,8 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MapApp">
-        <activity android:name=".ProfileModifyActivity"></activity>
-        <activity android:name=".ProfileActivity" />
+        <activity android:name=".profile.ProfileModifyActivity"></activity>
+        <activity android:name=".profile.ProfileActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

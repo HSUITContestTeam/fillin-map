@@ -1,4 +1,4 @@
-package com.hsu.mapapp
+package com.hsu.mapapp.profile
 
 import android.content.Intent
 import android.graphics.ImageDecoder
@@ -13,9 +13,7 @@ import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.exifinterface.media.ExifInterface
 import com.hsu.mapapp.databinding.ActivityProfileModifyBinding
-import java.io.IOException
 import java.lang.Exception
 
 
@@ -51,7 +49,6 @@ class ProfileModifyActivity : AppCompatActivity() {
                                 val bitmap = ImageDecoder.decodeBitmap(source)
                                 /*  내부저장소에서 선택한 사진을 profilemodifyProfileIV(이미지뷰)에 표시    */
                                 profileModifyBinding.profilemodifyProfileIV.setImageBitmap(bitmap)
-
                             }
                         }
                     } catch (e: Exception) { e.printStackTrace() }
