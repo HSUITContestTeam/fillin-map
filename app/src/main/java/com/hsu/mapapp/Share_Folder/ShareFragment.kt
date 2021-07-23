@@ -8,6 +8,7 @@ import android.view.View.inflate
 import android.widget.SearchView
 import android.widget.Toolbar
 import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil.inflate
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -48,6 +49,9 @@ class ShareFragment : Fragment(R.layout.activity_share) {
         _binding = ActivityShareBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true);
         viewModel = ViewModelProvider(this).get(ShareViewModel::class.java)
+
+
+
         return binding.root
     }
 
@@ -61,10 +65,13 @@ class ShareFragment : Fragment(R.layout.activity_share) {
         val searchView = searchItem.actionView as SearchView
         searchView.queryHint = "검색어를 입력하시오"
 
+
+
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query != null) {
                     text = query
+                    
                 }
                 findNavController().navigate(R.id.action_shareFragment_to_friendsSearchFragment2)
                 // 검색어 완료시
