@@ -50,8 +50,6 @@ class ShareFragment : Fragment(R.layout.activity_share) {
         setHasOptionsMenu(true);
         viewModel = ViewModelProvider(this).get(ShareViewModel::class.java)
 
-
-
         return binding.root
     }
 
@@ -71,7 +69,7 @@ class ShareFragment : Fragment(R.layout.activity_share) {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query != null) {
                     text = query
-                    
+
                 }
                 findNavController().navigate(R.id.action_shareFragment_to_friendsSearchFragment2)
                 // 검색어 완료시
