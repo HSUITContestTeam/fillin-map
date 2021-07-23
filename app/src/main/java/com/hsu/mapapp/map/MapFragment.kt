@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hsu.mapapp.R
 import com.hsu.mapapp.databinding.FragmentMapBinding
+import com.hsu.mapapp.utils.OnSwipeTouchListener
+
 
 class MapFragment : Fragment(R.layout.fragment_map) {
     private var _binding: FragmentMapBinding? = null
@@ -34,11 +36,15 @@ class MapFragment : Fragment(R.layout.fragment_map) {
         return binding.root
     }
 
+
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setRecycler()
         setAddMapBtn()
         setFABClickEvent()
         setSlidingAnimation()
+
+
 
     }
 
@@ -101,7 +107,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
 
     }
 
-    @SuppressLint("ResourceAsColor")
+    @SuppressLint("ClickableViewAccessibility")
     private fun setSlidingAnimation() {
         val leftAnimation = AnimationUtils.loadAnimation(this.context, R.anim.map_list_translate_left)
         val rightAnimation = AnimationUtils.loadAnimation(this.context, R.anim.map_list_translate_right)
@@ -112,11 +118,9 @@ class MapFragment : Fragment(R.layout.fragment_map) {
             override fun onAnimationEnd(animation: Animation?) {
                 if(isPageOpen) {
                     binding.slidingList.setVisibility(View.INVISIBLE)
-                    binding.slideBtn.text = "open"
                     isPageOpen = false
                 }
                 else {
-                    binding.slideBtn.text = "close"
                     isPageOpen = true
                 }
             }
@@ -127,16 +131,23 @@ class MapFragment : Fragment(R.layout.fragment_map) {
         leftAnimation.setAnimationListener(animationListener)
         rightAnimation.setAnimationListener(animationListener)
 
-        binding.slideBtn.setOnClickListener {
-            if(isPageOpen) { // 슬라이딩 리스트 닫기
-                binding.slidingList.startAnimation(rightAnimation)
+        binding.mapPage.setOnTouchListener(object : OnSwipeTouchListener(requireActivity()) {
+            override fun onSwipeLeft() {
+                // 슬라이딩 페이지 꺼내기
+                if(!isPageOpen) { // 슬라이딩 리스트 닫기
+                    binding.slidingList.setVisibility(View.VISIBLE)
+                    binding.slidingList.startAnimation(leftAnimation)
+                }
+                Toast.makeText(requireActivity(),"왼쪽으로",Toast.LENGTH_SHORT).show()
             }
-            else { // 슬라이딩 리스트 열기
-                binding.slidingList.setVisibility(View.VISIBLE)
-                binding.slidingList.startAnimation(leftAnimation)
-
+            override fun onSwipeRight() {
+                // 슬라이딩 페이지 닫기
+                if(isPageOpen) { // 슬라이딩 리스트 닫기
+                    binding.slidingList.startAnimation(rightAnimation)
+                }
+                Toast.makeText(requireActivity(),"오른쪽으로",Toast.LENGTH_SHORT).show()
             }
-        }
+        })
 
     }
 
