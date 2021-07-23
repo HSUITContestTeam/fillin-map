@@ -50,6 +50,7 @@ class ShareFragment : Fragment(R.layout.activity_share) {
         setHasOptionsMenu(true);
         viewModel = ViewModelProvider(this).get(ShareViewModel::class.java)
 
+
         return binding.root
     }
 

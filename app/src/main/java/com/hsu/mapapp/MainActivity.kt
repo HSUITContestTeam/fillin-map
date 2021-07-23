@@ -2,16 +2,14 @@ package com.hsu.mapapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.ActionBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
+import androidx.navigation.ui.*
 import com.hsu.mapapp.Share_Folder.FriendsFragment
 import com.hsu.mapapp.Share_Folder.ShareFragment
 import com.hsu.mapapp.databinding.ActivityLoginBinding
@@ -21,11 +19,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appbarc: AppBarConfiguration
     private lateinit var mainBinding: ActivityMainBinding
     private lateinit var loginBinding : ActivityLoginBinding
+    //private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(mainBinding.root)
+
         setNavigation()
     }
 
@@ -34,15 +34,19 @@ class MainActivity : AppCompatActivity() {
     private fun setNavigation() {
         val nhf =
             supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+
         appbarc = AppBarConfiguration(nhf.navController.graph)
         setupActionBarWithNavController(nhf.navController, appbarc)
 
         mainBinding.bottomNavigationView.setupWithNavController(nhf.navController)
 
-
-
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = findNavController(R.id.fragmentContainerView)
+
+        return navController.navigateUp(appbarc) || super.onSupportNavigateUp()
+    }
 
 
 }
