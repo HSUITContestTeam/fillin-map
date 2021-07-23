@@ -1,20 +1,24 @@
 package com.hsu.mapapp.profile
 
+
 import android.content.Intent
 import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
-import android.view.View
-
-
 import android.os.Bundle
+import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.util.Log
+import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.exifinterface.media.ExifInterface
 import com.hsu.mapapp.databinding.ActivityProfileModifyBinding
-import java.lang.Exception
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.OutputStream
 
 
 class ProfileModifyActivity : AppCompatActivity() {
@@ -29,6 +33,8 @@ class ProfileModifyActivity : AppCompatActivity() {
             if(it.resultCode == RESULT_OK && it.data !=null) {
                 /*  currentImageUri = 갤러리에서 고른 사진 Uri   */
                 currentImageUri= it.data?.data       // it.data == intent
+
+                /*  사진을 bitmap으로 변환 후 imageView에 표시 */
                 if (currentImageUri != null) {
                     try {
                         currentImageUri.let {
@@ -55,6 +61,10 @@ class ProfileModifyActivity : AppCompatActivity() {
                 } else {
                     Log.d("ActivityResult", "something wrong")
                 }
+                // 이미지 uri를 절대 경로로 바꾸기
+                currentImageUri?.let {
+                        it1 -> createCopyAndReturnRealPath(it1)
+                }
             }
         }
 
@@ -64,15 +74,14 @@ class ProfileModifyActivity : AppCompatActivity() {
         setContentView(profileModifyBinding.root)
 
         //  프로필 화면 클릭 시
-        profileModifyBinding.profilemodifyProfileIV?.setOnClickListener(object :
+        profileModifyBinding.profilemodifyProfileIV.setOnClickListener(object :
             View.OnClickListener {
             override fun onClick(v: View) {
                 /*  내부저장소에서 image파일들만 불러오는 인텐트  */
                 val intent = Intent(Intent.ACTION_GET_CONTENT)
-                intent.setType("image/*")
+                intent.type = "image/*"
                 filterActivityLauncher.launch(intent)
             }
-
         })
     }
     //  권한 요청
@@ -97,51 +106,38 @@ class ProfileModifyActivity : AppCompatActivity() {
             PERMISSION_ACCESS_MEDIA_LOCATION
         )
     }
-    /* 사진 절대경로랑 gps 구하는 거 삽질중..
-    private fun getPathFromUri (uri:Uri) :String {
-        var realPath:String=""
-        uri.path?.let { path->
-            val databaseUri:Uri
-            val selection: String?
-            val selectionArgs: Array<String>?
 
-            if(path.contains("/document/image:")) {// files selected from "Documents"
-                databaseUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                selection = "_id=?"
-                selectionArgs = arrayOf(DocumentsContract.getDocumentId(uri).split(":")[1])
-            }
-            else { // files selected from all other sources, especially on Samsung devices
-                databaseUri = uri
-                selection = null
-                selectionArgs = null
-            }
-            Log.d("cursor","cursor is ")
-            try {
-                val column = "_data"
-                val projection = arrayOf(column)
-                val cursor = contentResolver.query(
-                    databaseUri,
-                    projection,
-                    selection,
-                    selectionArgs,
-                    null
-                )
-                Log.d("cursor",cursor.toString())
-                cursor?.let {
-                    if (it.moveToFirst()) {
-                        val columnIndex = cursor.getColumnIndexOrThrow(column)
-                        realPath = cursor.getString(columnIndex)
-                    }
-                    cursor.close()
-                }
-            } catch (e: Exception) {
-                println(e)
-            }
+    // 이미지 uri를 절대 경로로 바꾸기
+    fun createCopyAndReturnRealPath(uri: Uri) :String? {
+        val context = applicationContext
+        val contentResolver = context.contentResolver ?: return null
+
+        // Create file path inside app's data dir
+        val filePath = (context.applicationInfo.dataDir + File.separator
+                + System.currentTimeMillis())
+        val file = File(filePath)
+        try {
+            val inputStream = contentResolver.openInputStream(uri) ?: return null
+            val outputStream: OutputStream = FileOutputStream(file)
+            val buf = ByteArray(1024)
+            var len: Int
+            while (inputStream.read(buf).also { len = it } > 0) outputStream.write(buf, 0, len)
+            outputStream.close()
+            inputStream.close()
+        } catch (e: IOException) {
+            e.printStackTrace()
         }
-        return realPath
+        Log.d("file.getAbsolutePath()",file.getAbsolutePath())
+        path = file.getAbsolutePath()
+        /*  절대 경로를 getGps()에 넘겨주기   */
+        getGps(path)
+
+        return path
     }
+
+    // 이미지 gps 구하기
     private fun getGps(photoPath: String) {
-        var valid:Boolean = false;
+        var valid:Boolean = false
         var latitude: Float
         var longitude: Float
 
@@ -164,6 +160,6 @@ class ProfileModifyActivity : AppCompatActivity() {
         }
         Log.d("latitude",lat.toString())
         Log.d("longtitude",lon.toString())
+
     }
-    */
 }
