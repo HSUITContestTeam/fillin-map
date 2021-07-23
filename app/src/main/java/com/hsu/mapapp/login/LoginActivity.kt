@@ -1,8 +1,9 @@
-package com.hsu.mapapp
+package com.hsu.mapapp.login
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.hsu.mapapp.MainActivity
 import com.hsu.mapapp.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
