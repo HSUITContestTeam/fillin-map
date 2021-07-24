@@ -13,7 +13,8 @@
     <fragment
         android:id="@+id/settingFragment"
         android:name="com.hsu.mapapp.SettingFragment"
-        android:label="SettingFragment" />
+        android:label="환경설정" />
+
     <fragment
         android:id="@+id/shareFragment"
         android:name="com.hsu.mapapp.Share_Folder.ShareFragment"

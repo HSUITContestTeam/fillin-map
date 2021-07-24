@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,11 +11,12 @@
 
         <Button
             android:id="@+id/notice"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginStart="20dp"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="310dp"
+            android:layout_height="66dp"
             android:backgroundTint="#00000000"
             android:text="공지사항"
+            android:textAlignment="viewStart"
             android:textColor="#000000"
             app:layout_constraintBottom_toBottomOf="@+id/notice_image"
             app:layout_constraintStart_toEndOf="@+id/notice_image"
@@ -25,11 +25,12 @@
 
         <Button
             android:id="@+id/appInfo"
-            android:layout_width="wrap_content"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="310dp"
             android:layout_height="66dp"
-            android:layout_marginStart="20dp"
             android:backgroundTint="#00000000"
             android:text="앱 정보"
+            android:textAlignment="viewStart"
             android:textColor="#000000"
             app:layout_constraintBottom_toBottomOf="@+id/appInfo_image"
             app:layout_constraintStart_toEndOf="@+id/appInfo_image"
@@ -38,11 +39,12 @@
 
         <Button
             android:id="@+id/myProfile"
-            android:layout_width="wrap_content"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="310dp"
             android:layout_height="66dp"
-            android:layout_marginStart="20dp"
             android:backgroundTint="#00000000"
             android:text="내 프로필"
+            android:textAlignment="viewStart"
             android:textColor="#000000"
             app:layout_constraintBottom_toBottomOf="@+id/myProfile_image"
             app:layout_constraintStart_toEndOf="@+id/myProfile_image"
@@ -52,11 +54,12 @@
 
         <Button
             android:id="@+id/themeSet"
-            android:layout_width="wrap_content"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="310dp"
             android:layout_height="66dp"
-            android:layout_marginStart="20dp"
             android:backgroundTint="#00000000"
             android:text="테마 설정"
+            android:textAlignment="viewStart"
             android:textColor="#000000"
             app:layout_constraintBottom_toBottomOf="@+id/themeSet_image"
             app:layout_constraintStart_toEndOf="@+id/themeSet_image"
@@ -65,11 +68,12 @@
 
         <Button
             android:id="@+id/notiSet"
-            android:layout_width="wrap_content"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="310dp"
             android:layout_height="66dp"
-            android:layout_marginStart="20dp"
             android:backgroundTint="#00000000"
             android:text="알림 설정"
+            android:textAlignment="viewStart"
             android:textColor="#000000"
             app:layout_constraintBottom_toBottomOf="@+id/notiSet_image"
             app:layout_constraintStart_toEndOf="@+id/notiSet_image"
@@ -78,11 +82,12 @@
 
         <Button
             android:id="@+id/bugReport"
-            android:layout_width="wrap_content"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="310dp"
             android:layout_height="66dp"
-            android:layout_marginStart="20dp"
             android:backgroundTint="#00000000"
             android:text="버그 신고"
+            android:textAlignment="viewStart"
             android:textColor="#000000"
             app:layout_constraintBottom_toBottomOf="@+id/bugReport_image"
             app:layout_constraintStart_toEndOf="@+id/bugReport_image"
@@ -94,7 +99,7 @@
             android:layout_width="71dp"
             android:layout_height="66dp"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="50dp"
             android:background="#FFFFFF"
             android:backgroundTint="#00FFFFFF"
             android:src="@drawable/campaign"
@@ -112,11 +117,12 @@
             app:layout_constraintStart_toStartOf="@+id/notice_image"
             app:layout_constraintTop_toBottomOf="@+id/notice_image" />
 
+
         <ImageButton
             android:id="@+id/myProfile_image"
             android:layout_width="71dp"
             android:layout_height="66dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="60dp"
             android:background="#FFFFFF"
             android:backgroundTint="#00FFFFFF"
             app:layout_constraintStart_toStartOf="@+id/appInfo_image"
@@ -149,12 +155,101 @@
             android:id="@+id/bugReport_image"
             android:layout_width="71dp"
             android:layout_height="66dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="60dp"
             android:background="#FFFFFF"
             android:backgroundTint="#00FFFFFF"
             app:layout_constraintStart_toStartOf="@+id/notiSet_image"
             app:layout_constraintTop_toBottomOf="@+id/notiSet_image"
             app:srcCompat="@drawable/bug" />
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="wrap_content"
+            android:layout_height="0.5dp"
+            android:background="@drawable/line"
+            app:layout_constraintStart_toStartOf="@+id/notice_image"
+            app:layout_constraintTop_toBottomOf="@+id/notice"></View>
+
+        <View
+            android:id="@+id/line2"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:background="@drawable/line"
+            app:layout_constraintStart_toStartOf="@+id/textInfo"
+            app:layout_constraintTop_toBottomOf="@+id/appInfo"></View>
+
+        <View
+            android:id="@+id/line4"
+            android:layout_width="wrap_content"
+            android:layout_height="0.5dp"
+            android:background="@drawable/line"
+            app:layout_constraintStart_toStartOf="@+id/myProfile_image"
+            app:layout_constraintTop_toBottomOf="@+id/myProfile"></View>
+
+        <View
+            android:id="@+id/line5"
+            android:layout_width="wrap_content"
+            android:layout_height="0.5dp"
+            android:background="@drawable/line"
+            app:layout_constraintStart_toStartOf="@+id/themeSet_image"
+            app:layout_constraintTop_toBottomOf="@+id/themeSet"></View>
+
+        <View
+            android:id="@+id/line6"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:background="@drawable/line"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textSet"
+            app:layout_constraintTop_toBottomOf="@+id/notiSet"></View>
+
+        <View
+            android:id="@+id/line8"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:background="@drawable/line"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textReport"
+            app:layout_constraintTop_toBottomOf="@+id/bugReport"></View>
+
+        <TextView
+            android:id="@+id/textInfo"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:text="정보"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/notice_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textSet"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="30dp"
+            android:text="설정"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/myProfile_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appInfo_image" />
+
+        <TextView
+            android:id="@+id/textReport"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="30dp"
+            android:text="신고"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/bugReport_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/notiSet_image" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
