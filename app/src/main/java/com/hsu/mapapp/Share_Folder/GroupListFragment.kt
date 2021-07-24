@@ -9,10 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hsu.mapapp.R
 import com.hsu.mapapp.databinding.FragmentGroupListBinding
-import com.hsu.mapapp.databinding.GroupListListItemBinding
 
 class GroupListFragment : Fragment(R.layout.group_list_list_item) {
-    private var _binding: GroupListListItemBinding? = null
+    private var _binding: FragmentGroupListBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var adapter: GroupListAdapter
@@ -23,7 +22,7 @@ class GroupListFragment : Fragment(R.layout.group_list_list_item) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = GroupListListItemBinding.inflate(inflater, container, false)
+        _binding = FragmentGroupListBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -33,14 +32,17 @@ class GroupListFragment : Fragment(R.layout.group_list_list_item) {
 
     private fun setRecycler(){
         adapter = GroupListAdapter(this)
-
+        binding.groupRecycler.adapter = adapter
+        binding.groupRecycler.layoutManager = LinearLayoutManager(this.context)
+        binding.groupRecycler.setHasFixedSize(true)
 
         data_groups.apply{
-            add(FriendsItemList(("Friends1")))
-            add(FriendsItemList(("Friends2")))
+            add(GroupListItemList(("Groups1")))
+            add((GroupListItemList(("Groups2"))))
 
-            adapter.datas_friends = data_friends
+            adapter.datas_groups = data_groups
             adapter.notifyDataSetChanged()
+
         }
 
 
