@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import com.hsu.mapapp.R
 import com.hsu.mapapp.databinding.FragmentGroupListBinding
 
-class GroupListFragment : Fragment(R.layout.fragment_group_list) {
+class GroupListFragment : Fragment(R.layout.fragment_group_list_item) {
     private var _binding: FragmentGroupListBinding? = null
     private val binding get() = _binding!!
 
