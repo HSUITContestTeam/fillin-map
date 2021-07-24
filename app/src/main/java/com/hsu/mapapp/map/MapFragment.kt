@@ -39,13 +39,10 @@ class MapFragment : Fragment(R.layout.fragment_map) {
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        setRecycler()
-        setAddMapBtn()
-        setFABClickEvent()
-        setSlidingAnimation()
-
-
-
+        setRecycler() // 리사이클러뷰 (지도목록 슬라이딩 화면) 설정
+        setAddMapBtn() // 지도추가버튼, Dialog 띄움
+        setFABClickEvent() // FAB 버튼 설정
+        setSlidingAnimation() // 지도목록 스와이핑, 슬라이딩 설정
     }
 
     private fun setRecycler() {
@@ -148,7 +145,6 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                 Toast.makeText(requireActivity(),"오른쪽으로",Toast.LENGTH_SHORT).show()
             }
         })
-
     }
 
     // onDestoryView에서 binding을 null로 만들지 않으면 Fragment가 사라지지 않아서
