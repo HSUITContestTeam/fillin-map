@@ -9,15 +9,12 @@
         android:id="@+id/mapFragment"
         android:name="com.hsu.mapapp.map.MapFragment"
         android:label="MapFragment" />
-    <fragment
-        android:id="@+id/mapListFragment"
-        android:name="com.hsu.mapapp.map.MapListFragment"
-        android:label="MapListFragment" />
 
     <fragment
         android:id="@+id/settingFragment"
         android:name="com.hsu.mapapp.SettingFragment"
-        android:label="SettingFragment" />
+        android:label="환경설정" />
+
     <fragment
         android:id="@+id/shareFragment"
         android:name="com.hsu.mapapp.Share_Folder.ShareFragment"
