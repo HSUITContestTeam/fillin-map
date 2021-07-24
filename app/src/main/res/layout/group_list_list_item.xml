@@ -30,7 +30,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.213"
         app:layout_constraintStart_toEndOf="@+id/imageView4"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/GroupName" />
 
     <ImageView
         android:id="@+id/imageView4"
@@ -43,7 +43,7 @@
         app:srcCompat="@drawable/login_id" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/GroupName"
         android:layout_width="129dp"
         android:layout_height="33dp"
         android:text="User Name"
@@ -56,7 +56,7 @@
         app:layout_constraintVertical_bias="0.131" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/MessageBtn_group"
         android:layout_width="109dp"
         android:layout_height="38dp"
         android:layout_marginStart="20dp"
