@@ -49,6 +49,8 @@ class ShareFragment : Fragment(R.layout.activity_share) {
         _binding = ActivityShareBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true);
         viewModel = ViewModelProvider(this).get(ShareViewModel::class.java)
+        // appbar - 뒤로 가기 버튼 없애기
+        (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(false)
 
 
         return binding.root
