@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.hsu.mapapp.databinding.*
 import com.hsu.mapapp.profile.ProfileActivity
@@ -28,6 +29,8 @@ class SettingFragment : Fragment(R.layout.activity_settings) {
         savedInstanceState: Bundle?
     ): View {
         _binding = ActivitySettingsBinding.inflate(inflater, container, false)
+        // appbar - 뒤로 가기 버튼 없애기
+        (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(false)
         return binding.root
     }
 
