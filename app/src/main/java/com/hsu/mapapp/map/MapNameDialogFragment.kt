@@ -27,7 +27,7 @@ class MapNameDialogFragment : DialogFragment() {
         binding.dialogCancelBtn.text = "취소"
         binding.dialogSaveBtn.text = "저장"
 
-        
+
         binding.dialogCancelBtn.setOnClickListener {
             dismiss()
         }

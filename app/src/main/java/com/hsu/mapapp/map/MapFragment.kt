@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hsu.mapapp.R
@@ -107,23 +108,24 @@ class MapFragment : Fragment(R.layout.fragment_map) {
 
     @SuppressLint("ClickableViewAccessibility")
     private fun setSlidingAnimation() {
-        val leftAnimation = AnimationUtils.loadAnimation(this.context, R.anim.map_list_translate_left)
-        val rightAnimation = AnimationUtils.loadAnimation(this.context, R.anim.map_list_translate_right)
+        val leftAnimation =
+            AnimationUtils.loadAnimation(this.context, R.anim.map_list_translate_left)
+        val rightAnimation =
+            AnimationUtils.loadAnimation(this.context, R.anim.map_list_translate_right)
 
         val animationListener = object : Animation.AnimationListener {
-            override fun onAnimationStart(animation: Animation?) { }
+            override fun onAnimationStart(animation: Animation?) {}
 
             override fun onAnimationEnd(animation: Animation?) {
-                if(isPageOpen) {
+                if (isPageOpen) {
                     binding.slidingList.setVisibility(View.INVISIBLE)
                     isPageOpen = false
-                }
-                else {
+                } else {
                     isPageOpen = true
                 }
             }
 
-            override fun onAnimationRepeat(animation: Animation?) { }
+            override fun onAnimationRepeat(animation: Animation?) {}
         }
 
         leftAnimation.setAnimationListener(animationListener)
@@ -132,24 +134,36 @@ class MapFragment : Fragment(R.layout.fragment_map) {
         binding.mapPage.setOnTouchListener(object : OnSwipeTouchListener(requireActivity()) {
             override fun onSwipeLeft() {
                 // 슬라이딩 페이지 꺼내기
-                if(!isPageOpen) { // 슬라이딩 리스트 닫기
+                if (!isPageOpen) { // 슬라이딩 리스트 닫기
                     binding.slidingList.setVisibility(View.VISIBLE)
                     binding.slidingList.startAnimation(leftAnimation)
                 }
-                Toast.makeText(requireActivity(),"왼쪽으로",Toast.LENGTH_SHORT).show()
             }
+
             override fun onSwipeRight() {
                 // 슬라이딩 페이지 닫기
-                if(isPageOpen) { // 슬라이딩 리스트 닫기
+                if (isPageOpen) { // 슬라이딩 리스트 닫기
                     binding.slidingList.startAnimation(rightAnimation)
                 }
-                Toast.makeText(requireActivity(),"오른쪽으로",Toast.LENGTH_SHORT).show()
             }
         })
     }
 
-    // onDestoryView에서 binding을 null로 만들지 않으면 Fragment가 사라지지 않아서
-    // 메모리 누수가 생긴다고 함. 그래서 _binding을 null로 만들어 줘야 한다~..
+    override fun onStart() {
+        super.onStart()
+        (activity as AppCompatActivity).supportActionBar!!.hide()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        (activity as AppCompatActivity).supportActionBar!!.show()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as AppCompatActivity).supportActionBar!!.hide()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
