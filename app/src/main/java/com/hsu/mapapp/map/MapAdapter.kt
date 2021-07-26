@@ -13,17 +13,18 @@ class MapAdapter(private val context: MapFragment) :
     var isStartBtnSelected = false
 
     inner class ViewHolder(private val binding: MapListItemBinding) :
-            RecyclerView.ViewHolder(binding.root) {
-                fun setContent(item: MapItemList) {
-                    binding.mapTitle.text = item.mapTitle
-                }
-                fun startOnclick() {
-                    binding.startBtn.setOnClickListener {
-                        binding.startBtn.isSelected = isStartBtnSelected
-                        isStartBtnSelected = !isStartBtnSelected
-                    }
-                }
+        RecyclerView.ViewHolder(binding.root) {
+        fun setContent(item: MapItemList) {
+            binding.mapTitle.text = item.mapTitle
+        }
+
+        fun startOnclick() {
+            binding.startBtn.setOnClickListener {
+                binding.startBtn.isSelected = isStartBtnSelected
+                isStartBtnSelected = !isStartBtnSelected
             }
+        }
+    }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(viewGroup.context)
