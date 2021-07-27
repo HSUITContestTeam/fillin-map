@@ -80,8 +80,6 @@ captures/
 .externalNativeBuild
 .cxx/
 
-# Google Services (e.g. APIs or Firebase)
-# google-services.json
 
 # Freeline
 freeline.py
@@ -192,8 +190,6 @@ gradle-app.setting
 *.jks
 *.keystore
 
-# Google Services (e.g. APIs or Firebase)
-# google-services.json
 
 # Android Patch
 
