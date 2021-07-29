@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "341018498390",
-    "project_id": "map-app-ba081",
-    "storage_bucket": "map-app-ba081.appspot.com"
+    "project_number": "220016356998",
+    "project_id": "map-app-321116",
+    "storage_bucket": "map-app-321116.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:341018498390:android:be9caff7072e258ef272f7",
+        "mobilesdk_app_id": "1:220016356998:android:50f0f36c9b9284528eab07",
         "android_client_info": {
           "package_name": "com.hsu.mapapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "341018498390-ilmm0nppha82cbjm7p951f02rgf25v90.apps.googleusercontent.com",
+          "client_id": "220016356998-74ts9kanke5pbl7k1tk5inb7mur7f4pe.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hsu.mapapp",
+            "certificate_hash": "2370c61bb3d32f5bd476a6d1ec6eede0fa0a140a"
+          }
+        },
+        {
+          "client_id": "220016356998-kv0npc9ostc4ln6cl6trj8tunmr8raqq.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDl-QWPcPb2Em5a0slsiE2fwwpq-PiWpy8"
+          "current_key": "AIzaSyCn9EWgovU1-tv_O2s5jjGBvHzlUw-oEEE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "341018498390-ilmm0nppha82cbjm7p951f02rgf25v90.apps.googleusercontent.com",
+              "client_id": "220016356998-kv0npc9ostc4ln6cl6trj8tunmr8raqq.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
