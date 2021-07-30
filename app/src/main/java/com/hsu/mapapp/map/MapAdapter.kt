@@ -1,23 +1,18 @@
 package com.hsu.mapapp.map
 
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.hsu.mapapp.databinding.MapListItemBinding
 
-class MapAdapter(private val context: MapFragment) :
+class MapAdapter(private var data: LiveData<ArrayList<MapItemList>>) :
     RecyclerView.Adapter<MapAdapter.ViewHolder>() {
-    var datas = mutableListOf<MapItemList>()
-    var isStartBtnSelected = false
+    private lateinit var binding: MapListItemBinding
+    private var isStartBtnSelected = false
 
     inner class ViewHolder(private val binding: MapListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun setContent(item: MapItemList) {
-            binding.mapTitle.text = item.mapTitle
-        }
-
         fun startOnclick() {
             binding.startBtn.setOnClickListener {
                 binding.startBtn.isSelected = isStartBtnSelected
@@ -28,15 +23,20 @@ class MapAdapter(private val context: MapFragment) :
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(viewGroup.context)
-        val binding = MapListItemBinding.inflate(layoutInflater, viewGroup, false)
+        binding = MapListItemBinding.inflate(layoutInflater, viewGroup, false)
         return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.setContent(datas[position])
+        data.value!!.get(position).let { item ->
+            binding.mapTitle.text = item.mapTitle
+        }
         viewHolder.startOnclick()
     }
 
-    override fun getItemCount() = datas.size
+    override fun getItemCount(): Int {
+        val size = data.value!!.size
+        return size
+    }
 
 }

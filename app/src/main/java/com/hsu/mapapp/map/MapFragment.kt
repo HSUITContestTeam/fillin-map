@@ -2,7 +2,6 @@ package com.hsu.mapapp.map
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
-import android.app.ActionBar
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +11,9 @@ import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hsu.mapapp.R
 import com.hsu.mapapp.databinding.FragmentMapBinding
@@ -21,8 +23,9 @@ import com.hsu.mapapp.utils.OnSwipeTouchListener
 class MapFragment : Fragment(R.layout.fragment_map) {
     private var _binding: FragmentMapBinding? = null
 
-    private lateinit var adapter: MapAdapter
-    private val datas = mutableListOf<MapItemList>()
+    private var data = MutableLiveData<ArrayList<MapItemList>>()
+    private lateinit var mapAdapter: MapAdapter
+    private lateinit var mapViewModel : MapViewModel
 
     private var isFabOpen = false // Fab 버튼 default는 닫혀있음
     private var isPageOpen = false
@@ -35,6 +38,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMapBinding.inflate(inflater, container, false)
+        mapViewModel = ViewModelProvider(this).get(MapViewModel::class.java)
         return binding.root
     }
 
@@ -48,27 +52,35 @@ class MapFragment : Fragment(R.layout.fragment_map) {
     }
 
     private fun setRecycler() {
-        adapter = MapAdapter(this)
-        binding.recyclerView.adapter = adapter // RecyclerView와 CustomAdapter 연결
-        binding.recyclerView.layoutManager = LinearLayoutManager(this.context)
-        binding.recyclerView.setHasFixedSize(true)
+        binding.MapListRecyclerView.layoutManager = LinearLayoutManager(this.context)
+        binding.MapListRecyclerView.setHasFixedSize(true)
 
+        val dataObserver: Observer<ArrayList<MapItemList>> =
+            Observer { liveData ->
+                data.value = liveData
+                mapAdapter = MapAdapter(data)
+                binding.MapListRecyclerView.adapter = mapAdapter // RecyclerView와 CustomAdapter 연결
+                mapAdapter.notifyDataSetChanged()
+                println("지도 추가")
+            }
 
-        datas.apply {
-            add(MapItemList("Map1"))
-            add(MapItemList("Map2"))
-            add(MapItemList("Map3"))
+        mapViewModel.mapLiveData.observe(viewLifecycleOwner, dataObserver)
 
-            adapter.datas = datas
-            adapter.notifyDataSetChanged()
-        }
+        setRecyclerDeco()
 
+    }
+
+    private fun setRecyclerDeco() {
+        // 지도 목록 위아래 margin 설정
+        val size = resources.getDimensionPixelSize(R.dimen.map_list_vertical_margin)
+        val vertical_margin = MapListDeco(size)
+        binding.MapListRecyclerView.addItemDecoration(vertical_margin)
     }
 
     private fun setAddMapBtn() {
         binding.addMapBtn.setOnClickListener {
             val fm = childFragmentManager
-            MapNameDialogFragment().show(fm, "dialog")
+            AddMapDialogFragment().show(fm, "dialog")
         }
     }
 
@@ -149,6 +161,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
         })
     }
 
+    // ----------------------상단 액션바 hide-------------------------
     override fun onStart() {
         super.onStart()
         (activity as AppCompatActivity).supportActionBar!!.hide()
@@ -163,6 +176,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
         super.onResume()
         (activity as AppCompatActivity).supportActionBar!!.hide()
     }
+    // --------------------------------------------------------------
 
     override fun onDestroyView() {
         super.onDestroyView()

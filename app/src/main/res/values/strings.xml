@@ -2,4 +2,5 @@
     <string name="app_name">MapApp</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="firebase_web_client_id">220016356998-kv0npc9ostc4ln6cl6trj8tunmr8raqq.apps.googleusercontent.com</string>
 </resources>
