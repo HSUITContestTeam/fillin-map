@@ -2,27 +2,27 @@ package com.hsu.mapapp.login
 
 import android.content.Intent
 import android.os.Bundle
+
 import android.util.Log
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.Task
-import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import android.widget.EditText
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.hsu.mapapp.MainActivity
 import com.hsu.mapapp.R
 import com.hsu.mapapp.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
 
-    var auth: FirebaseAuth? = null
+    private lateinit var auth: FirebaseAuth
     val GOOGLE_REQUEST_CODE = 99
     val TAG = "googleLogin"
     private lateinit var googleSignInClient: GoogleSignInClient
@@ -34,15 +34,82 @@ class LoginActivity : AppCompatActivity() {
         loginBinding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(loginBinding.root)
 
+        setCreateUserBtnEvent()
         setLoginBtnEvent()
-
         setGoogleLogin()
+
+        //initializig firebase auth object
+        auth = Firebase.auth
     }
 
+    //---------------------------- 회원가입 ----------------------------------//
+
+    // 회원가입 버튼 이벤트
+    private fun setCreateUserBtnEvent() {
+        loginBinding.loginCreateUserBtn.setOnClickListener {
+            val createUserIntent = Intent(this, CreateUserActivity::class.java)
+            startActivity(createUserIntent)
+        }
+        }
+
+    //---------------------------- 이메일 로그인 ----------------------------------//
+
+    // 로그인하기
+    private fun loginEmail(email: EditText, password: EditText) {
+        auth.signInWithEmailAndPassword(email.text.toString(),password.text.toString())
+            .addOnCompleteListener(this) {
+                if (it.isSuccessful) {
+                    // 로그인 성공
+                    Toast.makeText(this,"로그인 성공",Toast.LENGTH_SHORT).show()
+                    val currentUser = auth.currentUser
+                    updateUI(currentUser,email,password)
+                }
+                else {
+                    // 로그인 실패
+                    Toast.makeText(this,"로그인 실패",Toast.LENGTH_SHORT).show()
+                    updateUI(null,email,password)
+                }
+        }
+
+    }
+    // UI 업데이트
+    private fun updateUI(currentUser: FirebaseUser? = null,email: EditText, password: EditText) {
+        if(currentUser != null) {
+
+        }
+        // 로그인 입력창 초기화
+        email.setText("")
+        password.setText("")
+    }
+    // 이메일, 비밀번호 형식 체크
+    private fun checkForm(email: EditText, password: EditText): Boolean {
+        if (email.text.toString().isEmpty() || password.text.toString().isEmpty()) {
+            Toast.makeText(this, "이메일 혹은 비밀번호를 반드시 입력하세요", Toast.LENGTH_SHORT).show()
+            return false;
+        }
+        val emailPattern = android.util.Patterns.EMAIL_ADDRESS
+        if (!emailPattern.matcher(email.text.toString()).matches()) {
+            Toast.makeText(this, "이메일 형식을 확인하세요", Toast.LENGTH_SHORT).show()
+            return false;
+        }
+
+        if (password.text.toString().length < 6) {
+            Toast.makeText(this, "비밀번호를 6자 이상 입력하세요", Toast.LENGTH_SHORT).show()
+            return false;
+        }
+        return true;
+    }
+    // 로그인 버튼 이벤트
     private fun setLoginBtnEvent() {
         loginBinding.loginLOGINBtn.setOnClickListener {
-            val mainIntent = Intent(this, MainActivity::class.java)
-            startActivity(mainIntent)
+            val email = loginBinding.loginIdET
+            val password = loginBinding.loginPwdET
+            if (checkForm(email,password))
+            {
+                loginEmail(email,password)
+                val mainIntent = Intent(this, MainActivity::class.java)
+                startActivity(mainIntent)
+            }
         }
     }
 

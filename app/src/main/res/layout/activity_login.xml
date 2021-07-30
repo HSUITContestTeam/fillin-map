@@ -7,6 +7,22 @@
     android:background="@color/white"
     android:foregroundTint="#070707">
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/login_create_user_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_round_gray"
+        android:fontFamily="sans-serif"
+        android:text="회원가입"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.952"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.016" />
+
+
     <EditText
         android:id="@+id/login_id_eT"
         android:layout_width="230dp"
@@ -72,7 +88,7 @@
         android:id="@+id/login_LOGIN_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/button_round"
+        android:background="@drawable/button_round_black"
         android:fontFamily="sans-serif"
         android:text="login"
         android:textColor="@color/white"
