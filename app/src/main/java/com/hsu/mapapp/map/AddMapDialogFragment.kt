@@ -6,11 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import com.hsu.mapapp.databinding.FragmentMapNameDialogBinding
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider
+import com.hsu.mapapp.databinding.FragmentAddMapDialogBinding
 
-class MapNameDialogFragment : DialogFragment() {
-    private var _binding: FragmentMapNameDialogBinding? = null
+class AddMapDialogFragment : DialogFragment() {
+    private var _binding: FragmentAddMapDialogBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var mapViewModel : MapViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -18,7 +22,8 @@ class MapNameDialogFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         isCancelable = false
-        _binding = FragmentMapNameDialogBinding.inflate(inflater, container, false)
+        _binding = FragmentAddMapDialogBinding.inflate(inflater, container, false)
+        mapViewModel = ViewModelProvider(this).get(MapViewModel::class.java)
         return binding.root
     }
 
@@ -32,7 +37,10 @@ class MapNameDialogFragment : DialogFragment() {
             dismiss()
         }
         binding.dialogSaveBtn.setOnClickListener {
-            Toast.makeText(this.context, "저장버튼 클릭!", Toast.LENGTH_SHORT).show()
+            val newMapTitle = binding.editMapNameText.text
+            var newData = MapItemList(newMapTitle.toString())
+            mapViewModel.addMap(newData)
+            dismiss()
         }
     }
 
