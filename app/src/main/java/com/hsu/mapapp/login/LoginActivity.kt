@@ -75,7 +75,8 @@ class LoginActivity : AppCompatActivity() {
     // UI 업데이트
     private fun updateUI(currentUser: FirebaseUser? = null,email: EditText, password: EditText) {
         if(currentUser != null) {
-
+            val mainIntent = Intent(this, MainActivity::class.java)
+            startActivity(mainIntent)
         }
         // 로그인 입력창 초기화
         email.setText("")
@@ -104,11 +105,8 @@ class LoginActivity : AppCompatActivity() {
         loginBinding.loginLOGINBtn.setOnClickListener {
             val email = loginBinding.loginIdET
             val password = loginBinding.loginPwdET
-            if (checkForm(email,password))
-            {
+            if (checkForm(email,password)) {
                 loginEmail(email,password)
-                val mainIntent = Intent(this, MainActivity::class.java)
-                startActivity(mainIntent)
             }
         }
     }
