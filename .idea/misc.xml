@@ -4,6 +4,15 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/AndroidProgrammingClass/map-app/app/src/main/res/layout/activity_create_user.xml" value="0.22552083333333334" />
+        <entry key="..\:/Users/Hee/AndroidStudioProjects/map-app/map-app/app/src/main/res/layout/activity_share.xml" value="0.151268115942029" />
+        <entry key="..\:/Users/Hee/AndroidStudioProjects/map-app/map-app/app/src/main/res/layout/fragment_add_map_dialog.xml" value="0.151268115942029" />
+        <entry key="..\:/Users/Hee/AndroidStudioProjects/map-app/map-app/app/src/main/res/layout/fragment_friends.xml" value="0.15172101449275363" />
+        <entry key="..\:/Users/Hee/AndroidStudioProjects/map-app/map-app/app/src/main/res/layout/fragment_group_list.xml" value="0.15172101449275363" />
+        <entry key="..\:/Users/Hee/AndroidStudioProjects/map-app/map-app/app/src/main/res/layout/fragment_map.xml" value="0.151268115942029" />
+        <entry key="..\:/Users/Hee/AndroidStudioProjects/map-app/map-app/app/src/main/res/layout/fragment_search_friends.xml" value="0.25" />
+        <entry key="..\:/Users/Hee/AndroidStudioProjects/map-app/map-app/app/src/main/res/layout/friends_list_item.xml" value="0.25" />
+        <entry key="..\:/Users/Hee/AndroidStudioProjects/map-app/map-app/app/src/main/res/layout/group_list_list_item.xml" value="0.25" />
+        <entry key="..\:/Users/Hee/AndroidStudioProjects/map-app/map-app/app/src/main/res/layout/map_list_item.xml" value="0.151268115942029" />
       </map>
     </option>
   </component>

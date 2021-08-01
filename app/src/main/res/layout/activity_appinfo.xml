@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/userName"
+        android:id="@+id/friends_search_name"
         android:layout_width="163dp"
         android:layout_height="28dp"
         android:layout_marginStart="30dp"

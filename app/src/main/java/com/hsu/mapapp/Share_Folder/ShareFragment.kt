@@ -23,7 +23,6 @@ import com.hsu.mapapp.MainActivity
 import com.hsu.mapapp.R
 import com.hsu.mapapp.databinding.ActivityAppinfoBinding.inflate
 import com.hsu.mapapp.databinding.ActivityShareBinding
-import com.hsu.mapapp.databinding.FragmentSearchFriendsBinding
 import java.util.zip.Inflater
 
 class ShareFragment : Fragment(R.layout.activity_share) {
