@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.hsu.mapapp.databinding.*
 import com.hsu.mapapp.profile.ProfileActivity
+import com.hsu.mapapp.settings.*
 
 
 // onCreateView나 onViewCreated view binding 쓰려면 맨아래

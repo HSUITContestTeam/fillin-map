@@ -1,7 +1,8 @@
-package com.hsu.mapapp
+package com.hsu.mapapp.settings
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.hsu.mapapp.R
 
 class ThemesetActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?){

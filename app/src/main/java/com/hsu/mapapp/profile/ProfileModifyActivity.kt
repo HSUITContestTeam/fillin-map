@@ -15,6 +15,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.exifinterface.media.ExifInterface
 import com.hsu.mapapp.databinding.ActivityProfileModifyBinding
+import com.theartofdev.edmodo.cropper.CropImage
+import com.theartofdev.edmodo.cropper.CropImageActivity
+import com.theartofdev.edmodo.cropper.CropImageView
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -26,13 +29,22 @@ class ProfileModifyActivity : AppCompatActivity() {
     private var currentImageUri: Uri? = null
     private var path:String = ""
 
+    private fun cropImage(uri: Uri?){
+        CropImage.activity(uri).setGuidelines(CropImageView.Guidelines.ON)
+            .setCropShape(CropImageView.CropShape.RECTANGLE)
+            //사각형 모양으로 자른다
+            .start(this)
+
+    }
+
     //  Register a request to start an activity for result, designated by the given contract.
     //  원래 onActivityResult 에서 데이터(인텐트 결과)를 가져오듯이 로직을 구성
     private val filterActivityLauncher: ActivityResultLauncher<Intent> =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if(it.resultCode == RESULT_OK && it.data !=null) {
                 /*  currentImageUri = 갤러리에서 고른 사진 Uri   */
-                currentImageUri= it.data?.data       // it.data == intent
+                currentImageUri= it.data?.data // it.data == intent
+                cropImage(currentImageUri)
 
                 /*  사진을 bitmap으로 변환 후 imageView에 표시 */
                 if (currentImageUri != null) {
@@ -80,6 +92,7 @@ class ProfileModifyActivity : AppCompatActivity() {
                 /*  내부저장소에서 image파일들만 불러오는 인텐트  */
                 val intent = Intent(Intent.ACTION_GET_CONTENT)
                 intent.type = "image/*"
+                intent.putExtra("crop", true)
                 filterActivityLauncher.launch(intent)
             }
         })

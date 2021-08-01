@@ -28,11 +28,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
-        <activity android:name=".NoticeActivity" />
-        <activity android:name=".AppinfoActivity" />
-        <activity android:name=".BugreportActivity" />
-        <activity android:name=".NotisetActivity" />
-        <activity android:name=".ThemesetActivity" />
+        <activity android:name=".settings.NoticeActivity" />
+        <activity android:name=".settings.AppinfoActivity" />
+        <activity android:name=".settings.BugreportActivity" />
+        <activity android:name=".settings.NotisetActivity" />
+        <activity android:name=".settings.ThemesetActivity" />
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat"/>
     </application>
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
