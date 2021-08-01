@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "220016356998",
+    "project_id": "map-app-321116",
+    "storage_bucket": "map-app-321116.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:220016356998:android:50f0f36c9b9284528eab07",
+        "android_client_info": {
+          "package_name": "com.hsu.mapapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "220016356998-74ts9kanke5pbl7k1tk5inb7mur7f4pe.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hsu.mapapp",
+            "certificate_hash": "2370c61bb3d32f5bd476a6d1ec6eede0fa0a140a"
+          }
+        },
+        {
+          "client_id": "220016356998-nq31qv1qurbog5n006h40v2s145i9p63.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hsu.mapapp",
+            "certificate_hash": "cc39fc79fcc6785cb7ba8ab3084d1cb82f06b839"
+          }
+        },
+        {
+          "client_id": "220016356998-oisrjse6va2q4vtv2nftni3901eecq7n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hsu.mapapp",
+            "certificate_hash": "22271d510c77ccff2430541dc1c1e1e006d0b0ed"
+          }
+        },
+        {
+          "client_id": "220016356998-kv0npc9ostc4ln6cl6trj8tunmr8raqq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCn9EWgovU1-tv_O2s5jjGBvHzlUw-oEEE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "220016356998-kv0npc9ostc4ln6cl6trj8tunmr8raqq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
