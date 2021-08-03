@@ -1,24 +1,19 @@
 package com.hsu.mapapp
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.appcompat.app.ActionBar
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.*
-import com.hsu.mapapp.Share_Folder.FriendsFragment
-import com.hsu.mapapp.Share_Folder.ShareFragment
-import com.hsu.mapapp.databinding.ActivityLoginBinding
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.hsu.mapapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var appbarc: AppBarConfiguration
     private lateinit var mainBinding: ActivityMainBinding
-    private lateinit var loginBinding : ActivityLoginBinding
+
     //private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,9 +22,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(mainBinding.root)
 
         setNavigation()
+
     }
-
-
 
     private fun setNavigation() {
         val nhf =

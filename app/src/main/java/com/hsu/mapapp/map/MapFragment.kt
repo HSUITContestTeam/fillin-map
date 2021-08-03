@@ -11,7 +11,6 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
-import android.view.Gravity.apply
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,29 +19,22 @@ import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityCompat.requestPermissions
-import androidx.core.content.ContextCompat
-import androidx.core.view.GravityCompat.apply
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.gms.auth.api.signin.GoogleSignIn.requestPermissions
 import com.hsu.mapapp.R
 import com.hsu.mapapp.databinding.FragmentMapBinding
-import com.hsu.mapapp.profile.ProfileModifyActivity
 import com.hsu.mapapp.utils.OnSwipeTouchListener
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
-import java.lang.Exception
-import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.jar.Manifest
 
 
 class MapFragment : Fragment(R.layout.fragment_map) {
@@ -56,6 +48,8 @@ class MapFragment : Fragment(R.layout.fragment_map) {
     private var isPageOpen = false
 
     private val binding get() = _binding!!
+
+    private var gangwondoFragment = Map_Gangwondo()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -134,13 +128,22 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                 mapAdapter = MapAdapter(data)
                 binding.MapListRecyclerView.adapter = mapAdapter // RecyclerView와 CustomAdapter 연결
                 mapAdapter.notifyDataSetChanged()
+                // 지도 목록에서 map 클릭하면 mapFragment 바뀜
+                mapAdapter.setOnItemClickListener(object : MapAdapter.OnItemClickListener {
+                    override fun onItemClick(v: View, position: Int) {
+                        Log.d("click",position.toString())
+                        childFragmentManager.beginTransaction()
+                            .replace(R.id.fragmentContainerView2,gangwondoFragment)
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                            .commit()
+                    }
+                })
                 println("지도 추가")
             }
 
         mapViewModel.mapLiveData.observe(viewLifecycleOwner, dataObserver)
 
         setRecyclerDeco()
-
     }
 
     private fun setRecyclerDeco() {
@@ -155,6 +158,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
             val fm = childFragmentManager
             AddMapDialogFragment().show(fm, "dialog")
         }
+
     }
 
     // ----------------------FAB button-------------------------

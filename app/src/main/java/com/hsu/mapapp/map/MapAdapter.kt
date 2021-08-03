@@ -1,6 +1,7 @@
 package com.hsu.mapapp.map
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
@@ -10,6 +11,14 @@ class MapAdapter(private var data: LiveData<ArrayList<MapItemList>>) :
     RecyclerView.Adapter<MapAdapter.ViewHolder>() {
     private lateinit var binding: MapListItemBinding
     private var isStartBtnSelected = false
+    private  var itemListener: OnItemClickListener? = null
+
+    public interface OnItemClickListener {
+        fun onItemClick(v: View, position: Int)
+    }
+    public fun setOnItemClickListener(itemListener: OnItemClickListener){
+        this.itemListener = itemListener
+    }
 
     inner class ViewHolder(private val binding: MapListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -17,6 +26,13 @@ class MapAdapter(private var data: LiveData<ArrayList<MapItemList>>) :
             binding.startBtn.setOnClickListener {
                 binding.startBtn.isSelected = isStartBtnSelected
                 isStartBtnSelected = !isStartBtnSelected
+            }
+
+            itemView.setOnClickListener {
+                val position = adapterPosition
+                if(position!=RecyclerView.NO_POSITION){
+                    itemListener?.onItemClick(it,position)
+                }
             }
         }
     }
