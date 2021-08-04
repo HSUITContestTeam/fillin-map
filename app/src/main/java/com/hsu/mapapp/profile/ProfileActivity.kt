@@ -1,21 +1,21 @@
 package com.hsu.mapapp.profile
 
+import android.content.DialogInterface
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.hsu.mapapp.R
-
 import com.hsu.mapapp.databinding.ActivityProfileBinding
-import com.hsu.mapapp.login.CreateUserActivity
 import com.hsu.mapapp.login.LoginActivity
+
 
 class ProfileActivity : AppCompatActivity() {
     private lateinit var profileBinding : ActivityProfileBinding
@@ -27,13 +27,13 @@ class ProfileActivity : AppCompatActivity() {
         profileBinding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(profileBinding.root)
 
-        SetProfileModifyBtnClickEvent()
-
-        profileBinding.profileLogoutBtn.setOnClickListener {
+        setProfileModifyBtnClickEvent()
+        setUpdatePasswordBtn()
+        profileBinding.logoutBtn.setOnClickListener {
             signOut()
         }
 
-        profileBinding.profileDeleteAccountBtn.setOnClickListener {
+        profileBinding.logoutBtn.setOnClickListener {
             revokeAccess()
         }
 
@@ -74,10 +74,10 @@ class ProfileActivity : AppCompatActivity() {
         }
     }
 
-    private fun SetProfileModifyBtnClickEvent() {
+    private fun setProfileModifyBtnClickEvent() { // 프로필 수정 버튼 이벤트
         profileBinding.profileModifyBtn.setOnClickListener {
             startActivity(Intent(this, ProfileModifyActivity::class.java))
-            overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_right);
+            overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_right)
         }
     }
 
@@ -103,4 +103,55 @@ class ProfileActivity : AppCompatActivity() {
         val loginIntent = Intent(this, LoginActivity::class.java)
         startActivity(loginIntent)
     }
+
+    //---------------------비밀번호 재설정----------------------//
+    private fun setUpdatePasswordBtn() { // 비밀번호 재설정 버튼 이벤트
+        profileBinding.passwordChangeBtn.setOnClickListener {
+            // Dialog 띄우기
+            val builder: android.app.AlertDialog.Builder = android.app.AlertDialog.Builder(this)
+            builder.setTitle("비밀번호 재설정")
+            builder.setMessage("비밀번호 재설정 이메일을 보내시겠습니까?")
+            builder.setPositiveButton("예"
+            ) { dialogInterface: DialogInterface, i: Int ->
+                sendEmailForPasswordUpdate()
+            }
+            builder.setNegativeButton("아니오"
+            ) { dialogInterface: DialogInterface, i: Int ->
+
+            }
+            builder.show()
+        }
+    }
+
+    // 비밀번호 재설정하는 메일 보내기
+    private fun sendEmailForPasswordUpdate() {
+        val auth = FirebaseAuth.getInstance()
+        val email = getEmail()
+        if(email != null){
+            auth.sendPasswordResetEmail(email).addOnCompleteListener {
+                if(it.isSuccessful){
+                    Snackbar.make(window.decorView.rootView,"이메일을 보냈습니다.",Snackbar.LENGTH_LONG).show()
+                }else{
+                    Snackbar.make(window.decorView.rootView,"이메일 발송이 실패했습니다.",Snackbar.LENGTH_LONG).show()
+                }
+            }
+        }else{
+            Snackbar.make(window.decorView.rootView,"해당 이메일이 존재하지 않습니다.",Snackbar.LENGTH_LONG).show()
+        }
+    }
+
+    // 사용자 이메일 가져오기
+    private fun getEmail () : String? {
+        val user = Firebase.auth.currentUser
+        if (user != null) {
+            user?.let {
+                val email = user.email
+                return email.toString()
+            }
+        } else {
+            // No user is signed in
+            return null
+        }
+    }
+    //----------------------------------------------------------//
 }
