@@ -155,8 +155,12 @@ class MapFragment : Fragment(R.layout.fragment_map) {
 
     private fun setAddMapBtn() {
         binding.addMapBtn.setOnClickListener {
+            //val fm = childFragmentManager
+            //AddMapDialogFragment().show(fm, "dialog")
+
             val fm = childFragmentManager
-            AddMapDialogFragment().show(fm, "dialog")
+            val addMapDialog = AddMapDialog()
+            addMapDialog.show(fm, "dialog")
         }
 
     }
