@@ -9,8 +9,8 @@ data class MapItemList(
 )
 
 class MapViewModel : ViewModel() {
-    val mapLiveData: MutableLiveData<ArrayList<MapItemList>> = MutableLiveData<ArrayList<MapItemList>>()
-    private var mapData = ArrayList<MapItemList>()
+    var mapLiveData: MutableLiveData<ArrayList<MapItemList>> = MutableLiveData<ArrayList<MapItemList>>()
+    var mapData = ArrayList<MapItemList>()
 
     init {
         mapData.add(MapItemList("Map1"))
@@ -21,5 +21,6 @@ class MapViewModel : ViewModel() {
 
     fun addMap(mapItem: MapItemList) {
         mapData.add(mapItem)
+        mapLiveData.value = mapData
     }
 }
