@@ -27,6 +27,7 @@ class LoginActivity : AppCompatActivity() {
     val TAG = "googleLogin"
     private lateinit var googleSignInClient: GoogleSignInClient
 
+
     private lateinit var loginBinding : ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,11 +58,16 @@ class LoginActivity : AppCompatActivity() {
     // 로그인하기
     private fun loginEmail(email: EditText, password: EditText) {
         auth.signInWithEmailAndPassword(email.text.toString(),password.text.toString())
-            .addOnCompleteListener(this) {
-                if (it.isSuccessful) {
+            .addOnCompleteListener(this) {task->
+                if (task.isSuccessful) {
                     // 로그인 성공
-                    Toast.makeText(this,"로그인 성공",Toast.LENGTH_SHORT).show()
+                    //인증받은 사용자인지 확인.
                     val currentUser = auth.currentUser
+                        if(currentUser?.isEmailVerified!!){
+                            Toast.makeText(this,"로그인 성공",Toast.LENGTH_SHORT).show()
+                        }else{
+                            Toast.makeText(this,"이메일 인증을 하지 않았습니다.",Toast.LENGTH_SHORT).show()
+                        }
                     updateUI(currentUser,email,password)
                 }
                 else {
