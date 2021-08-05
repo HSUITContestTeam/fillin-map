@@ -49,7 +49,8 @@ class MapFragment : Fragment(R.layout.fragment_map) {
 
     private val binding get() = _binding!!
 
-    private var gangwondoFragment = Map_Gangwondo()
+    private var gangwondoFragment = MapGangwondoFragment()
+    private var seoulFragment = MapSeoulFragment()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,6 +59,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
     ): View {
         _binding = FragmentMapBinding.inflate(inflater, container, false)
         mapViewModel = ViewModelProvider(this).get(MapViewModel::class.java)
+
         return binding.root
     }
 
@@ -131,11 +133,19 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                 // 지도 목록에서 map 클릭하면 mapFragment 바뀜
                 mapAdapter.setOnItemClickListener(object : MapAdapter.OnItemClickListener {
                     override fun onItemClick(v: View, position: Int) {
-                        Log.d("click",position.toString())
-                        childFragmentManager.beginTransaction()
-                            .replace(R.id.fragmentContainerView2,gangwondoFragment)
-                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                            .commit()
+                        Log.d("Mapclick",position.toString())
+                        when(position){
+                            // Map1
+                            0 -> childFragmentManager.beginTransaction()
+                                .replace(R.id.fragmentContainerView2,seoulFragment)
+                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                                .commit()
+                            // Map2
+                            1 -> childFragmentManager.beginTransaction()
+                                .replace(R.id.fragmentContainerView2,gangwondoFragment)
+                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                                .commit()
+                        }
                     }
                 })
                 println("지도 추가")
