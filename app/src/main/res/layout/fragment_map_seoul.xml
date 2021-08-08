@@ -6,24 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".map.MapSeoulFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <com.hsu.mapapp.map.ObjectClickImageView
-            android:id="@+id/imageView5"
-            android:layout_width="192dp"
-            android:layout_height="137dp"
-            android:adjustViewBounds="true"
-            android:src="@drawable/map_inje"
+        <com.richpath.RichPathView
+            android:id="@+id/ic_map_of_south_korea"
+            android:layout_width="match_parent"
+            android:layout_height="395dp"
+            android:fillType="nonZero"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.244" />
+            app:vector="@drawable/ic_map_of_south_korea"
+            tools:ignore="MissingConstraints" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

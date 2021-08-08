@@ -1,21 +1,18 @@
 package com.hsu.mapapp.map
 
-import android.app.Activity
 import android.app.AlertDialog
-import android.app.Dialog
 import android.content.Context.LAYOUT_INFLATER_SERVICE
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import com.hsu.mapapp.R
 import com.hsu.mapapp.databinding.AddMapDialogBinding
-import com.hsu.mapapp.databinding.FragmentAddMapDialogBinding
-import kotlinx.android.synthetic.main.add_map_dialog.*
 
 class AddMapDialog : DialogFragment() {
 
