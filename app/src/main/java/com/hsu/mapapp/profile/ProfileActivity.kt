@@ -74,7 +74,7 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun setProfileModifyBtnClickEvent() { // 프로필 수정 버튼 이벤트
         profileBinding.profileModifyBtn.setOnClickListener {
-            startActivity(Intent(this, ProfileModifyActivity::class.java))
+            startActivity(Intent(this, CropImg::class.java))
             overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_right)
         }
     }

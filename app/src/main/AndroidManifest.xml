@@ -19,6 +19,7 @@
         <activity android:name=".login.CreateUserActivity" />
         <activity android:name=".profile.ProfileModifyActivity" />
         <activity android:name=".profile.ProfileActivity" />
+        <activity android:name=".profile.CropImg" />
         <activity android:name=".login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
