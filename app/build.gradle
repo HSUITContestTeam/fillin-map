@@ -53,7 +53,8 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.firebase:firebase-database:20.0.1'
     implementation 'com.google.firebase:firebase-auth-ktx:21.0.1'
-    implementation("com.theartofdev.edmodo:android-image-cropper:2.8.0")
+    implementation 'com.google.firebase:firebase-firestore:19.0.0'
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
     api 'com.theartofdev.edmodo:android-image-cropper:'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
