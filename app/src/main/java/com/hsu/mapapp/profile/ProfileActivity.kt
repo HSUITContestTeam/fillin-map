@@ -3,6 +3,7 @@ package com.hsu.mapapp.profile
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -28,11 +29,30 @@ class ProfileActivity : AppCompatActivity() {
         setProfileModifyBtnClickEvent()
         setUpdatePasswordBtn()
         profileBinding.logoutBtn.setOnClickListener {
-            signOut()
+            val builder = AlertDialog.Builder(this)
+            builder.setMessage("정말로 로그아웃 하시겠습니까?")
+
+            builder.setPositiveButton("예") {dialog, which ->
+                signOut()
+            }
+            builder.setNegativeButton("아니오") {dialog, which ->
+                builder.setCancelable(true)
+            }
+            builder.show()
         }
 
-        profileBinding.logoutBtn.setOnClickListener {
-            revokeAccess()
+        profileBinding.deleteAccountBtn.setOnClickListener {
+            val builder = AlertDialog.Builder(this)
+            builder.setMessage("정말로 탈퇴 하시겠습니까?")
+
+            builder.setPositiveButton("예") {dialog, which ->
+                revokeAccess()
+            }
+            builder.setNegativeButton("아니오") {dialog, which ->
+                builder.setCancelable(true)
+            }
+            builder.show()
+
         }
 
         //---------------------사용자 정보 load----------------------//

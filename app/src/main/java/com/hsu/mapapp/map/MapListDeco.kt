@@ -12,9 +12,13 @@ class MapListDeco(private val size: Int) : RecyclerView.ItemDecoration() {
         state: RecyclerView.State
     ) {
         super.getItemOffsets(outRect, view, parent, state)
-        outRect.top += size
+
         if (parent.getChildAdapterPosition(view) == 0) {
+            outRect.top += size
+            outRect.bottom += size
+        } else {
             outRect.bottom += size
         }
+
     }
 }
