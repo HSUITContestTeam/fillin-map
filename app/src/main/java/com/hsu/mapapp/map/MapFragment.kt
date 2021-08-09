@@ -2,7 +2,10 @@ package com.hsu.mapapp.map
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.ContentValues
+import android.content.Context
+import android.content.DialogInterface
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.net.Uri
@@ -16,7 +19,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.Toast
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat.requestPermissions
@@ -28,6 +31,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hsu.mapapp.R
+import com.hsu.mapapp.databinding.AddMapDialogBinding
 import com.hsu.mapapp.databinding.FragmentMapBinding
 import com.hsu.mapapp.utils.OnSwipeTouchListener
 import java.io.File
@@ -42,7 +46,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
 
     private var data = MutableLiveData<ArrayList<MapItemList>>()
     private lateinit var mapAdapter: MapAdapter
-    private lateinit var mapViewModel : MapViewModel
+    private lateinit var mapViewModel: MapViewModel
 
     private var isFabOpen = false // Fab 버튼 default는 닫혀있음
     private var isPageOpen = false
@@ -131,23 +135,26 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                 binding.MapListRecyclerView.adapter = mapAdapter // RecyclerView와 CustomAdapter 연결
                 mapAdapter.notifyDataSetChanged()
                 // 지도 목록에서 map 클릭하면 mapFragment 바뀜
+
                 mapAdapter.setOnItemClickListener(object : MapAdapter.OnItemClickListener {
                     override fun onItemClick(v: View, position: Int) {
-                        Log.d("Mapclick",position.toString())
-                        when(position){
+                        Log.d("Mapclick", position.toString())
+                        when (position) {
                             // Map1
                             0 -> childFragmentManager.beginTransaction()
-                                .replace(R.id.fragmentContainerView2,seoulFragment)
+                                .replace(R.id.fragmentContainerView2, seoulFragment)
                                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                                 .commit()
                             // Map2
                             1 -> childFragmentManager.beginTransaction()
-                                .replace(R.id.fragmentContainerView2,gangwondoFragment)
+                                .replace(R.id.fragmentContainerView2, gangwondoFragment)
                                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                                 .commit()
                         }
                     }
                 })
+
+
                 println("지도 추가")
             }
 
@@ -168,11 +175,62 @@ class MapFragment : Fragment(R.layout.fragment_map) {
             //val fm = childFragmentManager
             //AddMapDialogFragment().show(fm, "dialog")
 
-            val fm = childFragmentManager
-            val addMapDialog = AddMapDialog()
-            addMapDialog.show(fm, "dialog")
+            //val fm = childFragmentManager
+            //val addMapDialog = AddMapDialog()
+            //addMapDialog.show(fm, "dialog")
+
+            val builder = AlertDialog.Builder(requireContext())
+            val inflater =
+                requireActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            val view = inflater.inflate(R.layout.add_map_dialog, null)
+
+            val mapTitle: TextView = view.findViewById(R.id.map_name_editTv)
+
+            builder.setView(view)
+
+            builder.setPositiveButton("저장") { dialog, which ->
+                val newMapTitle = mapTitle.text
+                var newData = MapItemList(newMapTitle.toString())
+                mapViewModel.addMap(newData)
+            }
+            builder.setNegativeButton("취소", DialogInterface.OnClickListener { dialog, which ->
+
+            })
+            setSpinner(view)
+            builder.show()
         }
 
+    }
+
+    fun setSpinner(v: View) {
+        val mapListItems = resources.getStringArray(R.array.map_list_array)
+        val adapter =
+            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, mapListItems)
+        val inflater =
+            requireActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val mapSortSpinner = v.findViewById<Spinner>(R.id.map_sort_spinner)
+
+        mapSortSpinner.adapter = adapter
+        mapSortSpinner.setSelection(0)
+
+        mapSortSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                Toast.makeText(
+                    requireContext(),
+                    "지도종류 : ${mapSortSpinner.getItemAtPosition(position)}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
+        }
     }
 
     // ----------------------FAB button-------------------------
@@ -180,8 +238,16 @@ class MapFragment : Fragment(R.layout.fragment_map) {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setFABClickEvent() {
 
-        requestPermissions(this.requireActivity(), arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
-        requestPermissions(this.requireActivity(), arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1)
+        requestPermissions(
+            this.requireActivity(),
+            arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
+            1
+        )
+        requestPermissions(
+            this.requireActivity(),
+            arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
+            1
+        )
 
         // 플로팅 버튼 클릭시 애니메이션 동작 기능
         binding.fabMain.setOnClickListener {
@@ -231,13 +297,14 @@ class MapFragment : Fragment(R.layout.fragment_map) {
 
     // ----------------------뷰 캡쳐-------------------------
 
-    private fun getScreenShotFromView(v: View) : Bitmap? {
+    private fun getScreenShotFromView(v: View): Bitmap? {
         var screenshot: Bitmap? = null
 
         setFABVisiblity(false)
 
         try {
-            screenshot = Bitmap.createBitmap(v.measuredWidth, v.measuredHeight, Bitmap.Config.ARGB_8888)
+            screenshot =
+                Bitmap.createBitmap(v.measuredWidth, v.measuredHeight, Bitmap.Config.ARGB_8888)
 
             val canvas = Canvas(screenshot)
             v.draw(canvas)
@@ -251,7 +318,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun saveMediaToStorage(bitmap : Bitmap) {
+    private fun saveMediaToStorage(bitmap: Bitmap) {
         val date = LocalDate.now()
         val formatter = DateTimeFormatter.ofPattern("yyyyMMdd")
         val todayDate = date.format(formatter)
@@ -276,14 +343,16 @@ class MapFragment : Fragment(R.layout.fragment_map) {
 
                 // Inserting the contentValues to
                 // contentResolver and getting the Uri
-                val imageUri: Uri? = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+                val imageUri: Uri? =
+                    resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
 
                 // Opening an outputstream with the Uri that we got
                 fos = imageUri?.let { resolver.openOutputStream(it) }
             }
         } else {
             // These for devices running on android < Q
-            val imagesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+            val imagesDir =
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
             val image = File(imagesDir, filename)
             fos = FileOutputStream(image)
         }
@@ -291,7 +360,8 @@ class MapFragment : Fragment(R.layout.fragment_map) {
         fos?.use {
             // Finally writing the bitmap to the output stream that we opened
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
-            Toast.makeText(this.context , "Captured View and saved to Gallery" , Toast.LENGTH_SHORT).show()
+            Toast.makeText(this.context, "Captured View and saved to Gallery", Toast.LENGTH_SHORT)
+                .show()
         }
 
     }
