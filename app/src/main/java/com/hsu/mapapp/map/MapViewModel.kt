@@ -9,7 +9,8 @@ data class MapItemList(
 )
 
 class MapViewModel : ViewModel() {
-    var mapLiveData: MutableLiveData<ArrayList<MapItemList>> = MutableLiveData<ArrayList<MapItemList>>()
+    var mapLiveData: MutableLiveData<ArrayList<MapItemList>> =
+        MutableLiveData()
     var mapData = ArrayList<MapItemList>()
 
     init {

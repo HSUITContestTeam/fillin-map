@@ -24,11 +24,11 @@ import androidx.appcompat.widget.AppCompatImageView
  * 사용법
  * 1. xml - ImageView를 ObjectClickImageView로 바꾸기
  * <com.hsu.mapapp.map.ObjectClickImageView
-        android:id="@+id/test_image"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:src="@drawable/test_image" />
+android:id="@+id/test_image"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:adjustViewBounds="true"
+android:src="@drawable/test_image" />
  * 2. 클릭 이벤트 코드
  * val test_image:ObjectClickImageView = (binding.test_image)
  * test_image.setOnObjectClickListener {...}
@@ -68,7 +68,7 @@ class ObjectClickImageView(context: Context?, @Nullable attrs: AttributeSet?) :
         }
 
     private fun isOnObject(x: Int, y: Int): Boolean {
-        val bitmap = Bitmap.createBitmap(width,height,Bitmap.Config.ARGB_8888)
+        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         draw(canvas)
         if (bitmap == null) return false

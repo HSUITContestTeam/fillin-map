@@ -85,6 +85,10 @@ class ProfileModifyActivity : AppCompatActivity() {
         profileModifyBinding = ActivityProfileModifyBinding.inflate(layoutInflater)
         setContentView(profileModifyBinding.root)
 
+        profileModifyBinding.profilemodifySaveBtn.setOnClickListener {
+            Log.d("saveBtn", "clicked1")
+        }
+
         //  프로필 화면 클릭 시
         profileModifyBinding.profilemodifyProfileIV.setOnClickListener(object :
             View.OnClickListener {

@@ -11,12 +11,13 @@ class MapAdapter(private var data: LiveData<ArrayList<MapItemList>>) :
     RecyclerView.Adapter<MapAdapter.ViewHolder>() {
     private lateinit var binding: MapListItemBinding
     private var isStartBtnSelected = false
-    private  var itemListener: OnItemClickListener? = null
+    private var itemListener: OnItemClickListener? = null
 
     public interface OnItemClickListener {
         fun onItemClick(v: View, position: Int)
     }
-    public fun setOnItemClickListener(itemListener: OnItemClickListener){
+
+    public fun setOnItemClickListener(itemListener: OnItemClickListener) {
         this.itemListener = itemListener
     }
 
@@ -30,8 +31,8 @@ class MapAdapter(private var data: LiveData<ArrayList<MapItemList>>) :
 
             itemView.setOnClickListener {
                 val position = adapterPosition
-                if(position!=RecyclerView.NO_POSITION){
-                    itemListener?.onItemClick(it,position)
+                if (position != RecyclerView.NO_POSITION) {
+                    itemListener?.onItemClick(it, position)
                 }
             }
         }

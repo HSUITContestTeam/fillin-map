@@ -4,11 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".map.Map_Gangwondo">
+    tools:context=".map.MapGangwondoFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <com.hsu.mapapp.map.ObjectClickImageView
+            android:id="@+id/map_hongcheon"
+            android:layout_width="248dp"
+            android:layout_height="72dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/map_hongcheon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.49"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.229" />
 
         <com.hsu.mapapp.map.ObjectClickImageView
             android:id="@+id/map_gangneung"
@@ -18,7 +31,7 @@
             android:src="@drawable/map_gangneung"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.888"
+            app:layout_constraintHorizontal_bias="0.836"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.263" />
@@ -31,10 +44,10 @@
             android:src="@drawable/map_cheorwon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.301"
+            app:layout_constraintHorizontal_bias="0.252"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.121" />
+            app:layout_constraintVertical_bias="0.12" />
 
         <com.hsu.mapapp.map.ObjectClickImageView
             android:id="@+id/map_hwacheon"
@@ -44,7 +57,7 @@
             android:src="@drawable/map_hwacheon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.401"
+            app:layout_constraintHorizontal_bias="0.345"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.126" />
@@ -57,23 +70,23 @@
             android:src="@drawable/map_chuncheon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.344"
+            app:layout_constraintHorizontal_bias="0.271"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.185" />
+            app:layout_constraintVertical_bias="0.184" />
 
         <com.hsu.mapapp.map.ObjectClickImageView
             android:id="@+id/map_goseong"
-            android:layout_width="92dp"
-            android:layout_height="81dp"
+            android:layout_width="81dp"
+            android:layout_height="59dp"
             android:adjustViewBounds="true"
             android:src="@drawable/map_goseong"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.724"
+            app:layout_constraintHorizontal_bias="0.681"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.07" />
+            app:layout_constraintVertical_bias="0.098" />
 
         <com.hsu.mapapp.map.ObjectClickImageView
             android:id="@+id/map_sokcho"
@@ -83,23 +96,23 @@
             android:src="@drawable/map_sokcho"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/map_goseong"
-            app:layout_constraintHorizontal_bias="0.961"
+            app:layout_constraintHorizontal_bias="0.962"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/map_goseong"
-            app:layout_constraintVertical_bias="0.11" />
+            app:layout_constraintVertical_bias="0.08" />
 
         <com.hsu.mapapp.map.ObjectClickImageView
             android:id="@+id/map_inje"
-            android:layout_width="87dp"
-            android:layout_height="102dp"
+            android:layout_width="73dp"
+            android:layout_height="91dp"
             android:adjustViewBounds="true"
             android:src="@drawable/map_inje"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.638"
+            app:layout_constraintHorizontal_bias="0.6"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.131" />
+            app:layout_constraintVertical_bias="0.145" />
 
         <com.hsu.mapapp.map.ObjectClickImageView
             android:id="@+id/map_yanggu"
@@ -109,36 +122,10 @@
             android:src="@drawable/map_yanggu"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.549"
+            app:layout_constraintHorizontal_bias="0.513"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.125" />
-
-        <com.hsu.mapapp.map.ObjectClickImageView
-            android:id="@+id/map_hongcheon"
-            android:layout_width="248dp"
-            android:layout_height="72dp"
-            android:adjustViewBounds="true"
-            android:src="@drawable/map_hongcheon"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.595"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.229" />
-
-        <com.hsu.mapapp.map.ObjectClickImageView
-            android:id="@+id/map_yangyang"
-            android:layout_width="66dp"
-            android:layout_height="54dp"
-            android:adjustViewBounds="true"
-            android:src="@drawable/map_yangyang"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.788"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/map_goseong"
-            app:layout_constraintVertical_bias="0.009" />
+            app:layout_constraintVertical_bias="0.137" />
 
         <com.hsu.mapapp.map.ObjectClickImageView
             android:id="@+id/map_pyeongchang"
@@ -148,7 +135,7 @@
             android:src="@drawable/map_pyeongchang"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.709"
+            app:layout_constraintHorizontal_bias="0.653"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.31" />
@@ -161,7 +148,7 @@
             android:src="@drawable/map_hoengseong"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.366"
+            app:layout_constraintHorizontal_bias="0.288"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.309" />
@@ -174,7 +161,7 @@
             android:src="@drawable/map_jeongseon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.85"
+            app:layout_constraintHorizontal_bias="0.796"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.382" />
@@ -187,7 +174,7 @@
             android:src="@drawable/map_donghae"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.976"
+            app:layout_constraintHorizontal_bias="0.927"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.354" />
@@ -200,7 +187,7 @@
             android:src="@drawable/map_yeongwol"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.879"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.441" />
@@ -213,7 +200,7 @@
             android:src="@drawable/map_samcheok"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.948"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.419" />
@@ -226,10 +213,23 @@
             android:src="@drawable/map_taebaek"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.884"
+            app:layout_constraintHorizontal_bias="0.84"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.421" />
+
+        <com.hsu.mapapp.map.ObjectClickImageView
+            android:id="@+id/map_yangyang"
+            android:layout_width="66dp"
+            android:layout_height="54dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/map_yangyang"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.739"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/map_goseong"
+            app:layout_constraintVertical_bias="0.009" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
