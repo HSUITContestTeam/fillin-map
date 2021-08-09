@@ -34,14 +34,14 @@ class MapGangwondoFragment : Fragment() {
     // 지도 이미지뷰 클릭 이벤트
     fun onclickEvent() {
         // 강원도 - 인제
-        val Inje:ObjectClickImageView = binding.mapInje
+        val Inje: ObjectClickImageView = binding.mapInje
         Inje.setOnObjectClickListener(View.OnClickListener {
-            Log.d("Inje","click")
+            Log.d("Inje", "click")
         })
         // 강원도 - 고성
-        val Goseong:ObjectClickImageView = binding.mapGoseong
+        val Goseong: ObjectClickImageView = binding.mapGoseong
         Goseong.setOnObjectClickListener(View.OnClickListener {
-            Log.d("Goseong","click")
+            Log.d("Goseong", "click")
         })
     }
 
