@@ -40,6 +40,7 @@ class ProfileActivity : AppCompatActivity() {
 
         setProfileModifyBtnClickEvent()
         setUpdatePasswordBtn()
+
         profileBinding.logoutBtn.setOnClickListener {
             val builder = AlertDialog.Builder(this)
             builder.setMessage("정말로 로그아웃 하시겠습니까?")
