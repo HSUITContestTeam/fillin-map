@@ -1,19 +1,25 @@
 package com.hsu.mapapp.login
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.auth.ktx.userProfileChangeRequest
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.hsu.mapapp.databinding.ActivityCreateUserBinding
 
 class CreateUserActivity : AppCompatActivity() {
     private lateinit var createUseBinding: ActivityCreateUserBinding
+
     // Firebase Auth
     private lateinit var auth: FirebaseAuth
+    private lateinit var firestore: FirebaseFirestore
+
     // android.util에서 제공하는 이메일 패턴
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,8 +28,11 @@ class CreateUserActivity : AppCompatActivity() {
         setContentView(createUseBinding.root)
 
         auth = Firebase.auth
+        firestore = FirebaseFirestore.getInstance()
         setJoinBtnEvent()
     }
+
+    //-----------------------------회원 가입----------------------------------//
 
     // 계정 생성
     private fun createEmailUser(email: EditText, password: EditText) {
@@ -39,14 +48,17 @@ class CreateUserActivity : AppCompatActivity() {
                     //사용자 인증메일 보내기.
                     currentUser
                         ?.sendEmailVerification()
-                        ?.addOnCompleteListener{varifiTask->
-                            if (varifiTask.isSuccessful){
+                        ?.addOnCompleteListener { varifiTask ->
+                            if (varifiTask.isSuccessful) {
                                 Toast.makeText(this, "회원가입 성공", Toast.LENGTH_SHORT).show()
+                                // 계정 정보 firbase에 추가
+                                addUserInfoToFirebase()
+                                // 별명 설정
+                                setUserName()
                                 // 회원가입 액티비티 종료
                                 finish()
-                            }
-                            else{
-                                Toast.makeText(this,"에러",Toast.LENGTH_SHORT).show()
+                            } else {
+                                Toast.makeText(this, "에러", Toast.LENGTH_SHORT).show()
                             }
                         }
 
@@ -61,6 +73,7 @@ class CreateUserActivity : AppCompatActivity() {
 
 
     }
+
     // 이메일, 비밀번호 형식 체크
     private fun checkForm(email: EditText, password: EditText): Boolean {
         if (email.text.toString().isEmpty() || password.text.toString().isEmpty()) {
@@ -79,15 +92,43 @@ class CreateUserActivity : AppCompatActivity() {
         }
         return true;
     }
+
     // 가입 버튼 이벤트
     private fun setJoinBtnEvent() {
         createUseBinding.joinBtn.setOnClickListener {
-            val email = createUseBinding.emailET
-            val password = createUseBinding.passwordET
+            val email = createUseBinding.emailEt
+            val password = createUseBinding.passwordEt
 
-            if (checkForm(email,password)) {
-                createEmailUser(email,password)
+            if (checkForm(email, password)) {
+                createEmailUser(email, password)
             }
         }
+    }
+
+    // 계정 정보 firbase에 추가
+    private fun addUserInfoToFirebase() {
+        // 계정 정보 firebase에 추가
+        var userInfo = AddUser()
+
+        userInfo.uid = auth?.uid //유저 정보 가져오기
+        userInfo.userId = auth?.currentUser?.email
+
+        //Firestore데이터 베이스에 업로드
+        firestore?.collection("users")?.document(auth?.uid.toString())?.set(userInfo)
+    }
+
+    // 별명 설정 - auth 업데이트
+    private fun setUserName() {
+        val user = Firebase.auth.currentUser
+        val profileUpdates = userProfileChangeRequest {
+            displayName = createUseBinding.nameEt.text.toString() // 별명 editText에 있는 내용
+        }
+        user!!.updateProfile(profileUpdates)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.d("User profile", "updated.")
+                }
+            }
+        // [END update_profile]
     }
 }

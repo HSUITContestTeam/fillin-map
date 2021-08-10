@@ -6,7 +6,6 @@ import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
@@ -14,9 +13,13 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.exifinterface.media.ExifInterface
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.auth.ktx.userProfileChangeRequest
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 import com.hsu.mapapp.databinding.ActivityProfileModifyBinding
 import com.theartofdev.edmodo.cropper.CropImage
-import com.theartofdev.edmodo.cropper.CropImageActivity
 import com.theartofdev.edmodo.cropper.CropImageView
 import java.io.File
 import java.io.FileOutputStream
@@ -27,9 +30,15 @@ import java.io.OutputStream
 class ProfileModifyActivity : AppCompatActivity() {
     private lateinit var profileModifyBinding: ActivityProfileModifyBinding
     private var currentImageUri: Uri? = null
-    private var path:String = ""
+    private var path: String = ""
 
-    private fun cropImage(uri: Uri?){
+    // Firebase Auth
+    private lateinit var auth: FirebaseAuth
+    private lateinit var firestore: FirebaseFirestore
+
+    //-----------------------------프로필 사진 설정----------------------------------//
+
+    private fun cropImage(uri: Uri?) {
         CropImage.activity(uri).setGuidelines(CropImageView.Guidelines.ON)
             .setCropShape(CropImageView.CropShape.RECTANGLE)
             //사각형 모양으로 자른다
@@ -41,9 +50,9 @@ class ProfileModifyActivity : AppCompatActivity() {
     //  원래 onActivityResult 에서 데이터(인텐트 결과)를 가져오듯이 로직을 구성
     private val filterActivityLauncher: ActivityResultLauncher<Intent> =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if(it.resultCode == RESULT_OK && it.data !=null) {
+            if (it.resultCode == RESULT_OK && it.data != null) {
                 /*  currentImageUri = 갤러리에서 고른 사진 Uri   */
-                currentImageUri= it.data?.data // it.data == intent
+                currentImageUri = it.data?.data // it.data == intent
                 cropImage(currentImageUri)
 
                 /*  사진을 bitmap으로 변환 후 imageView에 표시 */
@@ -61,7 +70,8 @@ class ProfileModifyActivity : AppCompatActivity() {
                             } else {                                // Build 버전이 28 이상일 때
                                 /*  사진 Uri를 bitmap으로 변환 */
                                 val source =
-                                    ImageDecoder.createSource(this.contentResolver,
+                                    ImageDecoder.createSource(
+                                        this.contentResolver,
                                         currentImageUri!!
                                     )
                                 val bitmap = ImageDecoder.decodeBitmap(source)
@@ -69,13 +79,15 @@ class ProfileModifyActivity : AppCompatActivity() {
                                 profileModifyBinding.profilemodifyProfileIV.setImageBitmap(bitmap)
                             }
                         }
-                    } catch (e: Exception) { e.printStackTrace() }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                 } else {
                     Log.d("ActivityResult", "something wrong")
                 }
                 // 이미지 uri를 절대 경로로 바꾸기
-                currentImageUri?.let {
-                        it1 -> createCopyAndReturnRealPath(it1)
+                currentImageUri?.let { it1 ->
+                    createCopyAndReturnRealPath(it1)
                 }
             }
         }
@@ -84,10 +96,6 @@ class ProfileModifyActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         profileModifyBinding = ActivityProfileModifyBinding.inflate(layoutInflater)
         setContentView(profileModifyBinding.root)
-
-        profileModifyBinding.profilemodifySaveBtn.setOnClickListener {
-            Log.d("saveBtn", "clicked1")
-        }
 
         //  프로필 화면 클릭 시
         profileModifyBinding.profilemodifyProfileIV.setOnClickListener(object :
@@ -100,7 +108,12 @@ class ProfileModifyActivity : AppCompatActivity() {
                 filterActivityLauncher.launch(intent)
             }
         })
+        // 저장 버튼 클릭 시
+        profileModifyBinding.profilemodifySaveBtn.setOnClickListener {
+            updateName()
+        }
     }
+
     //  권한 요청
     private fun requestPermissions() {
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
@@ -112,9 +125,12 @@ class ProfileModifyActivity : AppCompatActivity() {
     companion object {
         /* 권한 종류: CAMERA,READ_EXTERNAL_STORAGE,WRITE_EXTERNAL_STORAGE,ACCESS_MEDIA_LOCATION    */
         private const val PERMISSION_CAMERA = android.Manifest.permission.CAMERA
-        private const val PERMISSION_READ_EXTERNAL_STORAGE = android.Manifest.permission.READ_EXTERNAL_STORAGE
-        private const val PERMISSION_WRITE_EXTERNAL_STORAGE = android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-        private const val PERMISSION_ACCESS_MEDIA_LOCATION = android.Manifest.permission.ACCESS_MEDIA_LOCATION
+        private const val PERMISSION_READ_EXTERNAL_STORAGE =
+            android.Manifest.permission.READ_EXTERNAL_STORAGE
+        private const val PERMISSION_WRITE_EXTERNAL_STORAGE =
+            android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+        private const val PERMISSION_ACCESS_MEDIA_LOCATION =
+            android.Manifest.permission.ACCESS_MEDIA_LOCATION
 
         private val PERMISSIONS_REQUESTED: Array<String> = arrayOf(
             PERMISSION_CAMERA,
@@ -125,7 +141,7 @@ class ProfileModifyActivity : AppCompatActivity() {
     }
 
     // 이미지 uri를 절대 경로로 바꾸기
-    fun createCopyAndReturnRealPath(uri: Uri) :String? {
+    fun createCopyAndReturnRealPath(uri: Uri): String? {
         val context = applicationContext
         val contentResolver = context.contentResolver ?: return null
 
@@ -144,7 +160,7 @@ class ProfileModifyActivity : AppCompatActivity() {
         } catch (e: IOException) {
             e.printStackTrace()
         }
-        Log.d("file.getAbsolutePath()",file.getAbsolutePath())
+        Log.d("file.getAbsolutePath()", file.getAbsolutePath())
         path = file.getAbsolutePath()
         /*  절대 경로를 getGps()에 넘겨주기   */
         getGps(path)
@@ -154,14 +170,14 @@ class ProfileModifyActivity : AppCompatActivity() {
 
     // 이미지 gps 구하기
     private fun getGps(photoPath: String) {
-        var valid:Boolean = false
+        var valid: Boolean = false
         var latitude: Float
         var longitude: Float
 
-        var exif: ExifInterface?= null
-        try{
+        var exif: ExifInterface? = null
+        try {
             exif = ExifInterface(photoPath)
-        }catch (e: IOException) {
+        } catch (e: IOException) {
             e.printStackTrace()
         }
 
@@ -172,11 +188,34 @@ class ProfileModifyActivity : AppCompatActivity() {
         // TAG_GPS_LONGITUDE_REF: Indicates whether the longitude is east or west longitude.
         val lon_ref = exif?.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF)
         if ((lat != null) && (lat_ref != null) && (lon != null)
-            && (lon_ref != null)) {
+            && (lon_ref != null)
+        ) {
             valid = true
         }
-        Log.d("latitude",lat.toString())
-        Log.d("longtitude",lon.toString())
+        Log.d("latitude", lat.toString())
+        Log.d("longtitude", lon.toString())
+
+    }
+
+    //-----------------------------사용자 프로필 수정----------------------------------//
+    private fun updateName() {
+        Log.d("saveBtn", "clicked1")
+        Log.d("saveBtn", "clicked2")
+        // update User Name
+        val user = Firebase.auth.currentUser
+        val profileUpdates = userProfileChangeRequest {
+            displayName = profileModifyBinding.profilemodifyNameET.text.toString()
+            //photoUri = Uri.parse("https://example.com/jane-q-user/profile.jpg")
+        }
+
+        user!!.updateProfile(profileUpdates)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.d("name", "수정")
+                    profileModifyBinding.profilemodifyNameTV.text = user.displayName + "으로 변경되었습니다"
+                }
+            }
+        // [END update_profile]
 
     }
 }

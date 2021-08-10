@@ -22,13 +22,15 @@
         android:id="@+id/profilemodify_name_tV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="닉네임"
+        android:text="별명 수정"
         android:textColor="#000000"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.528"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.092" />
+        app:layout_constraintVertical_bias="0.089" />
 
     <EditText
         android:id="@+id/profilemodify_name_eT"
@@ -36,13 +38,14 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:ems="10"
+        android:hint="별명을 입력하세요"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.911"
+        app:layout_constraintHorizontal_bias="0.906"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/profilemodify_name_tV"
-        app:layout_constraintVertical_bias="0.054" />
+        app:layout_constraintVertical_bias="0.052" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/profilemodify_save_btn"

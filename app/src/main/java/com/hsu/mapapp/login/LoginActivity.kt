@@ -2,8 +2,8 @@ package com.hsu.mapapp.login
 
 import android.content.Intent
 import android.os.Bundle
-
 import android.util.Log
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -13,7 +13,6 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
-import android.widget.EditText
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.hsu.mapapp.MainActivity
@@ -28,7 +27,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var googleSignInClient: GoogleSignInClient
 
 
-    private lateinit var loginBinding : ActivityLoginBinding
+    private lateinit var loginBinding: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,36 +50,36 @@ class LoginActivity : AppCompatActivity() {
             val createUserIntent = Intent(this, CreateUserActivity::class.java)
             startActivity(createUserIntent)
         }
-        }
+    }
 
     //---------------------------- 이메일 로그인 ----------------------------------//
 
     // 로그인하기
     private fun loginEmail(email: EditText, password: EditText) {
-        auth.signInWithEmailAndPassword(email.text.toString(),password.text.toString())
-            .addOnCompleteListener(this) {task->
+        auth.signInWithEmailAndPassword(email.text.toString(), password.text.toString())
+            .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // 로그인 성공
                     //인증받은 사용자인지 확인.
                     val currentUser = auth.currentUser
-                        if(currentUser?.isEmailVerified!!){
-                            Toast.makeText(this,"로그인 성공",Toast.LENGTH_SHORT).show()
-                        }else{
-                            Toast.makeText(this,"이메일 인증을 하지 않았습니다.",Toast.LENGTH_SHORT).show()
-                        }
-                    updateUI(currentUser,email,password)
-                }
-                else {
+                    if (currentUser?.isEmailVerified!!) {
+                        Toast.makeText(this, "로그인 성공", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this, "이메일 인증을 하지 않았습니다.", Toast.LENGTH_SHORT).show()
+                    }
+                    updateUI(currentUser, email, password)
+                } else {
                     // 로그인 실패
-                    Toast.makeText(this,"로그인 실패",Toast.LENGTH_SHORT).show()
-                    updateUI(null,email,password)
+                    Toast.makeText(this, "로그인 실패", Toast.LENGTH_SHORT).show()
+                    updateUI(null, email, password)
                 }
-        }
+            }
 
     }
+
     // UI 업데이트
-    private fun updateUI(currentUser: FirebaseUser? = null,email: EditText, password: EditText) {
-        if(currentUser != null) {
+    private fun updateUI(currentUser: FirebaseUser? = null, email: EditText, password: EditText) {
+        if (currentUser != null) {
             val mainIntent = Intent(this, MainActivity::class.java)
             startActivity(mainIntent)
         }
@@ -88,6 +87,7 @@ class LoginActivity : AppCompatActivity() {
         email.setText("")
         password.setText("")
     }
+
     // 이메일, 비밀번호 형식 체크
     private fun checkForm(email: EditText, password: EditText): Boolean {
         if (email.text.toString().isEmpty() || password.text.toString().isEmpty()) {
@@ -106,26 +106,27 @@ class LoginActivity : AppCompatActivity() {
         }
         return true;
     }
+
     // 로그인 버튼 이벤트
     private fun setLoginBtnEvent() {
         loginBinding.loginLOGINBtn.setOnClickListener {
             val email = loginBinding.loginIdET
             val password = loginBinding.loginPwdET
-            if (checkForm(email,password)) {
-                loginEmail(email,password)
+            if (checkForm(email, password)) {
+                loginEmail(email, password)
             }
         }
     }
 
     //-----------------------------구글 로그인 설정----------------------------------//
 
-    private fun setGoogleLogin () {
+    private fun setGoogleLogin() {
         auth = FirebaseAuth.getInstance()
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.firebase_web_client_id))
             .requestEmail()
             .build()
-        googleSignInClient = GoogleSignIn.getClient(this,gso)
+        googleSignInClient = GoogleSignIn.getClient(this, gso)
 
         loginBinding.loginGoogleBtn.setOnClickListener {
             signIn()
@@ -176,7 +177,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun loginSuccess() {
-        val intent = Intent(this,MainActivity::class.java)
+        val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
     }
