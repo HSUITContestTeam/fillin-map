@@ -1,11 +1,13 @@
 package com.hsu.mapapp.map
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.android.material.snackbar.Snackbar
 import kotlin.jvm.internal.MagicApiIntrinsics
 
 data class MapItemList(
-    val mapTitle: String
+    var mapTitle: String
 )
 
 class MapViewModel : ViewModel() {
@@ -23,5 +25,14 @@ class MapViewModel : ViewModel() {
     fun addMap(mapItem: MapItemList) {
         mapData.add(mapItem)
         mapLiveData.value = mapData
+    }
+
+    fun deleteMap(pos: Int) {
+        mapData.removeAt(pos)
+    }
+
+    fun changeMapTitle(pos: Int, title: String) {
+        mapData[pos].mapTitle = title
+        Log.d("mapChange", title)
     }
 }
