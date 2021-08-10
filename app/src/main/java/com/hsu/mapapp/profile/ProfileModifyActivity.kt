@@ -97,7 +97,6 @@ class ProfileModifyActivity : AppCompatActivity() {
         profileModifyBinding = ActivityProfileModifyBinding.inflate(layoutInflater)
         setContentView(profileModifyBinding.root)
 
-
         //  프로필 화면 클릭 시
         profileModifyBinding.profilemodifyProfileIV.setOnClickListener(object :
             View.OnClickListener {
