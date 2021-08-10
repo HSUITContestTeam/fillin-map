@@ -26,22 +26,25 @@ class UpdatePasswordActivity : AppCompatActivity() {
             val currentPassword = updatePasswordBinding.currentPasswordEt.text.toString()
             val newPassword = updatePasswordBinding.newPasswordEt.text.toString()
 
-            // 사용자 재인증
-            val credential = EmailAuthProvider
-                .getCredential(email, currentPassword)
-            user.reauthenticate(credential)
-                .addOnCompleteListener {  }
+            if(currentPassword.length>=6 && newPassword.length >= 6 ){
+                // 사용자 재인증
+                val credential = EmailAuthProvider
+                    .getCredential(email, currentPassword)
+                user.reauthenticate(credential)
+                    .addOnCompleteListener {  }
 
-            // 비밀번호 업데이트
-            user!!.updatePassword(newPassword)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Snackbar.make(window.decorView.rootView,"비밀번호가 변경되었습니다.", Snackbar.LENGTH_LONG).show()
-                        finish()
-                    } else{
-                        Snackbar.make(window.decorView.rootView,"비밀번호 변경을 실패했습니다.", Snackbar.LENGTH_LONG).show()
+                // 비밀번호 업데이트
+                user!!.updatePassword(newPassword)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Snackbar.make(window.decorView.rootView,"비밀번호가 변경되었습니다.", Snackbar.LENGTH_LONG).show()
+                            finish()
+                        } else{
+                            Snackbar.make(window.decorView.rootView,"비밀번호 변경을 실패했습니다.", Snackbar.LENGTH_LONG).show()
+                        }
                     }
-                }
+            }
+
         }
     }
 }
