@@ -1,6 +1,8 @@
 package com.hsu.mapapp.map
 
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.LiveData
@@ -12,6 +14,7 @@ class MapAdapter(private var data: LiveData<ArrayList<MapItemList>>) :
     private lateinit var binding: MapListItemBinding
     private var isStartBtnSelected = false
     private var itemListener: OnItemClickListener? = null
+    var longPos = -1
 
     public interface OnItemClickListener {
         fun onItemClick(v: View, position: Int)
@@ -34,6 +37,16 @@ class MapAdapter(private var data: LiveData<ArrayList<MapItemList>>) :
                 if (position != RecyclerView.NO_POSITION) {
                     itemListener?.onItemClick(it, position)
                 }
+            }
+
+            itemView.setOnLongClickListener {
+                longPos = layoutPosition
+                return@setOnLongClickListener false
+            }
+            itemView.setOnCreateContextMenuListener { menu, v, menuInfo ->
+                menu.setHeaderTitle("지도 편집")
+                menu.add(layoutPosition, 0,0,"제목 변경하기")
+                menu.add(layoutPosition, 1,1,"지도 삭제하기")
             }
         }
     }

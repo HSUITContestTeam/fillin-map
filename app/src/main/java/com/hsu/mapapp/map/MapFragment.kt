@@ -14,9 +14,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.*
@@ -30,8 +28,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.hsu.mapapp.R
-import com.hsu.mapapp.databinding.AddMapDialogBinding
 import com.hsu.mapapp.databinding.FragmentMapBinding
 import com.hsu.mapapp.utils.OnSwipeTouchListener
 import java.io.File
@@ -134,8 +132,8 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                 mapAdapter = MapAdapter(data)
                 binding.MapListRecyclerView.adapter = mapAdapter // RecyclerView와 CustomAdapter 연결
                 mapAdapter.notifyDataSetChanged()
-                // 지도 목록에서 map 클릭하면 mapFragment 바뀜
 
+                // 지도 목록에서 map 클릭하면 mapFragment 바뀜
                 mapAdapter.setOnItemClickListener(object : MapAdapter.OnItemClickListener {
                     override fun onItemClick(v: View, position: Int) {
                         Log.d("Mapclick", position.toString())
@@ -154,13 +152,57 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                     }
                 })
 
-
                 println("지도 추가")
             }
 
         mapViewModel.mapLiveData.observe(viewLifecycleOwner, dataObserver)
 
+
         setRecyclerDeco()
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+
+        when (item.itemId) {
+            0 -> {
+                val builder = AlertDialog.Builder(requireContext())
+                val inflater =
+                    requireActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+                val view = inflater.inflate(R.layout.change_maptitle_dialog, null)
+
+                val change_mapTitle_tv: TextView = view.findViewById(R.id.change_maptitle_tv)
+                val maptitle = change_mapTitle_tv.text
+
+                builder.setView(view)
+                builder.setTitle("지도 제목 변경")
+                builder.setPositiveButton("변경") { dialog, which ->
+                    mapViewModel.changeMapTitle(mapAdapter.longPos, maptitle.toString())
+                    mapAdapter.notifyItemChanged(mapAdapter.longPos)
+                }
+                builder.setNegativeButton("취소", { dialog, which ->
+                    builder.setCancelable(true)
+                })
+
+                builder.show()
+
+            }
+
+            1 -> {
+                val builder = androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                builder.setMessage("정말로 ${mapViewModel.mapData[mapAdapter.longPos].mapTitle} 지도를 삭제 하시겠습니까?")
+
+                builder.setPositiveButton("예") { dialog, which ->
+                    mapViewModel.deleteMap(mapAdapter.longPos)
+                    mapAdapter.notifyItemRemoved(mapAdapter.longPos)
+                }
+                builder.setNegativeButton("아니오") { dialog, which ->
+                    builder.setCancelable(true)
+                }
+                builder.show()
+            }
+        }
+        return super.onContextItemSelected(item)
     }
 
     private fun setRecyclerDeco() {
@@ -172,12 +214,6 @@ class MapFragment : Fragment(R.layout.fragment_map) {
 
     private fun setAddMapBtn() {
         binding.addMapBtn.setOnClickListener {
-            //val fm = childFragmentManager
-            //AddMapDialogFragment().show(fm, "dialog")
-
-            //val fm = childFragmentManager
-            //val addMapDialog = AddMapDialog()
-            //addMapDialog.show(fm, "dialog")
 
             val builder = AlertDialog.Builder(requireContext())
             val inflater =
@@ -199,7 +235,6 @@ class MapFragment : Fragment(R.layout.fragment_map) {
             setSpinner(view)
             builder.show()
         }
-
     }
 
     fun setSpinner(v: View) {
