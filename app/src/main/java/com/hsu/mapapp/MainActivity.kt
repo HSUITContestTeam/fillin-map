@@ -11,7 +11,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.hsu.mapapp.databinding.ActivityMainBinding
-import com.hsu.mapapp.login.AddUser
 
 class MainActivity : AppCompatActivity() {
     private lateinit var appbarc: AppBarConfiguration
@@ -28,15 +27,6 @@ class MainActivity : AppCompatActivity() {
         firestore = FirebaseFirestore.getInstance() //Firestore선언
         fbAuth = FirebaseAuth.getInstance() // Firebase Auth 선언
 
-        if(true){
-            var userInfo = AddUser()
-
-            userInfo.uid = fbAuth?.uid //유저 정보 가져오기
-            userInfo.userId = fbAuth?.currentUser?.email
-            //Firestore데이터 베이스에 업로드
-            firestore?.collection("users")?.document(fbAuth?.uid.toString())?.set(userInfo)
-
-        }
 
         setNavigation()
 
