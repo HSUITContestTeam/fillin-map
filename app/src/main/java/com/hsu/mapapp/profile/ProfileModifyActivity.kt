@@ -8,15 +8,11 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.exifinterface.media.ExifInterface
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.auth.ktx.userProfileChangeRequest
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.hsu.mapapp.databinding.ActivityProfileModifyBinding
 import com.theartofdev.edmodo.cropper.CropImage
@@ -29,12 +25,31 @@ import java.io.OutputStream
 
 class ProfileModifyActivity : AppCompatActivity() {
     private lateinit var profileModifyBinding: ActivityProfileModifyBinding
+
     private var currentImageUri: Uri? = null
     private var path: String = ""
 
+    private val user = Firebase.auth.currentUser
+
     // Firebase Auth
-    private lateinit var auth: FirebaseAuth
-    private lateinit var firestore: FirebaseFirestore
+//    private lateinit var auth: FirebaseAuth
+//    private lateinit var firestore: FirebaseFirestore
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        profileModifyBinding = ActivityProfileModifyBinding.inflate(layoutInflater)
+        setContentView(profileModifyBinding.root)
+
+        //  프로필 화면 클릭 시
+//        profileModifyBinding.profilemodifyProfileIV.setOnClickListener {
+            /*  내부저장소에서 image파일들만 불러오는 인텐트  */
+            val intent = Intent(Intent.ACTION_GET_CONTENT)
+            intent.type = "image/*"
+            intent.putExtra("crop", true)
+            filterActivityLauncher.launch(intent)
+ //       }
+
+    }
 
     //-----------------------------프로필 사진 설정----------------------------------//
 
@@ -92,28 +107,6 @@ class ProfileModifyActivity : AppCompatActivity() {
             }
         }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        profileModifyBinding = ActivityProfileModifyBinding.inflate(layoutInflater)
-        setContentView(profileModifyBinding.root)
-
-        //  프로필 화면 클릭 시
-        profileModifyBinding.profilemodifyProfileIV.setOnClickListener(object :
-            View.OnClickListener {
-            override fun onClick(v: View) {
-                /*  내부저장소에서 image파일들만 불러오는 인텐트  */
-                val intent = Intent(Intent.ACTION_GET_CONTENT)
-                intent.type = "image/*"
-                intent.putExtra("crop", true)
-                filterActivityLauncher.launch(intent)
-            }
-        })
-        // 저장 버튼 클릭 시
-        profileModifyBinding.profilemodifySaveBtn.setOnClickListener {
-            updateName()
-        }
-    }
-
     //  권한 요청
     private fun requestPermissions() {
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
@@ -141,7 +134,7 @@ class ProfileModifyActivity : AppCompatActivity() {
     }
 
     // 이미지 uri를 절대 경로로 바꾸기
-    fun createCopyAndReturnRealPath(uri: Uri): String? {
+    private fun createCopyAndReturnRealPath(uri: Uri): String? {
         val context = applicationContext
         val contentResolver = context.contentResolver ?: return null
 
@@ -197,25 +190,4 @@ class ProfileModifyActivity : AppCompatActivity() {
 
     }
 
-    //-----------------------------사용자 프로필 수정----------------------------------//
-    private fun updateName() {
-        Log.d("saveBtn", "clicked1")
-        Log.d("saveBtn", "clicked2")
-        // update User Name
-        val user = Firebase.auth.currentUser
-        val profileUpdates = userProfileChangeRequest {
-            displayName = profileModifyBinding.profilemodifyNameET.text.toString()
-            //photoUri = Uri.parse("https://example.com/jane-q-user/profile.jpg")
-        }
-
-        user!!.updateProfile(profileUpdates)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Log.d("name", "수정")
-                    profileModifyBinding.profilemodifyNameTV.text = user.displayName + "으로 변경되었습니다"
-                }
-            }
-        // [END update_profile]
-
-    }
 }
