@@ -41,13 +41,13 @@ class ProfileModifyActivity : AppCompatActivity() {
         setContentView(profileModifyBinding.root)
 
         //  프로필 화면 클릭 시
-//        profileModifyBinding.profilemodifyProfileIV.setOnClickListener {
+        profileModifyBinding.profilemodifyProfileIV.setOnClickListener {
             /*  내부저장소에서 image파일들만 불러오는 인텐트  */
             val intent = Intent(Intent.ACTION_GET_CONTENT)
             intent.type = "image/*"
             intent.putExtra("crop", true)
             filterActivityLauncher.launch(intent)
- //       }
+        }
 
     }
 
