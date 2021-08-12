@@ -214,9 +214,10 @@ class MapFragment : Fragment(R.layout.fragment_map) {
         binding.MapListRecyclerView.addItemDecoration(vertical_margin)
     }
 
+    // ----------------------지도 추가 dialog-------------------------
+
     private fun setAddMapBtn() {
         binding.addMapBtn.setOnClickListener {
-
             val builder = AlertDialog.Builder(requireContext())
             val inflater =
                 requireActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -239,6 +240,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
         }
     }
 
+    // 지도 추가 dialog spinner
     fun setSpinner(v: View) {
         val mapListItems = resources.getStringArray(R.array.map_list_array)
         val adapter =

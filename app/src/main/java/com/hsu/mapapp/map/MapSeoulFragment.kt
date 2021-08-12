@@ -1,5 +1,9 @@
 package com.hsu.mapapp.map
 
+import android.app.Activity
+import android.app.AlertDialog
+import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.*
 import android.net.Uri
@@ -8,11 +12,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.PathParser
 import androidx.fragment.app.Fragment
+import com.hsu.mapapp.R
 import com.hsu.mapapp.databinding.FragmentMapSeoulBinding
 import com.richpath.RichPathView
 import java.io.File
@@ -21,14 +28,15 @@ import java.io.IOException
 import java.io.OutputStream
 
 
-
-
-
 class MapSeoulFragment : Fragment() {
     private var _binding: FragmentMapSeoulBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var richPathView: RichPathView
+
     private var currentImageUri: Uri? = null
+    private var colorResult: String? = null // 색 채우기
+    private var selectedMap: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +54,26 @@ class MapSeoulFragment : Fragment() {
 
     //-----------------------------지도 클릭 이벤트 ----------------------------------//
     fun onClick() {
-        val richPathView: RichPathView = binding.icMapOfSouthKorea
+        richPathView = binding.icMapOfSouthKorea
+
+        val builder = AlertDialog.Builder(requireContext())
+        val inflater =
+            requireActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
+        // 지도 어떤걸로 채울지 선택하는 다이얼로그.
+        // path 클릭했을 때 띄워줘야 함..
+        /*builder.setTitle("지역 이름 써줘야됨")
+            .setItems(R.array.fillMapItems,
+            DialogInterface.OnClickListener { dialog, pos ->
+                when (pos) {
+                    //0 -> //이미지로 채우기
+                    //1 -> // 색칠하기
+                }
+            })
+
+        builder.show()*/
+
+
         // 고성 지역 클릭 이벤트
         richPathView.findRichPathByName("Goseong")?.setOnPathClickListener {
             Log.d("Goseong", "click")
@@ -55,6 +82,15 @@ class MapSeoulFragment : Fragment() {
             intent.type = "image/*"
             intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             filterActivityLauncher.launch(intent)
+        }
+
+        // 해남 지역 색 변경하기 이벤트
+        richPathView.findRichPathByName("haenam")?.setOnPathClickListener {
+            selectedMap = "haenam" // 선택한 지역을 해남 지역으로 변경.
+            val haenamPathData = ""
+            val intent = Intent(this.context, FillMapWithColorActivity::class.java)
+            intent.putExtra("pathData", haenamPathData)
+            fillColorActivityLancher.launch(intent)
         }
     }
 
@@ -89,6 +125,7 @@ class MapSeoulFragment : Fragment() {
 
             }
         }
+
     // https://github.com/tarek360/Bitmap-Cropping 참고
     private fun convertToMap(src: Bitmap): Bitmap {
         return BitmapUtils.getCroppedBitmap(src, getMapPath(src))
@@ -140,4 +177,14 @@ class MapSeoulFragment : Fragment() {
         val path = file.getAbsolutePath()
         return path
     }
+
+    //-----------------------------색 변경 activiy lancher----------------------------------//
+    private val fillColorActivityLancher: ActivityResultLauncher<Intent> =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK && it.data != null) {
+                val colorResult = it.data?.getStringExtra("color")
+                richPathView.findRichPathByName(selectedMap)?.fillColor =
+                    Color.parseColor(colorResult.toString())
+            }
+        }
 }
