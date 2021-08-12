@@ -12,6 +12,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.hsu.mapapp.databinding.ActivityMainBinding
 
+
+
+
 class MainActivity : AppCompatActivity() {
     private lateinit var appbarc: AppBarConfiguration
     private lateinit var mainBinding: ActivityMainBinding
@@ -26,7 +29,6 @@ class MainActivity : AppCompatActivity() {
 
         firestore = FirebaseFirestore.getInstance() //Firestore선언
         fbAuth = FirebaseAuth.getInstance() // Firebase Auth 선언
-
 
         setNavigation()
 

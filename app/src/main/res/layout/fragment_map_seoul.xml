@@ -6,20 +6,41 @@
     android:layout_height="match_parent"
     tools:context=".map.MapSeoulFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <com.richpath.RichPathView
             android:id="@+id/ic_map_of_south_korea"
+
             android:layout_width="match_parent"
-            android:layout_height="395dp"
+            android:layout_height="420dp"
+            android:layout_centerInParent="true"
             android:fillType="nonZero"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:vector="@drawable/ic_map_of_south_korea"
             tools:ignore="MissingConstraints" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/map_goseong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="229dp"
+            android:layout_marginTop="154dp"
+            android:layout_marginEnd="139dp"
+            android:layout_marginBottom="534dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.616"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.245"
+            tools:src="@tools:sample/avatars" />
+
+
+    </RelativeLayout>
 
 </FrameLayout>
