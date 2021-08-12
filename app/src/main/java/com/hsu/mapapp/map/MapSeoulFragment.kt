@@ -1,6 +1,7 @@
 package com.hsu.mapapp.map
 
 import android.content.Intent
+import android.graphics.*
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -10,6 +11,7 @@ import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.PathParser
 import androidx.fragment.app.Fragment
 import com.hsu.mapapp.databinding.FragmentMapSeoulBinding
 import com.richpath.RichPathView
@@ -17,6 +19,9 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.OutputStream
+
+
+
 
 
 class MapSeoulFragment : Fragment() {
@@ -28,7 +33,6 @@ class MapSeoulFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -71,9 +75,11 @@ class MapSeoulFragment : Fragment() {
                         }
                         Log.d("path!", path)
 
-//                              // canvas 그려질 customView
-                        val customView = CustomView(activity?.applicationContext, path)
-                        binding.root.addView(customView)
+                        // bitmap을 이미지뷰에 붙이기
+                        // https://github.com/tarek360/Bitmap-Cropping 참고
+                        val srcBitmap = BitmapFactory.decodeFile(path)
+                        binding.mapGoseong.setImageBitmap(convertToMap(srcBitmap))
+
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
@@ -83,6 +89,32 @@ class MapSeoulFragment : Fragment() {
 
             }
         }
+    // https://github.com/tarek360/Bitmap-Cropping 참고
+    private fun convertToMap(src: Bitmap): Bitmap {
+        return BitmapUtils.getCroppedBitmap(src, getMapPath(src))
+    }
+
+    private fun getMapPath(src: Bitmap): Path {
+        val goseongPathData =
+            "M340.083,66.939l13.334,-7l-8.334,-17.5l-1.333,-4.333l-7.167,-10l1.334,-1.833l-8,-14.167V8.939l-6.5,-8.333l-5.334,2.167L317.75,16.94l-1.167,7.833l-10.166,12.833l2.833,2l2.5,0.833l0.833,0.167l-1,1.833l0.667,4.333l5.5,-1.5l1,3.667l0.833,5.5l4.167,0.333l1,3.833l3.667,1l3.833,-1.833l2.167,2.5v5.5L340.083,66.939z"
+        // pathData를 이용해 path 생성
+        val goseongPath = PathParser.createPathFromPathData(goseongPathData)
+        return resizePath(
+            goseongPath,
+            src.width.toFloat(), src.height.toFloat()
+        )
+    }
+
+    fun resizePath(path: Path?, width: Float, height: Float): Path {
+        val bounds = RectF(0F, 0F, width, height)
+        val resizedPath = Path(path)
+        val src = RectF()
+        resizedPath.computeBounds(src, true)
+        val resizeMatrix = Matrix()
+        resizeMatrix.setRectToRect(src, bounds, Matrix.ScaleToFit.CENTER)
+        resizedPath.transform(resizeMatrix)
+        return resizedPath
+    }
 
     // 이미지 uri를 절대 경로로 바꾸기
     private fun createCopyAndReturnRealPath(uri: Uri): String? {
