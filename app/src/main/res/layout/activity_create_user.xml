@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".login.CreateUserActivity">
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/join_btn2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="이메일 인증"
+        app:layout_constraintBottom_toTopOf="@+id/password_et"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.315"
+        app:layout_constraintStart_toEndOf="@+id/email_et"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.67" />
+
     <TextView
         android:id="@+id/name_tv"
         android:layout_width="wrap_content"
@@ -33,8 +45,8 @@
 
     <EditText
         android:id="@+id/email_et"
-        android:layout_width="360dp"
-        android:layout_height="35dp"
+        android:layout_width="260dp"
+        android:layout_height="39dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/login_border"
         android:ems="10"
@@ -42,10 +54,10 @@
         android:inputType="textEmailAddress"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintHorizontal_bias="0.165"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/email_tv"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.003" />
 
     <TextView
         android:id="@+id/password_tv"
@@ -101,7 +113,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password_et"
-        app:layout_constraintVertical_bias="0.331" />
+        app:layout_constraintVertical_bias="0.332" />
 
     <EditText
         android:id="@+id/name_et"
@@ -118,4 +130,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/name_tv"
         app:layout_constraintVertical_bias="0.0" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
