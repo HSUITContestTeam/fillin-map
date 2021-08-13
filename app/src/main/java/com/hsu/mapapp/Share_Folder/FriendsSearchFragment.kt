@@ -30,6 +30,11 @@ class FriendsSearchFragment : Fragment(R.layout.search_friends_list_item) {
 
         _binding = FragmentSearchFriendsBinding.inflate(inflater, container, false)
 
+        //서치뷰의 검색버튼.setOnclickListener{
+        //(binding.FriendsSearchRecycler.adapter as FriendsSearchAdapter).search(searchWord.text.toString())
+    //}
+
+
         return binding.root
     }
 
@@ -73,6 +78,21 @@ class FriendsSearchFragment : Fragment(R.layout.search_friends_list_item) {
         }
 
         override fun getItemCount() = datas_friends_search.size
+
+        fun search(searchWord : String, option : String) {
+            firestore?.collection("users")?.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                // ArrayList 비워줌
+                datas_friends_search.clear()
+
+                for (snapshot in querySnapshot!!.documents) {
+                    if (snapshot.getString(option)!!.contains(searchWord)) {
+                        var item = snapshot.toObject(FriendsSearchItemList::class.java)
+                        datas_friends_search.add(item!!)
+                    }
+                }
+                notifyDataSetChanged()
+            }
+        }
     }
 
 
