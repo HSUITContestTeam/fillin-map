@@ -51,7 +51,7 @@ class ProfileModifyActivity : AppCompatActivity() {
 
     }
 
-    //-----------------------------프로필 사진 설정----------------------------------//
+
 
     private fun cropImage(uri: Uri?) {
         CropImage.activity(uri).setGuidelines(CropImageView.Guidelines.ON)
