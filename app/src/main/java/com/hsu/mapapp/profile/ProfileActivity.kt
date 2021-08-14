@@ -18,6 +18,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.hsu.mapapp.R
 import com.hsu.mapapp.databinding.ActivityProfileBinding
@@ -170,18 +171,16 @@ class ProfileActivity : AppCompatActivity() {
                 .setPositiveButton("확인") { dialog, which ->
                     val editText: EditText = linearLayout.findViewById(R.id.name_editText)
                     value = editText.text.toString()
-                    // user auth 업데이트
-                    val profileUpdates = userProfileChangeRequest {
-                        displayName = value
-                        //photoUri = Uri.parse("https://example.com/jane-q-user/profile.jpg")
-                    }
-
-                    user!!.updateProfile(profileUpdates)
-                        .addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
+                    // firestore - users - name 업데이트
+                    val firestore = FirebaseFirestore.getInstance()
+                    var map = mutableMapOf<String,Any>()
+                    map["name"] = value
+                    firestore.collection("users").document(Firebase.auth.uid.toString()).update(map)
+                        .addOnCompleteListener {
+                            if (it.isSuccessful) {
                                 Log.d("user name", "updated")
                                 // 바뀐 name text 설정
-                                profileBinding.profileNameTV.text = user.displayName
+                                profileBinding.profileNameTV.text = value
                             }
                         }
                     // [END update_profile]
