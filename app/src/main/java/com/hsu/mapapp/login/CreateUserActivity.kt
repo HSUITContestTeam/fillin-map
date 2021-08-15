@@ -1,14 +1,12 @@
 package com.hsu.mapapp.login
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.hsu.mapapp.databinding.ActivityCreateUserBinding
@@ -56,8 +54,6 @@ class CreateUserActivity : AppCompatActivity() {
                                 Toast.makeText(this, "회원가입 성공", Toast.LENGTH_SHORT).show()
                                 // 계정 정보 firbase에 추가
                                 addUserInfoToFirebase()
-                                // 별명 설정
-                                setUserName()
                                 // 회원가입 액티비티 종료
                                 finish()
                             } else {
@@ -113,6 +109,7 @@ class CreateUserActivity : AppCompatActivity() {
         // 계정 정보 firebase에 추가
         var userInfo = AddUser()
 
+        userInfo.name = createUseBinding.nameEt.text.toString()
         userInfo.uid = auth?.uid //유저 정보 가져오기
         userInfo.userId = auth?.currentUser?.email
 
@@ -120,18 +117,4 @@ class CreateUserActivity : AppCompatActivity() {
         firestore?.collection("users")?.document(auth?.uid.toString())?.set(userInfo)
     }
 
-    // 별명 설정 - auth 업데이트
-    private fun setUserName() {
-        val user = Firebase.auth.currentUser
-        val profileUpdates = userProfileChangeRequest {
-            displayName = createUseBinding.nameEt.text.toString() // 별명 editText에 있는 내용
-        }
-        user!!.updateProfile(profileUpdates)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Log.d("User profile", "updated.")
-                }
-            }
-        // [END update_profile]
-    }
 }

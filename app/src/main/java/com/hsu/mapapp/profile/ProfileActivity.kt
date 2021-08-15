@@ -1,7 +1,9 @@
 package com.hsu.mapapp.profile
 
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -18,12 +20,16 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import com.hsu.mapapp.R
 import com.hsu.mapapp.databinding.ActivityProfileBinding
 import com.hsu.mapapp.login.LoginActivity
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
+import java.io.File
+import java.util.*
 
 
 class ProfileActivity : AppCompatActivity() {
@@ -32,6 +38,7 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var googleSignInClient: GoogleSignInClient
     private val TAG: String = "AppDebug"
     private val GALLERY_REQUEST_CODE = 1234
+    private var uriPhoto: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -109,8 +116,34 @@ class ProfileActivity : AppCompatActivity() {
                 val emailVerified = user.isEmailVerified
                 val uid = user.uid
 
-                profileBinding.profileNameTV.text = name
+                val firestore = FirebaseFirestore.getInstance()
+                val docRef = firestore.collection("users").document(uid)
+                docRef.get()
+                    .addOnSuccessListener { document ->
+                        profileBinding.profileNameTV.text = document.get("name").toString()
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.d(TAG, "get failed with ", exception)
+                    }
+                //profileBinding.profileNameTV.text = name
                 profileBinding.profileEmailTV.text = email
+
+                val progressDialog = ProgressDialog(this)
+                progressDialog.setMessage("Fetching Image ...")
+                progressDialog.setCancelable(false)
+                progressDialog.show()
+                val localfile = File.createTempFile("tempImage","jpg")
+                val storageRef = FirebaseStorage.getInstance().reference.child("ProfileImage").child("$name").getFile(localfile)
+                storageRef.addOnSuccessListener {
+                    if(progressDialog.isShowing)
+                        progressDialog.dismiss()
+                    val bitmap = BitmapFactory.decodeFile(localfile.absolutePath)
+                    profileBinding.profileImageIV.setImageBitmap(bitmap)
+                }.addOnFailureListener{
+                if(progressDialog.isShowing)
+                    progressDialog.dismiss()
+                Toast.makeText(this, "Failed to retrieve your image",Toast.LENGTH_SHORT).show()
+            }
             }
         } else {
             // No user is signed in
@@ -170,21 +203,21 @@ class ProfileActivity : AppCompatActivity() {
                 .setPositiveButton("확인") { dialog, which ->
                     val editText: EditText = linearLayout.findViewById(R.id.name_editText)
                     value = editText.text.toString()
-                    // user auth 업데이트
-                    val profileUpdates = userProfileChangeRequest {
-                        displayName = value
-                        //photoUri = Uri.parse("https://example.com/jane-q-user/profile.jpg")
-                    }
-
-                    user!!.updateProfile(profileUpdates)
-                        .addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
+                    // firestore - users - name 업데이트
+                    val firestore = FirebaseFirestore.getInstance()
+                    var map = mutableMapOf<String,Any>()
+                    map["name"] = value
+                    firestore.collection("users").document(Firebase.auth.uid.toString()).update(map)
+                        .addOnCompleteListener {
+                            if (it.isSuccessful) {
                                 Log.d("user name", "updated")
                                 // 바뀐 name text 설정
-                                profileBinding.profileNameTV.text = user.displayName
+                                profileBinding.profileNameTV.text = value
+                                userProfileChangeRequest { displayName = value }
                             }
                         }
                     // [END update_profile]
+
                 }
                 .setNegativeButton("취소") { dialog, which ->
                     dialog.dismiss()
@@ -214,13 +247,35 @@ class ProfileActivity : AppCompatActivity() {
 
             CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE -> {
                 val result = CropImage.getActivityResult(data)
+                uriPhoto = result.uri
                 if (resultCode == Activity.RESULT_OK) {
                     setImage(result.uri)
+                    imageUpload()
                 }
                 else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                     Log.e(TAG, "Crop error: ${result.getError()}" )
                 }
             }
+        }
+    }
+
+    private fun imageUpload() {
+        val progressDialog = ProgressDialog(this)
+        progressDialog.setMessage("Uploading File ...")
+        progressDialog.setCancelable(false)
+        progressDialog.show()
+
+        val imageName = profileBinding.profileNameTV.text
+        val storageReference = FirebaseStorage.getInstance().getReference("ProfileImage/$imageName")
+
+        storageReference.putFile(uriPhoto!!).addOnSuccessListener {
+            Toast.makeText(this@ProfileActivity, "Successfully uploaded", Toast.LENGTH_SHORT).show()
+            if (progressDialog.isShowing)
+                progressDialog.dismiss()
+        }.addOnFailureListener {
+            if (progressDialog.isShowing)
+                progressDialog.dismiss()
+            Toast.makeText(this@ProfileActivity, "Failed", Toast.LENGTH_SHORT).show()
         }
     }
 

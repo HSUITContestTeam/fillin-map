@@ -37,12 +37,15 @@ class UpdatePasswordActivity : AppCompatActivity() {
                 user!!.updatePassword(newPassword)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            Snackbar.make(window.decorView.rootView,"비밀번호가 변경되었습니다.", Snackbar.LENGTH_LONG).show()
+                            Snackbar.make(updatePasswordBinding.root,"비밀번호가 변경되었습니다.", Snackbar.LENGTH_LONG).show()
                             finish()
                         } else{
-                            Snackbar.make(window.decorView.rootView,"비밀번호 변경을 실패했습니다.", Snackbar.LENGTH_LONG).show()
+                            Snackbar.make(updatePasswordBinding.root,"비밀번호 변경을 실패했습니다.", Snackbar.LENGTH_LONG).show()
                         }
                     }
+            }
+            else{
+                Snackbar.make(updatePasswordBinding.root,"비밀번호를 6글자 이상 입력하세요.", Snackbar.LENGTH_LONG).show()
             }
 
         }
