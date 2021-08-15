@@ -1,13 +1,17 @@
 package com.hsu.mapapp.profile
 
 import android.app.Activity
+import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -20,11 +24,15 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import com.hsu.mapapp.R
 import com.hsu.mapapp.databinding.ActivityProfileBinding
 import com.hsu.mapapp.login.LoginActivity
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class ProfileActivity : AppCompatActivity() {
@@ -33,6 +41,7 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var googleSignInClient: GoogleSignInClient
     private val TAG: String = "AppDebug"
     private val GALLERY_REQUEST_CODE = 1234
+    private var uriPhoto: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -112,6 +121,23 @@ class ProfileActivity : AppCompatActivity() {
 
                 profileBinding.profileNameTV.text = name
                 profileBinding.profileEmailTV.text = email
+
+                val progressDialog = ProgressDialog(this)
+                progressDialog.setMessage("Fetching Image ...")
+                progressDialog.setCancelable(false)
+                progressDialog.show()
+                val localfile = File.createTempFile("tempImage","jpg")
+                val storageRef = FirebaseStorage.getInstance().reference.child("ProfileImage").child("$name").getFile(localfile)
+                storageRef.addOnSuccessListener {
+                    if(progressDialog.isShowing)
+                        progressDialog.dismiss()
+                    val bitmap = BitmapFactory.decodeFile(localfile.absolutePath)
+                    profileBinding.profileImageIV.setImageBitmap(bitmap)
+                }.addOnFailureListener{
+                if(progressDialog.isShowing)
+                    progressDialog.dismiss()
+                Toast.makeText(this, "Failed to retrieve your image",Toast.LENGTH_SHORT).show()
+            }
             }
         } else {
             // No user is signed in
@@ -213,13 +239,35 @@ class ProfileActivity : AppCompatActivity() {
 
             CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE -> {
                 val result = CropImage.getActivityResult(data)
+                uriPhoto = result.uri
                 if (resultCode == Activity.RESULT_OK) {
                     setImage(result.uri)
+                    imageUpload()
                 }
                 else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                     Log.e(TAG, "Crop error: ${result.getError()}" )
                 }
             }
+        }
+    }
+
+    private fun imageUpload() {
+        val progressDialog = ProgressDialog(this)
+        progressDialog.setMessage("Uploading File ...")
+        progressDialog.setCancelable(false)
+        progressDialog.show()
+
+        val imageName = profileBinding.profileNameTV.text
+        val storageReference = FirebaseStorage.getInstance().getReference("ProfileImage/$imageName")
+
+        storageReference.putFile(uriPhoto!!).addOnSuccessListener {
+            Toast.makeText(this@ProfileActivity, "Successfully uploaded", Toast.LENGTH_SHORT).show()
+            if (progressDialog.isShowing)
+                progressDialog.dismiss()
+        }.addOnFailureListener {
+            if (progressDialog.isShowing)
+                progressDialog.dismiss()
+            Toast.makeText(this@ProfileActivity, "Failed", Toast.LENGTH_SHORT).show()
         }
     }
 
