@@ -19,8 +19,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_modify_btn"
-        app:layout_constraintVertical_bias="0.047" />
+        app:layout_constraintTop_toBottomOf="@+id/profile_email_tV"
+        app:layout_constraintVertical_bias="0.145" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/logout_btn"
@@ -75,6 +75,7 @@
         android:id="@+id/profile_name_tV"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:background="#61FFFFFF"
         android:text="닉네임"
         android:textAlignment="center"
@@ -106,6 +107,7 @@
         android:background="#FFFFFF"
         android:text="프로필 수정"
         android:textAlignment="viewStart"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
