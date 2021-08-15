@@ -14,6 +14,7 @@ class GroupListFragment : Fragment(R.layout.group_list_list_item) {
     private var _binding: FragmentGroupListBinding? = null
     private val binding get() = _binding!!
 
+
     private lateinit var adapter: GroupListAdapter
     private val data_groups = mutableListOf<GroupListItemList>()
 

@@ -20,6 +20,8 @@ class CreateUserActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var firestore: FirebaseFirestore
 
+    private lateinit var fbAuth : FirebaseAuth
+
     // android.util에서 제공하는 이메일 패턴
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,8 +29,9 @@ class CreateUserActivity : AppCompatActivity() {
         createUseBinding = ActivityCreateUserBinding.inflate(layoutInflater)
         setContentView(createUseBinding.root)
 
+        firestore = FirebaseFirestore.getInstance() //Firestore선언
+        fbAuth = FirebaseAuth.getInstance() // Firebase Auth 선언
         auth = Firebase.auth
-        firestore = FirebaseFirestore.getInstance()
         setJoinBtnEvent()
     }
 
