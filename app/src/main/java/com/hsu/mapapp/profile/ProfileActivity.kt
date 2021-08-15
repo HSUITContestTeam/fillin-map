@@ -2,7 +2,6 @@ package com.hsu.mapapp.profile
 
 import android.app.Activity
 import android.app.ProgressDialog
-import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -11,7 +10,6 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.EditText
-import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -31,7 +29,6 @@ import com.hsu.mapapp.login.LoginActivity
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import java.io.File
-import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -119,7 +116,16 @@ class ProfileActivity : AppCompatActivity() {
                 val emailVerified = user.isEmailVerified
                 val uid = user.uid
 
-                profileBinding.profileNameTV.text = name
+                val firestore = FirebaseFirestore.getInstance()
+                val docRef = firestore.collection("users").document(uid)
+                docRef.get()
+                    .addOnSuccessListener { document ->
+                        profileBinding.profileNameTV.text = document.get("name").toString()
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.d(TAG, "get failed with ", exception)
+                    }
+                //profileBinding.profileNameTV.text = name
                 profileBinding.profileEmailTV.text = email
 
                 val progressDialog = ProgressDialog(this)
@@ -207,9 +213,11 @@ class ProfileActivity : AppCompatActivity() {
                                 Log.d("user name", "updated")
                                 // 바뀐 name text 설정
                                 profileBinding.profileNameTV.text = value
+                                userProfileChangeRequest { displayName = value }
                             }
                         }
                     // [END update_profile]
+
                 }
                 .setNegativeButton("취소") { dialog, which ->
                     dialog.dismiss()
