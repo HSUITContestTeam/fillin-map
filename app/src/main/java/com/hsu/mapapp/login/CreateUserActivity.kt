@@ -71,7 +71,7 @@ class CreateUserActivity : AppCompatActivity() {
     }
 
     // 이메일, 비밀번호 형식 체크
-    private fun checkForm(email: EditText, password: EditText): Boolean {
+    private fun checkForm(email: EditText, password: EditText, name: EditText): Boolean {
         if (email.text.toString().isEmpty() || password.text.toString().isEmpty()) {
             Toast.makeText(this, "이메일 혹은 비밀번호를 반드시 입력하세요", Toast.LENGTH_SHORT).show()
             return false;
@@ -86,6 +86,10 @@ class CreateUserActivity : AppCompatActivity() {
             Toast.makeText(this, "비밀번호를 6자 이상 입력하세요", Toast.LENGTH_SHORT).show()
             return false;
         }
+        if(name.text.toString().isEmpty()){
+            Toast.makeText(this, "닉네임을 입력하세요", Toast.LENGTH_SHORT).show()
+            return false;
+        }
         return true;
     }
 
@@ -94,8 +98,8 @@ class CreateUserActivity : AppCompatActivity() {
         createUseBinding.joinBtn.setOnClickListener {
             val email = createUseBinding.emailEt
             val password = createUseBinding.passwordEt
-
-            if (checkForm(email, password)) {
+            val name = createUseBinding.nameEt
+            if (checkForm(email, password,name)) {
                 createEmailUser(email, password)
             }
         }
