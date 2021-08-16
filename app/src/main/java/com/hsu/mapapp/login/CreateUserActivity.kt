@@ -1,6 +1,7 @@
 package com.hsu.mapapp.login
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -42,22 +43,26 @@ class CreateUserActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // 회원가입 성공
                     val currentUser = auth.currentUser
+                    Toast.makeText(this, "회원가입 성공", Toast.LENGTH_SHORT).show()
+                    // 계정 정보 firbase에 추가
+                    addUserInfoToFirebase()
+                    // 회원가입 액티비티 종료
+                    finish()
 
-                    //사용자 인증메일 보내기.
-                    currentUser
-                        ?.sendEmailVerification()
-                        ?.addOnCompleteListener { varifiTask ->
-                            if (varifiTask.isSuccessful) {
-                                Toast.makeText(this, "회원가입 성공", Toast.LENGTH_SHORT).show()
-                                // 계정 정보 firbase에 추가
-                                addUserInfoToFirebase()
-                                // 회원가입 액티비티 종료
-                                finish()
-                            } else {
-                                Toast.makeText(this, "에러", Toast.LENGTH_SHORT).show()
-                            }
-                        }
-
+//                    //사용자 인증메일 보내기.//
+//                    currentUser
+//                        ?.sendEmailVerification()
+//                        ?.addOnCompleteListener { varifiTask ->
+//                            if (varifiTask.isSuccessful) {
+//                                Toast.makeText(this, "회원가입 성공", Toast.LENGTH_SHORT).show()
+//                                // 계정 정보 firbase에 추가
+//                                addUserInfoToFirebase()
+//                                // 회원가입 액티비티 종료
+//                                finish()
+//                            } else {
+//                                Toast.makeText(this, "에러", Toast.LENGTH_SHORT).show()
+//                            }
+//                        }
                 } else {
                     // 계정 중복
                     Toast.makeText(this, "계정이 이미 있습니다.", Toast.LENGTH_SHORT).show()
@@ -86,7 +91,7 @@ class CreateUserActivity : AppCompatActivity() {
             Toast.makeText(this, "비밀번호를 6자 이상 입력하세요", Toast.LENGTH_SHORT).show()
             return false;
         }
-        if(name.text.toString().isEmpty()){
+        if (name.text.toString().isEmpty()) {
             Toast.makeText(this, "별명을 입력하세요", Toast.LENGTH_SHORT).show()
             return false;
         }
@@ -99,8 +104,13 @@ class CreateUserActivity : AppCompatActivity() {
             val email = createUseBinding.emailEt
             val password = createUseBinding.passwordEt
             val name = createUseBinding.nameEt
-            if (checkForm(email, password,name)) {
-                createEmailUser(email, password)
+            if (checkForm(email, password, name)) {
+                if (checkNameExist(name)){
+                    createEmailUser(email, password)
+                }
+                else{
+                    Toast.makeText(this, "같은 별명이 존재합니다.", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
@@ -117,5 +127,25 @@ class CreateUserActivity : AppCompatActivity() {
         //Firestore데이터 베이스에 업로드
         firestore?.collection("users")?.document(auth?.uid.toString())?.set(userInfo)
     }
-    private fun checkName
+
+    // 같은 별명 존재하는지 체크
+    private fun checkNameExist(name: EditText): Boolean {
+        val firestore = FirebaseFirestore.getInstance()
+        var flag = 0
+        firestore.collection("users")
+            .whereEqualTo("name", name.text.toString())
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    Log.d("checkNameExist", "${document.id} => \${document.data}")
+                }
+                flag = 0
+            }
+            .addOnFailureListener { exception ->
+                Log.w("checkNameExist", "Error getting documents: ", exception)
+                flag = 1
+            }
+        return flag != 0
+
+    }
 }
