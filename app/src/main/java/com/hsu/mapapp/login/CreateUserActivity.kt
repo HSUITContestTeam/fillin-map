@@ -87,7 +87,7 @@ class CreateUserActivity : AppCompatActivity() {
             return false;
         }
         if(name.text.toString().isEmpty()){
-            Toast.makeText(this, "닉네임을 입력하세요", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "별명을 입력하세요", Toast.LENGTH_SHORT).show()
             return false;
         }
         return true;
@@ -117,5 +117,5 @@ class CreateUserActivity : AppCompatActivity() {
         //Firestore데이터 베이스에 업로드
         firestore?.collection("users")?.document(auth?.uid.toString())?.set(userInfo)
     }
-
+    private fun checkName
 }
