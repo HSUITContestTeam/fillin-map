@@ -3,7 +3,6 @@ package com.hsu.mapapp.map
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.*
 import android.net.Uri
@@ -12,14 +11,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.PathParser
 import androidx.fragment.app.Fragment
-import com.hsu.mapapp.R
 import com.hsu.mapapp.databinding.FragmentMapSeoulBinding
 import com.richpath.RichPathView
 import java.io.File
@@ -51,7 +47,6 @@ class MapSeoulFragment : Fragment() {
         onClick()
         return binding.root
     }
-
     //-----------------------------지도 클릭 이벤트 ----------------------------------//
     fun onClick() {
         richPathView = binding.icMapOfSouthKorea
@@ -111,10 +106,18 @@ class MapSeoulFragment : Fragment() {
                         }
                         Log.d("path!", path)
 
-                        // bitmap을 이미지뷰에 붙이기
-                        // https://github.com/tarek360/Bitmap-Cropping 참고
-                        val srcBitmap = BitmapFactory.decodeFile(path)
-                        binding.mapGoseong.setImageBitmap(convertToMap(srcBitmap))
+                        var srcBitmap = BitmapFactory.decodeFile(path)
+                        val width = binding.icMapOfSouthKorea.findRichPathByName("Goseong")!!.originalWidth.toInt()
+                        val height = binding.icMapOfSouthKorea.findRichPathByName("Goseong")!!.originalHeight.toInt()
+                        srcBitmap = Bitmap.createScaledBitmap(srcBitmap,width,height,true)
+
+                        // 첫번째 방법 - 이미지뷰 이용
+                        //binding.mapGoseong.setImageBitmap(convertToMap(srcBitmap)) // bitmap을 이미지뷰에 붙이기
+
+                        // 두번째 방법 - canvas로 bitmap 그리기
+                        val customView = MyGraphicView(activity?.applicationContext,convertToMap(srcBitmap))
+                        // customview를 추가
+                        binding.root.addView(customView)
 
                     } catch (e: Exception) {
                         e.printStackTrace()
@@ -126,6 +129,14 @@ class MapSeoulFragment : Fragment() {
             }
         }
 
+    private class MyGraphicView(context: Context?, private val srcBitmap: Bitmap) :
+        View(context) {
+        override fun onDraw(canvas: Canvas) {
+            super.onDraw(canvas)
+            canvas.drawBitmap(srcBitmap,648F, 263F, null)
+            srcBitmap.recycle()
+        }
+    }
     // https://github.com/tarek360/Bitmap-Cropping 참고
     private fun convertToMap(src: Bitmap): Bitmap {
         return BitmapUtils.getCroppedBitmap(src, getMapPath(src))
