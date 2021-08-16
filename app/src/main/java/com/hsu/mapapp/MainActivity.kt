@@ -18,17 +18,13 @@ import com.hsu.mapapp.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
     private lateinit var appbarc: AppBarConfiguration
     private lateinit var mainBinding: ActivityMainBinding
-    private lateinit var firestore : FirebaseFirestore
-    private lateinit var fbAuth : FirebaseAuth
+
     //private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(mainBinding.root)
-
-        firestore = FirebaseFirestore.getInstance() //Firestore선언
-        fbAuth = FirebaseAuth.getInstance() // Firebase Auth 선언
 
         setNavigation()
 
