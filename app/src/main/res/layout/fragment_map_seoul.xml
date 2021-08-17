@@ -26,9 +26,9 @@
             tools:ignore="MissingConstraints" />
 
         <ImageView
-            android:id="@+id/map_goseong"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:id="@+id/Goseong"
+            android:layout_width="107px"
+            android:layout_height="151px"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/ic_map_of_south_korea"
             app:layout_constraintEnd_toEndOf="@+id/ic_map_of_south_korea"
