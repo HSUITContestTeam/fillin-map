@@ -6,23 +6,30 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.*
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.PathParser
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.BitmapImageViewTarget
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.UploadTask
 import com.hsu.mapapp.databinding.FragmentMapSeoulBinding
 import com.richpath.RichPathView
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.OutputStream
+import java.io.*
 
 
 class MapSeoulFragment : Fragment() {
@@ -30,21 +37,76 @@ class MapSeoulFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var richPathView: RichPathView
+    private var mapName: String? = null // 선택된 지도 이름
 
     private var currentImageUri: Uri? = null
     private var colorResult: String? = null // 색 채우기
     private var selectedMap: String? = null
 
-    @SuppressLint("ClickableViewAccessibility")
+    private lateinit var storage: FirebaseStorage
+    private val uid = Firebase.auth.currentUser?.uid
+    private val IMGS: HashMap<String, ImageView> = hashMapOf<String, ImageView>()
+    private var width: Int? = null
+    private var height: Int? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        storage = FirebaseStorage.getInstance()
+
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentMapSeoulBinding.inflate(inflater, container, false)
+        // 서버에 저장해놓은 img를 imageview에 적용
+        //******* 추후 수정하겠음 - 이미지가 저장된 mapName리스트 코드 추가, 코드 깔끔하게
+        Log.d("uid",uid.toString())
+        storage.reference.child("mapImageView/$uid/Goseong").downloadUrl.addOnCompleteListener {
+            if (it.isSuccessful) {
+                Glide.with(this)
+                    .asBitmap()
+                    .load(it.result)
+                    .into(object : BitmapImageViewTarget(binding.Goseong) {});
+            }
+        }
         onClick()
         return binding.root
+
     }
+
+    //-----------------------------map ImageView 서버에 저장----------------------------------//
+    @RequiresApi(Build.VERSION_CODES.R)
+    @SuppressLint("WrongThread")
+    override fun onResume() {
+        super.onResume()
+        val keySet = IMGS.keys
+        for (mapName in keySet) {
+            val imageView = IMGS[mapName]
+            if (imageView != null) {
+                val bitmap = (imageView.drawable as BitmapDrawable).bitmap
+                val baos = ByteArrayOutputStream()
+                bitmap.compress(Bitmap.CompressFormat.WEBP_LOSSLESS, 100, baos)
+                val data = baos.toByteArray()
+                // FirebaseStorage
+                val storageRef = storage.reference
+                val bitmapRef = storageRef.child("mapImageView/$uid/$mapName")
+                val uploadTask: UploadTask = bitmapRef.putBytes(data)
+                uploadTask.addOnFailureListener {
+                    // Handle unsuccessful uploads
+                    Log.d("uploadTask", "Faliure")
+                }.addOnSuccessListener {
+                    // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                    Log.d("uploadTask", "Success")
+                }
+
+            }
+
+        }
+    }
+
     //-----------------------------지도 클릭 이벤트 ----------------------------------//
     fun onClick() {
         richPathView = binding.icMapOfSouthKorea
@@ -69,6 +131,9 @@ class MapSeoulFragment : Fragment() {
         // 고성 지역 클릭 이벤트
         richPathView.findRichPathByName("Goseong")?.setOnPathClickListener {
             Log.d("Goseong", "click")
+            mapName = "Goseong"
+            // hashMap에 추가
+            IMGS["Goseong"] = binding.Goseong
             /*  갤러리 불러오기  */
             val intent = Intent(Intent.ACTION_GET_CONTENT)
             intent.type = "image/*"
@@ -77,8 +142,8 @@ class MapSeoulFragment : Fragment() {
         }
 
         // 해남 지역 색 변경하기 이벤트
-        richPathView.findRichPathByName("haenam")?.setOnPathClickListener {
-            selectedMap = "haenam" // 선택한 지역을 해남 지역으로 변경.
+        richPathView.findRichPathByName("Haenam")?.setOnPathClickListener {
+            selectedMap = "Haenam" // 선택한 지역을 해남 지역으로 변경.
             val haenamPathData = ""
             val intent = Intent(this.context, FillMapWithColorActivity::class.java)
             intent.putExtra("pathData", haenamPathData)
@@ -104,14 +169,18 @@ class MapSeoulFragment : Fragment() {
                         Log.d("path!", path)
 
                         var srcBitmap = BitmapFactory.decodeFile(path)
-                        val width = binding.icMapOfSouthKorea.findRichPathByName("Goseong")!!.originalWidth.toInt()
-                        val height = binding.icMapOfSouthKorea.findRichPathByName("Goseong")!!.originalHeight.toInt()
-                        srcBitmap = Bitmap.createScaledBitmap(srcBitmap,width,height,true)
+                        // bitmap 사이즈 조절
+                        //******* 추후 수정하겠음 - 서버에서 꺼내오는걸로
+                        width =
+                            binding.icMapOfSouthKorea.findRichPathByName("$mapName")!!.originalWidth.toInt()
+                        height =
+                            binding.icMapOfSouthKorea.findRichPathByName("$mapName")!!.originalHeight.toInt()
+                        srcBitmap = Bitmap.createScaledBitmap(srcBitmap, width!!, height!!, true)
 
                         // 첫번째 방법 - 이미지뷰 이용
-                        binding.mapGoseong.setImageBitmap(convertToMap(srcBitmap)) // bitmap을 이미지뷰에 붙이기
-                        binding.mapGoseong.layoutParams.width = width
-                        binding.mapGoseong.layoutParams.height = height
+                        binding.Goseong.setImageBitmap(convertToMap(srcBitmap)) // bitmap을 이미지뷰에 붙이기
+                        Log.d("width", width.toString())
+                        Log.d("height", height.toString())
 
                     } catch (e: Exception) {
                         e.printStackTrace()
@@ -122,6 +191,7 @@ class MapSeoulFragment : Fragment() {
 
             }
         }
+
     // https://github.com/tarek360/Bitmap-Cropping 참고
     private fun convertToMap(src: Bitmap): Bitmap {
         return BitmapUtils.getCroppedBitmap(src, getMapPath(src))
@@ -183,4 +253,5 @@ class MapSeoulFragment : Fragment() {
                     Color.parseColor(colorResult.toString())
             }
         }
+
 }
