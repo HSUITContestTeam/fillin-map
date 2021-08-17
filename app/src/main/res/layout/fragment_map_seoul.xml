@@ -10,39 +10,33 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/map_goseong"
-            android:layout_width="21dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="209dp"
-            android:layout_marginTop="-16dp"
-            android:layout_marginEnd="103dp"
-            android:layout_marginBottom="426dp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.616"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.245"
-            tools:src="@tools:sample/avatars" />
-
         <com.richpath.RichPathView
             android:id="@+id/ic_map_of_south_korea"
 
-            android:layout_width="350dp"
-            android:layout_height="492dp"
-            android:layout_marginTop="100dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="20dp"
             android:fillType="nonZero"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
             app:vector="@drawable/ic_map_of_south_korea"
             tools:ignore="MissingConstraints" />
+
+        <ImageView
+            android:id="@+id/map_goseong"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/ic_map_of_south_korea"
+            app:layout_constraintEnd_toEndOf="@+id/ic_map_of_south_korea"
+            app:layout_constraintHorizontal_bias="0.659"
+            app:layout_constraintStart_toStartOf="@+id/ic_map_of_south_korea"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.086"
+            tools:src="@tools:sample/avatars" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

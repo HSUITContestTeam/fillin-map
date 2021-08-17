@@ -1,5 +1,6 @@
 package com.hsu.mapapp.map
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
@@ -34,10 +35,7 @@ class MapSeoulFragment : Fragment() {
     private var colorResult: String? = null // 색 채우기
     private var selectedMap: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -68,14 +66,13 @@ class MapSeoulFragment : Fragment() {
 
         builder.show()*/
 
-
         // 고성 지역 클릭 이벤트
         richPathView.findRichPathByName("Goseong")?.setOnPathClickListener {
             Log.d("Goseong", "click")
             /*  갤러리 불러오기  */
             val intent = Intent(Intent.ACTION_GET_CONTENT)
             intent.type = "image/*"
-            intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            intent.data = android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
             filterActivityLauncher.launch(intent)
         }
 
@@ -112,12 +109,9 @@ class MapSeoulFragment : Fragment() {
                         srcBitmap = Bitmap.createScaledBitmap(srcBitmap,width,height,true)
 
                         // 첫번째 방법 - 이미지뷰 이용
-                        //binding.mapGoseong.setImageBitmap(convertToMap(srcBitmap)) // bitmap을 이미지뷰에 붙이기
-
-                        // 두번째 방법 - canvas로 bitmap 그리기
-                        val customView = MyGraphicView(activity?.applicationContext,convertToMap(srcBitmap))
-                        // customview를 추가
-                        binding.root.addView(customView)
+                        binding.mapGoseong.setImageBitmap(convertToMap(srcBitmap)) // bitmap을 이미지뷰에 붙이기
+                        binding.mapGoseong.layoutParams.width = width
+                        binding.mapGoseong.layoutParams.height = height
 
                     } catch (e: Exception) {
                         e.printStackTrace()
@@ -128,15 +122,6 @@ class MapSeoulFragment : Fragment() {
 
             }
         }
-
-    private class MyGraphicView(context: Context?, private val srcBitmap: Bitmap) :
-        View(context) {
-        override fun onDraw(canvas: Canvas) {
-            super.onDraw(canvas)
-            canvas.drawBitmap(srcBitmap,648F, 263F, null)
-            srcBitmap.recycle()
-        }
-    }
     // https://github.com/tarek360/Bitmap-Cropping 참고
     private fun convertToMap(src: Bitmap): Bitmap {
         return BitmapUtils.getCroppedBitmap(src, getMapPath(src))
@@ -184,8 +169,8 @@ class MapSeoulFragment : Fragment() {
         } catch (e: IOException) {
             e.printStackTrace()
         }
-        Log.d("file.getAbsolutePath()", file.getAbsolutePath())
-        val path = file.getAbsolutePath()
+        Log.d("file.getAbsolutePath()", file.absolutePath)
+        val path = file.absolutePath
         return path
     }
 
