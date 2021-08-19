@@ -11,6 +11,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MapApp">
         <activity
+            android:name=".SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".map.FillMapWithColorActivity"
             android:exported="true" />
         <activity
@@ -23,13 +33,7 @@
         <activity android:name=".profile.ProfileModifyActivity" />
         <activity android:name=".profile.ProfileActivity" />
         <activity android:name=".profile.CropImg" />
-        <activity android:name=".login.LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".login.LoginActivity"></activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".settings.NoticeActivity" />
         <activity android:name=".settings.AppinfoActivity" />
@@ -40,25 +44,26 @@
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission
-        android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="28" />
-    <uses-permission
-        android:name="android.permission.ACCESS_MEDIA_LOCATION"
-        android:maxSdkVersion="28" />
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="28" />
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="28" />
-    <uses-permission
-        android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="28" />
 
     <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+    <uses-permission
         android:name="android.permission.ACCESS_MEDIA_LOCATION"
         android:maxSdkVersion="28" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+    <uses-permission
+        android:name="android.permission.ACCESS_MEDIA_LOCATION"
+        android:maxSdkVersion="28" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>
