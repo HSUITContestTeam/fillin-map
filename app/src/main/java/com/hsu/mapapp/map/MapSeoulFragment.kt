@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
@@ -31,6 +32,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ListResult
 import com.google.firebase.storage.UploadTask
+import com.hsu.mapapp.R
 import com.hsu.mapapp.databinding.FragmentMapSeoulBinding
 import com.richpath.RichPathView
 import java.io.*
@@ -46,7 +48,6 @@ class MapSeoulFragment : Fragment() {
 
     private var currentImageUri: Uri? = null
     private var colorResult: String? = null // 색 채우기
-    private var selectedMap: String? = null
 
     private lateinit var storage: FirebaseStorage
     private val uid = Firebase.auth.currentUser?.uid
@@ -92,14 +93,12 @@ class MapSeoulFragment : Fragment() {
                     uidRef.child("${fileRef.name}").downloadUrl.addOnCompleteListener {
                         if (it.isSuccessful) {
                             if (fileRef.name != null) {
-                                Log.d("filename",fileRef.name)
+                                Log.d("filename", fileRef.name)
                                 Glide.with(this).asBitmap().load(it.result)
                                     .into(object :
                                         BitmapImageViewTarget(AllIMGS["${fileRef.name}"]) {});
                             }
-
                         }
-
                     }
                 }
             })
@@ -137,52 +136,82 @@ class MapSeoulFragment : Fragment() {
     //-----------------------------지도 클릭 이벤트 ----------------------------------//
     fun onClick() {
         richPathView = binding.icMapOfSouthKorea
+
+        richPathView.findRichPathByName("goseong")?.setOnPathClickListener {
+            mapName = "goseong"
+        }
+
+        richPathView.findRichPathByName("haenam")?.setOnPathClickListener {
+            mapName = "haenam"
+        }
+
+        richPathView.setOnPathClickListener {
+            pathOnClicked()
+        }
+
+        // 고성 지역 클릭 이벤트
+        //richPathView.findRichPathByName("goseong")?.setOnPathClickListener {
+        //    mapName = "goseong"
+        //    getPathDataFromFirebase()
+        //    Log.d("$mapName", "click")
+        //    // hashMap에 추가
+        //    ClickedIMGS["$mapName"] = AllIMGS["$mapName"]!!
+        //    //  갤러리 불러오기
+        //    val intent = Intent(Intent.ACTION_GET_CONTENT)
+        //    intent.type = "image/*"
+        //    intent.data = android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        //    filterActivityLauncher.launch(intent)
+        //}
+        // 해남 지역 색 변경하기 이벤트
+        //richPathView.findRichPathByName("Haenam")?.setOnPathClickListener {
+        //    selectedMap = "Haenam" // 선택한 지역을 해남 지역으로 변경.
+        //    val haenamPathData = ""
+        //    val intent = Intent(this.context, FillMapWithColorActivity::class.java)
+        //    intent.putExtra("pathData", haenamPathData)
+        //    fillColorActivityLancher.launch(intent)
+        //}
+    }
+
+    private fun pathOnClicked() {
         val builder = AlertDialog.Builder(requireContext())
         val inflater =
             requireActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-        // 지도 어떤걸로 채울지 선택하는 다이얼로그.
-        // path 클릭했을 때 띄워줘야 함..
-        /*builder.setTitle("지역 이름 써줘야됨")
-            .setItems(R.array.fillMapItems,
-            DialogInterface.OnClickListener { dialog, pos ->
-                when (pos) {
-                    //0 -> //이미지로 채우기
-                    //1 -> // 색칠하기
-                }
-            })
-
-        builder.show()*/
-
-        // 고성 지역 클릭 이벤트
-        richPathView.findRichPathByName("goseong")?.setOnPathClickListener {
-            mapName = "goseong"
-            getPathDataFromFirebase()
-            Log.d("$mapName", "click")
-            // hashMap에 추가
-            ClickedIMGS["$mapName"] = AllIMGS["$mapName"]!!
-            /*  갤러리 불러오기  */
-            val intent = Intent(Intent.ACTION_GET_CONTENT)
-            intent.type = "image/*"
-            intent.data = android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-            filterActivityLauncher.launch(intent)
-        }
-        // 해남 지역 색 변경하기 이벤트
-        richPathView.findRichPathByName("Haenam")?.setOnPathClickListener {
-            selectedMap = "Haenam" // 선택한 지역을 해남 지역으로 변경.
-            val haenamPathData = ""
-            val intent = Intent(this.context, FillMapWithColorActivity::class.java)
-            intent.putExtra("pathData", haenamPathData)
-            fillColorActivityLancher.launch(intent)
-        }
+        builder
+            .setTitle("$mapName")
+            .setItems(
+                R.array.fillMapItems,
+                DialogInterface.OnClickListener { dialog, pos ->
+                    when (pos) {
+                        0 -> { //이미지로 채우기
+                            getPathDataFromFirebase()
+                            Log.d("$mapName", "click")
+                            // hashMap에 추가
+                            ClickedIMGS["$mapName"] = AllIMGS["$mapName"]!!
+                            //  갤러리 불러오기
+                            val intent = Intent(Intent.ACTION_GET_CONTENT)
+                            intent.type = "image/*"
+                            intent.data =
+                                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                            filterActivityLauncher.launch(intent)
+                        }
+                        1 -> { // 색칠하기
+                            val intent =
+                                Intent(this.context, FillMapWithColorActivity::class.java)
+                            fillColorActivityLancher.launch(intent)
+                        }
+                    }
+                })
+        builder.show()
     }
+
     // 서버에서 pathData불러오기
     private fun getPathDataFromFirebase() {
         val firestore = FirebaseFirestore.getInstance()
         val docRef = firestore.collection("pathData").document("pathData")
         docRef.get()
             .addOnSuccessListener { document ->
-                if(document != null){
+                if (document != null) {
                     pathData = document.data?.get("$mapName").toString()
                 }
             }
@@ -190,6 +219,7 @@ class MapSeoulFragment : Fragment() {
                 Log.d("getMapPath()", "get failed with ", exception)
             }
     }
+
     //-----------------------------갤러리 이벤트 ----------------------------------//
     private val filterActivityLauncher: ActivityResultLauncher<Intent> =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -242,6 +272,7 @@ class MapSeoulFragment : Fragment() {
             src.width.toFloat(), src.height.toFloat()
         )
     }
+
     fun resizePath(path: Path?, width: Float, height: Float): Path {
         val bounds = RectF(0F, 0F, width, height)
         val resizedPath = Path(path)
@@ -282,7 +313,7 @@ class MapSeoulFragment : Fragment() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK && it.data != null) {
                 val colorResult = it.data?.getStringExtra("color")
-                richPathView.findRichPathByName(selectedMap)?.fillColor =
+                richPathView.findRichPathByName(mapName.toString())?.fillColor =
                     Color.parseColor(colorResult.toString())
             }
         }
