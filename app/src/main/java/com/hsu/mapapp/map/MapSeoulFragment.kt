@@ -20,6 +20,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.PathParser
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.BitmapImageViewTarget
@@ -116,7 +117,7 @@ class MapSeoulFragment : Fragment() {
                 val baos = ByteArrayOutputStream()
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                     bitmap.compress(Bitmap.CompressFormat.WEBP_LOSSLESS, 100, baos)
-                }else {
+                } else {
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos)
                 }
                 val data = baos.toByteArray()
@@ -226,6 +227,10 @@ class MapSeoulFragment : Fragment() {
     private val filterActivityLauncher: ActivityResultLauncher<Intent> =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == AppCompatActivity.RESULT_OK && it.data != null) {
+                /* 색칠된 path 흰색으로 변경 */
+                richPathView.findRichPathByName(mapName.toString())?.fillColor = Color.WHITE
+                AllIMGS["$mapName"]?.isVisible = true
+
                 /*  currentImageUri = 갤러리에서 고른 사진 Uri   */
                 currentImageUri = it.data?.data // it.data == intent
                 /*  사진을 bitmap으로 변환 */
@@ -317,6 +322,19 @@ class MapSeoulFragment : Fragment() {
                 val colorResult = it.data?.getStringExtra("color")
                 richPathView.findRichPathByName(mapName.toString())?.fillColor =
                     Color.parseColor(colorResult.toString())
+
+                /*val firestore = FirebaseFirestore.getInstance()
+                firestore?.collection("pathColor").document("$uid").set(color)*/
+
+                /* 이미지로 채워져 있으면 firebase storage에서 이미지 삭제 */
+                val uidRef = storage.reference.child("mapImageView/$uid")
+                uidRef.child("$mapName").delete().addOnSuccessListener{
+                    Log.d("image delete", "success")
+                    AllIMGS["$mapName"]?.isVisible = false
+                    ClickedIMGS.remove("$mapName")
+                }.addOnFailureListener {
+                    Log.d("image delete", "fail")
+                }
             }
         }
 
