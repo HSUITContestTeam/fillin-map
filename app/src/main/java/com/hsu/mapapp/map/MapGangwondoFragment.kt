@@ -1,7 +1,6 @@
 package com.hsu.mapapp.map
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,22 +26,6 @@ class MapGangwondoFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentMapGangwondoBinding.inflate(inflater, container, false)
-        onclickEvent()
         return binding.root
     }
-
-    // 지도 이미지뷰 클릭 이벤트
-    fun onclickEvent() {
-        // 강원도 - 인제
-        val Inje: ObjectClickImageView = binding.mapInje
-        Inje.setOnObjectClickListener(View.OnClickListener {
-            Log.d("Inje", "click")
-        })
-        // 강원도 - 고성
-        val goseong: ObjectClickImageView = binding.goseong
-        goseong.setOnObjectClickListener(View.OnClickListener {
-            Log.d("Goseong", "click")
-        })
-    }
-
 }
