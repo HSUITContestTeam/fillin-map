@@ -24,7 +24,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0"
-            app:vector="@drawable/ic_map_of_south_korea"
+            app:vector="@drawable/svg_south_korea"
             tools:ignore="MissingConstraints" />
 
         <ImageView
