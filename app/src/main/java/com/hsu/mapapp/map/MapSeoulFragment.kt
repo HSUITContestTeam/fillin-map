@@ -17,7 +17,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.PathParser
 import androidx.fragment.app.Fragment
@@ -107,7 +106,6 @@ class MapSeoulFragment : Fragment() {
     }
 
     //-----------------------------map ImageView 서버에 저장----------------------------------//
-    @RequiresApi(Build.VERSION_CODES.R)
     @SuppressLint("WrongThread")
     override fun onResume() {
         super.onResume()
@@ -117,7 +115,11 @@ class MapSeoulFragment : Fragment() {
             if (imageView != null) {
                 val bitmap = (imageView.drawable as BitmapDrawable).bitmap
                 val baos = ByteArrayOutputStream()
-                bitmap.compress(Bitmap.CompressFormat.WEBP_LOSSLESS, 100, baos)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    bitmap.compress(Bitmap.CompressFormat.WEBP_LOSSLESS, 100, baos)
+                }else {
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos)
+                }
                 val data = baos.toByteArray()
                 // FirebaseStorage
                 val storageRef = storage.reference
