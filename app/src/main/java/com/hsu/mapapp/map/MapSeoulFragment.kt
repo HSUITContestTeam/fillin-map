@@ -79,7 +79,7 @@ class MapSeoulFragment : Fragment() {
 
     //-----------------------------AllIMGS 해시맵 초기화----------------------------------//
     private fun initialImageViewHashMap() {
-        AllIMGS["goseong"] = binding.goseong
+        AllIMGS["gangwondoGoseong"] = binding.gangwondoGoseong
         AllIMGS["haenam"] = binding.haenam
         // 다른 지도도 추가
     }
@@ -140,8 +140,8 @@ class MapSeoulFragment : Fragment() {
     fun onClick() {
         richPathView = binding.icMapOfSouthKorea
 
-        richPathView.findRichPathByName("goseong")?.setOnPathClickListener {
-            mapName = "goseong"
+        richPathView.findRichPathByName("gangwondoGoseong")?.setOnPathClickListener {
+            mapName = "gangwondoGoseong"
         }
 
         richPathView.findRichPathByName("haenam")?.setOnPathClickListener {
@@ -153,8 +153,8 @@ class MapSeoulFragment : Fragment() {
         }
 
         // 고성 지역 클릭 이벤트
-        //richPathView.findRichPathByName("goseong")?.setOnPathClickListener {
-        //    mapName = "goseong"
+        //richPathView.findRichPathByName("gangwondoGoseong")?.setOnPathClickListener {
+        //    mapName = "gangwondoGoseong"
         //    getPathDataFromFirebase()
         //    Log.d("$mapName", "click")
         //    // hashMap에 추가
