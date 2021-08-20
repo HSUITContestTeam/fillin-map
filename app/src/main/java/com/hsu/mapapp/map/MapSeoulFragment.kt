@@ -26,6 +26,7 @@ import com.bumptech.glide.request.target.BitmapImageViewTarget
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ListResult
@@ -76,8 +77,8 @@ class MapSeoulFragment : Fragment() {
 
     //-----------------------------AllIMGS 해시맵 초기화----------------------------------//
     private fun initialImageViewHashMap() {
-        AllIMGS["Goseong"] = binding.Goseong
-        AllIMGS["Haenam"] = binding.Haenam
+        AllIMGS["goseong"] = binding.goseong
+        AllIMGS["haenam"] = binding.haenam
         // 다른 지도도 추가
     }
 
@@ -89,10 +90,15 @@ class MapSeoulFragment : Fragment() {
                 for (fileRef in result.items) {
                     uidRef.child("${fileRef.name}").downloadUrl.addOnCompleteListener {
                         if (it.isSuccessful) {
-                            Glide.with(this).asBitmap().load(it.result)
-                                .into(object :
-                                    BitmapImageViewTarget(AllIMGS["${fileRef.name}"]) {});
+                            if (fileRef.name != null) {
+                                Log.d("filename",fileRef.name)
+                                Glide.with(this).asBitmap().load(it.result)
+                                    .into(object :
+                                        BitmapImageViewTarget(AllIMGS["${fileRef.name}"]) {});
+                            }
+
                         }
+
                     }
                 }
             })
@@ -110,7 +116,7 @@ class MapSeoulFragment : Fragment() {
             if (imageView != null) {
                 val bitmap = (imageView.drawable as BitmapDrawable).bitmap
                 val baos = ByteArrayOutputStream()
-                bitmap.compress(Bitmap.CompressFormat.WEBP_LOSSLESS, 100, baos)
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
                 val data = baos.toByteArray()
                 // FirebaseStorage
                 val storageRef = storage.reference
@@ -148,8 +154,8 @@ class MapSeoulFragment : Fragment() {
         builder.show()*/
 
         // 고성 지역 클릭 이벤트
-        richPathView.findRichPathByName("Goseong")?.setOnPathClickListener {
-            mapName = "Goseong"
+        richPathView.findRichPathByName("goseong")?.setOnPathClickListener {
+            mapName = "goseong"
             Log.d("$mapName", "click")
             // hashMap에 추가
             ClickedIMGS["$mapName"] = AllIMGS["$mapName"]!!
@@ -193,6 +199,7 @@ class MapSeoulFragment : Fragment() {
                         srcBitmap = Bitmap.createScaledBitmap(srcBitmap, width!!, height!!, true)
                         // 첫번째 방법 - 이미지뷰 이용
                         Log.d("mapName", mapName!!)
+                        Log.d("AllIMGS", AllIMGS["$mapName"].toString())
                         AllIMGS["$mapName"]?.setImageBitmap(convertToMap(srcBitmap)) // bitmap을 이미지뷰에 붙이기
                         Log.d("width", width.toString())
                         Log.d("height", height.toString())
@@ -208,20 +215,30 @@ class MapSeoulFragment : Fragment() {
 
     // https://github.com/tarek360/Bitmap-Cropping 참고
     private fun convertToMap(src: Bitmap): Bitmap {
-        return BitmapUtils.getCroppedBitmap(src, getMapPath(src))
+        return BitmapUtils.getCroppedBitmap(src, getMapPath(src, "goseong"))
     }
 
-    private fun getMapPath(src: Bitmap): Path {
-        val haenamPathData =
-            "M71.083,608.939l-5.167,-3.334l-2.167,6l-3.167,2.668v9.166l3.167,1.666v3.334l3.667,4.166l0.167,1.5l9.333,2.668l0.833,3.332l4.5,-2.5l4.167,4.168l1,3.5l0.5,7.166l-1.333,1.666l3.833,4.168l3.667,-2.668l-0.833,4.334c0,0 -2.833,1.334 -3,2.166c-0.167,0.834 -1.667,7 -1.667,7l4.333,-0.332l0.833,4.166l0.667,5.334l4.833,-4.168l6,0.834l-0.167,-6.334l2.333,-1.832l-1.667,-3.668l5.167,-3l6.167,-3.832l3.667,-1.168l1.333,-2.5l-1.333,-1l-4,-0.832l-0.333,-8.834l-1.5,-1.666l2.5,-3.834l-2.167,-5l3.333,-6l-1,-1.166l0.667,-3.834l-1.5,-3l-2.667,-1.5l-3.833,2.5l-10.167,-0.834l0.333,3.5l7,4l-5.167,0.834l-3.667,-3l-3.167,-0.5l-0.167,3.834l-5.833,-2.668l-5.5,-4l2.667,-4.5l-2.667,-0.332l-1,1.666l-3.167,-1.666l-1.667,0.332l0.167,3l-0.167,4.668l3.667,-0.834l2,2.834l4.833,3.5l-1.333,3.832l-7,-3.666l-4.167,-1l-1.833,-7.166l-2.167,-4.668l0.833,-3.166l-1.5,-1.166L71.083,608.939z"
-        val haenamPath = PathParser.createPathFromPathData(haenamPathData)
-        val goseongPathData =
-            "M340.083,66.939l13.334,-7l-8.334,-17.5l-1.333,-4.333l-7.167,-10l1.334,-1.833l-8,-14.167V8.939l-6.5,-8.333l-5.334,2.167L317.75,16.94l-1.167,7.833l-10.166,12.833l2.833,2l2.5,0.833l0.833,0.167l-1,1.833l0.667,4.333l5.5,-1.5l1,3.667l0.833,5.5l4.167,0.333l1,3.833l3.667,1l3.833,-1.833l2.167,2.5v5.5L340.083,66.939z"
+    private fun getMapPath(src: Bitmap, pathName: String): Path {
+        var pathData: String = ""
+        val user = Firebase.auth.currentUser
+        user?.let {
+            val uid = user.uid
+            val firestore = FirebaseFirestore.getInstance()
+            val docRef = firestore.collection("pathData").document("pathData")
+            docRef.get()
+                .addOnSuccessListener { document ->
+                    pathData = document.get(pathName).toString()
+                    println(pathData)
+                }
+                .addOnFailureListener { exception ->
+                    Log.d("getMapPath()", "get failed with ", exception)
+                }
+        }
         // pathData를 이용해 path 생성
-        val goseongPath = PathParser.createPathFromPathData(goseongPathData)
+        val pathValue: Path = PathParser.createPathFromPathData(pathData)
         //************ 클릭한 지도마다 path 다르게 해줘야 함
         return resizePath(
-            goseongPath,
+            pathValue,
             src.width.toFloat(), src.height.toFloat()
         )
     }

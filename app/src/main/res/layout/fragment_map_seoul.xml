@@ -28,7 +28,7 @@
             tools:ignore="MissingConstraints" />
 
         <ImageView
-            android:id="@+id/Goseong"
+            android:id="@+id/goseong"
             android:layout_width="107px"
             android:layout_height="151px"
             android:visibility="visible"
@@ -41,7 +41,7 @@
             tools:src="@tools:sample/avatars" />
 
         <ImageView
-            android:id="@+id/Haenam"
+            android:id="@+id/haenam"
             android:layout_width="140px"
             android:layout_height="166px"
             android:background="#00CC1E1E"

@@ -39,8 +39,8 @@ class MapGangwondoFragment : Fragment() {
             Log.d("Inje", "click")
         })
         // 강원도 - 고성
-        val Goseong: ObjectClickImageView = binding.Goseong
-        Goseong.setOnObjectClickListener(View.OnClickListener {
+        val goseong: ObjectClickImageView = binding.goseong
+        goseong.setOnObjectClickListener(View.OnClickListener {
             Log.d("Goseong", "click")
         })
     }
