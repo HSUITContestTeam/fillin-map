@@ -42,6 +42,7 @@ class MapSeoulFragment : Fragment() {
 
     private lateinit var richPathView: RichPathView
     private var mapName: String? = null // 선택된 지도 이름
+    private var pathData: String? = null
 
     private var currentImageUri: Uri? = null
     private var colorResult: String? = null // 색 채우기
@@ -116,7 +117,7 @@ class MapSeoulFragment : Fragment() {
             if (imageView != null) {
                 val bitmap = (imageView.drawable as BitmapDrawable).bitmap
                 val baos = ByteArrayOutputStream()
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+                bitmap.compress(Bitmap.CompressFormat.WEBP_LOSSLESS, 100, baos)
                 val data = baos.toByteArray()
                 // FirebaseStorage
                 val storageRef = storage.reference
@@ -156,6 +157,7 @@ class MapSeoulFragment : Fragment() {
         // 고성 지역 클릭 이벤트
         richPathView.findRichPathByName("goseong")?.setOnPathClickListener {
             mapName = "goseong"
+            getPathDataFromFirebase()
             Log.d("$mapName", "click")
             // hashMap에 추가
             ClickedIMGS["$mapName"] = AllIMGS["$mapName"]!!
@@ -174,7 +176,20 @@ class MapSeoulFragment : Fragment() {
             fillColorActivityLancher.launch(intent)
         }
     }
-
+    // 서버에서 pathData불러오기
+    private fun getPathDataFromFirebase() {
+        val firestore = FirebaseFirestore.getInstance()
+        val docRef = firestore.collection("pathData").document("pathData")
+        docRef.get()
+            .addOnSuccessListener { document ->
+                if(document != null){
+                    pathData = document.data?.get("$mapName").toString()
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d("getMapPath()", "get failed with ", exception)
+            }
+    }
     //-----------------------------갤러리 이벤트 ----------------------------------//
     private val filterActivityLauncher: ActivityResultLauncher<Intent> =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -215,34 +230,18 @@ class MapSeoulFragment : Fragment() {
 
     // https://github.com/tarek360/Bitmap-Cropping 참고
     private fun convertToMap(src: Bitmap): Bitmap {
-        return BitmapUtils.getCroppedBitmap(src, getMapPath(src, "goseong"))
+        return BitmapUtils.getCroppedBitmap(src, getMapPath(src))
     }
 
-    private fun getMapPath(src: Bitmap, pathName: String): Path {
-        var pathData: String = ""
-        val user = Firebase.auth.currentUser
-        user?.let {
-            val uid = user.uid
-            val firestore = FirebaseFirestore.getInstance()
-            val docRef = firestore.collection("pathData").document("pathData")
-            docRef.get()
-                .addOnSuccessListener { document ->
-                    pathData = document.get(pathName).toString()
-                    println(pathData)
-                }
-                .addOnFailureListener { exception ->
-                    Log.d("getMapPath()", "get failed with ", exception)
-                }
-        }
+    private fun getMapPath(src: Bitmap): Path {
         // pathData를 이용해 path 생성
-        val pathValue: Path = PathParser.createPathFromPathData(pathData)
+        val pathValue = PathParser.createPathFromPathData(pathData)
         //************ 클릭한 지도마다 path 다르게 해줘야 함
         return resizePath(
             pathValue,
             src.width.toFloat(), src.height.toFloat()
         )
     }
-
     fun resizePath(path: Path?, width: Float, height: Float): Path {
         val bounds = RectF(0F, 0F, width, height)
         val resizedPath = Path(path)
