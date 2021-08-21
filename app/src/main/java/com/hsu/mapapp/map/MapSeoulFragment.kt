@@ -19,6 +19,7 @@ import android.widget.ImageView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.browser.customtabs.CustomTabsClient.getPackageName
 import androidx.core.graphics.PathParser
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -160,7 +161,7 @@ class MapSeoulFragment : Fragment() {
             requireActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
         builder
-            .setTitle("$mapName")
+            .setTitle(resources.getIdentifier("$mapName", "string", "com.hsu.mapapp"))
             .setItems(
                 R.array.fillMapItems,
                 DialogInterface.OnClickListener { dialog, pos ->
