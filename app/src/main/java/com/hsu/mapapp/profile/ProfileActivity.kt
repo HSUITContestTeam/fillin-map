@@ -25,6 +25,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.hsu.mapapp.R
 import com.hsu.mapapp.databinding.ActivityProfileBinding
+import com.hsu.mapapp.login.AddUser
 import com.hsu.mapapp.login.LoginActivity
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
@@ -121,6 +122,24 @@ class ProfileActivity : AppCompatActivity() {
                 docRef.get()
                     .addOnSuccessListener { document ->
                         profileBinding.profileNameTV.text = document.get("name").toString()
+                        val value = document.get("name").toString()
+
+                        val progressDialog = ProgressDialog(this)
+                        progressDialog.setMessage("Fetching Image ...")
+                        progressDialog.setCancelable(false)
+                        progressDialog.show()
+                        val localfile = File.createTempFile("tempImage","jpg")
+                        val storageRef = FirebaseStorage.getInstance().reference.child("ProfileImage").child("$value").getFile(localfile)
+                        storageRef.addOnSuccessListener {
+                            if(progressDialog.isShowing)
+                                progressDialog.dismiss()
+                            val bitmap = BitmapFactory.decodeFile(localfile.absolutePath)
+                            profileBinding.profileImageIV.setImageBitmap(bitmap)
+                        }.addOnFailureListener{
+                            if(progressDialog.isShowing)
+                                progressDialog.dismiss()
+                            Toast.makeText(this, "Failed to retrieve your image",Toast.LENGTH_SHORT).show()
+                        }
                     }
                     .addOnFailureListener { exception ->
                         Log.d(TAG, "get failed with ", exception)
@@ -128,22 +147,6 @@ class ProfileActivity : AppCompatActivity() {
                 //profileBinding.profileNameTV.text = name
                 profileBinding.profileEmailTV.text = email
 
-                val progressDialog = ProgressDialog(this)
-                progressDialog.setMessage("Fetching Image ...")
-                progressDialog.setCancelable(false)
-                progressDialog.show()
-                val localfile = File.createTempFile("tempImage","jpg")
-                val storageRef = FirebaseStorage.getInstance().reference.child("ProfileImage").child("$name").getFile(localfile)
-                storageRef.addOnSuccessListener {
-                    if(progressDialog.isShowing)
-                        progressDialog.dismiss()
-                    val bitmap = BitmapFactory.decodeFile(localfile.absolutePath)
-                    profileBinding.profileImageIV.setImageBitmap(bitmap)
-                }.addOnFailureListener{
-                if(progressDialog.isShowing)
-                    progressDialog.dismiss()
-                Toast.makeText(this, "Failed to retrieve your image",Toast.LENGTH_SHORT).show()
-            }
             }
         } else {
             // No user is signed in
@@ -270,6 +273,13 @@ class ProfileActivity : AppCompatActivity() {
 
         storageReference.putFile(uriPhoto!!).addOnSuccessListener {
             Toast.makeText(this@ProfileActivity, "Successfully uploaded", Toast.LENGTH_SHORT).show()
+            storageReference.downloadUrl.addOnSuccessListener { uri ->
+                var userInfo = AddUser()
+                var fbFirestore = FirebaseFirestore.getInstance()
+                var fbAuth = FirebaseAuth.getInstance()
+                userInfo.photoUrl = uri.toString()
+                fbFirestore?.collection("users")?.document(fbAuth?.uid.toString())?.update("photoUrl",userInfo.photoUrl.toString())
+            }
             if (progressDialog.isShowing)
                 progressDialog.dismiss()
         }.addOnFailureListener {
