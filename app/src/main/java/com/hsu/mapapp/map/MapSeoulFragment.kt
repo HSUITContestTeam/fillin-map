@@ -19,7 +19,6 @@ import android.widget.ImageView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.browser.customtabs.CustomTabsClient.getPackageName
 import androidx.core.graphics.PathParser
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -93,12 +92,9 @@ class MapSeoulFragment : Fragment() {
                 for (fileRef in result.items) {
                     uidRef.child("${fileRef.name}").downloadUrl.addOnCompleteListener {
                         if (it.isSuccessful) {
-                            if (fileRef.name != null) {
-                                Log.d("filename", fileRef.name)
-                                Glide.with(this).asBitmap().load(it.result)
-                                    .into(object :
-                                        BitmapImageViewTarget(AllIMGS["${fileRef.name}"]) {});
-                            }
+                            Glide.with(this).asBitmap().load(it.result)
+                                .into(object :
+                                    BitmapImageViewTarget(AllIMGS["${fileRef.name}"]) {});
                         }
                     }
                 }
@@ -193,11 +189,8 @@ class MapSeoulFragment : Fragment() {
         val docRef = firestore.collection("pathData").document("$mapName")
         docRef.get()
             .addOnSuccessListener { document ->
-                if (document != null) {
-                    pathData = document.data?.get("pathData").toString()
-                    Log.d("pathData",pathData.toString())
-                    println(pathData)
-                }
+                pathData = document.get("pathData").toString()
+                println("$mapName path: $pathData")
             }
             .addOnFailureListener { exception ->
                 Log.d("getMapPath()", "get failed with ", exception)
