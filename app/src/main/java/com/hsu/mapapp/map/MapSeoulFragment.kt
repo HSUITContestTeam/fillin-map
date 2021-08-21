@@ -53,10 +53,10 @@ class MapSeoulFragment : Fragment() {
     private val uid = Firebase.auth.currentUser?.uid
 
     // 클릭된 이미지뷰 저장하는 해시맵
-    private val ClickedIMGS: HashMap<String, ImageView> = hashMapOf<String, ImageView>()
+    private var ClickedIMGS: HashMap<String, ImageView> = hashMapOf<String, ImageView>()
 
     // 모든 이미지뷰 저장하는 해시맵
-    private val AllIMGS: HashMap<String, ImageView> = hashMapOf<String, ImageView>()
+    private var AllIMGS: HashMap<String, ImageView> = hashMapOf<String, ImageView>()
     private var width: Int? = null
     private var height: Int? = null
 
@@ -251,8 +251,9 @@ class MapSeoulFragment : Fragment() {
                         srcBitmap = Bitmap.createScaledBitmap(srcBitmap, width!!, height!!, true)
                         // 첫번째 방법 - 이미지뷰 이용
                         Log.d("mapName", mapName!!)
-                        Log.d("AllIMGS", AllIMGS["$mapName"].toString())
                         AllIMGS["$mapName"]?.setImageBitmap(convertToMap(srcBitmap)) // bitmap을 이미지뷰에 붙이기
+                        ClickedIMGS["$mapName"]!!.layoutParams.width = width as Int
+                        ClickedIMGS["$mapName"]!!.layoutParams.height = height as Int
                         Log.d("width", width.toString())
                         Log.d("height", height.toString())
                     } catch (e: Exception) {
