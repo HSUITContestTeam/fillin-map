@@ -112,7 +112,7 @@ class MapSeoulFragment : Fragment() {
         val keySet = ClickedIMGS.keys
         for (name in keySet) {
             val imageView = ClickedIMGS[name]
-            if (imageView != null) {
+            if (imageView != null && imageView.drawable is BitmapDrawable) {
                 val bitmap = (imageView.drawable as BitmapDrawable).bitmap
                 val baos = ByteArrayOutputStream()
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -140,39 +140,18 @@ class MapSeoulFragment : Fragment() {
     fun onClick() {
         richPathView = binding.icMapOfSouthKorea
 
-        richPathView.findRichPathByName("gangwondoGoseong")?.setOnPathClickListener {
-            mapName = "gangwondoGoseong"
-        }
+        val mapOfKoreaRegions = resources.getStringArray(R.array.map_of_korea_regions)
 
-        richPathView.findRichPathByName("haenam")?.setOnPathClickListener {
-            mapName = "haenam"
+        for (region in mapOfKoreaRegions) {
+            richPathView.findRichPathByName("$region")?.setOnPathClickListener { mapName = "$region" }
+            println(region)
         }
 
         richPathView.setOnPathClickListener {
             pathOnClicked()
         }
 
-        // 고성 지역 클릭 이벤트
-        //richPathView.findRichPathByName("gangwondoGoseong")?.setOnPathClickListener {
-        //    mapName = "gangwondoGoseong"
-        //    getPathDataFromFirebase()
-        //    Log.d("$mapName", "click")
-        //    // hashMap에 추가
-        //    ClickedIMGS["$mapName"] = AllIMGS["$mapName"]!!
-        //    //  갤러리 불러오기
-        //    val intent = Intent(Intent.ACTION_GET_CONTENT)
-        //    intent.type = "image/*"
-        //    intent.data = android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        //    filterActivityLauncher.launch(intent)
-        //}
-        // 해남 지역 색 변경하기 이벤트
-        //richPathView.findRichPathByName("Haenam")?.setOnPathClickListener {
-        //    selectedMap = "Haenam" // 선택한 지역을 해남 지역으로 변경.
-        //    val haenamPathData = ""
-        //    val intent = Intent(this.context, FillMapWithColorActivity::class.java)
-        //    intent.putExtra("pathData", haenamPathData)
-        //    fillColorActivityLancher.launch(intent)
-        //}
+
     }
 
     private fun pathOnClicked() {
