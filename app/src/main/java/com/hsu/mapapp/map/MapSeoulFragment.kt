@@ -145,7 +145,6 @@ class MapSeoulFragment : Fragment() {
 
         for (region in mapOfKoreaRegions) {
             richPathView.findRichPathByName("$region")?.setOnPathClickListener { mapName = "$region" }
-            println(region)
         }
 
         richPathView.setOnPathClickListener {
@@ -191,11 +190,13 @@ class MapSeoulFragment : Fragment() {
     // 서버에서 pathData불러오기
     private fun getPathDataFromFirebase() {
         val firestore = FirebaseFirestore.getInstance()
-        val docRef = firestore.collection("pathData").document("pathData")
+        val docRef = firestore.collection("pathData").document("$mapName")
         docRef.get()
             .addOnSuccessListener { document ->
                 if (document != null) {
-                    pathData = document.data?.get("$mapName").toString()
+                    pathData = document.data?.get("pathData").toString()
+                    Log.d("pathData",pathData.toString())
+                    println(pathData)
                 }
             }
             .addOnFailureListener { exception ->
