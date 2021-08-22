@@ -36,6 +36,7 @@ import com.hsu.mapapp.R
 import com.hsu.mapapp.databinding.FragmentMapSeoulBinding
 import com.richpath.RichPathView
 import java.io.*
+import kotlin.collections.set
 
 
 class MapSeoulFragment : Fragment() {
@@ -71,16 +72,22 @@ class MapSeoulFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentMapSeoulBinding.inflate(inflater, container, false)
-        initialImageViewHashMap()
+
         uploadImageFromStorage()
         onClick()
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initialImageViewHashMap()
+    }
     //-----------------------------AllIMGS 해시맵 초기화----------------------------------//
     private fun initialImageViewHashMap() {
         AllIMGS["gangwondoGoseong"] = binding.gangwondoGoseong
-        AllIMGS["haenam"] = binding.haenam
+        //AllIMGS["haenam"] = binding.haenam
+        val iv = requireView().rootView.findViewWithTag<ImageView>("haenam")
+        AllIMGS["haenam"] = iv
         // 다른 지도도 추가
     }
 
@@ -93,7 +100,8 @@ class MapSeoulFragment : Fragment() {
                     uidRef.child("${fileRef.name}").downloadUrl.addOnCompleteListener {
                         if (it.isSuccessful) {
                             Glide.with(this).asBitmap().load(it.result)
-                                .into(object :
+                            val iv = requireView().rootView.findViewWithTag<ImageView>("haenam")
+                            AllIMGS["haenam"] = iv                    .into(object :
                                     BitmapImageViewTarget(AllIMGS["${fileRef.name}"]) {});
                         }
                     }
