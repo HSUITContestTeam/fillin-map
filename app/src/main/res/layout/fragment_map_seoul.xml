@@ -29,7 +29,7 @@
 
         <ImageView
             android:id="@+id/gangwondoGoseong"
-            android:tag="@string/gangwondoGoseong"
+            android:tag="gangwondoGoseong"
             android:layout_width="107px"
             android:layout_height="151px"
             android:visibility="visible"
