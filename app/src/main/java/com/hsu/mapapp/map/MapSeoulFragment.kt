@@ -72,8 +72,6 @@ class MapSeoulFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentMapSeoulBinding.inflate(inflater, container, false)
-
-        uploadImageFromStorage()
         onClick()
         return binding.root
     }
@@ -81,15 +79,19 @@ class MapSeoulFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initialImageViewHashMap()
+        uploadImageFromStorage()
     }
     //-----------------------------AllIMGS 해시맵 초기화----------------------------------//
     private fun initialImageViewHashMap() {
-        AllIMGS["gangwondoGoseong"] = binding.gangwondoGoseong
-        //AllIMGS["haenam"] = binding.haenam
-        val iv = requireView().rootView.findViewWithTag<ImageView>("haenam")
-        AllIMGS["haenam"] = iv
-        // 다른 지도도 추가
-    }
+        val mapOfKoreaRegions = resources.getStringArray(R.array.map_of_korea_regions)
+        for (region in mapOfKoreaRegions) {
+            val imageView = requireView().rootView.findViewWithTag<ImageView>("$region")
+            if(imageView != null) {
+                AllIMGS["$region"] = imageView
+                Log.d("tag!","$region")
+            }
+        }
+}
 
     //-----------------------------map ImageView 서버에서 불러오기----------------------------------//
     private fun uploadImageFromStorage() {
@@ -145,7 +147,6 @@ class MapSeoulFragment : Fragment() {
         richPathView = binding.icMapOfSouthKorea
 
         val mapOfKoreaRegions = resources.getStringArray(R.array.map_of_korea_regions)
-
         for (region in mapOfKoreaRegions) {
             richPathView.findRichPathByName("$region")?.setOnPathClickListener { mapName = "$region" }
         }
