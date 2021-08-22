@@ -100,8 +100,7 @@ class MapSeoulFragment : Fragment() {
                     uidRef.child("${fileRef.name}").downloadUrl.addOnCompleteListener {
                         if (it.isSuccessful) {
                             Glide.with(this).asBitmap().load(it.result)
-                            val iv = requireView().rootView.findViewWithTag<ImageView>("haenam")
-                            AllIMGS["haenam"] = iv                    .into(object :
+                                .into(object :
                                     BitmapImageViewTarget(AllIMGS["${fileRef.name}"]) {});
                         }
                     }
