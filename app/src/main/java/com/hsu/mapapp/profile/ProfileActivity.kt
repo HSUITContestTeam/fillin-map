@@ -40,6 +40,7 @@ class ProfileActivity : AppCompatActivity() {
     private val TAG: String = "AppDebug"
     private val GALLERY_REQUEST_CODE = 1234
     private var uriPhoto: Uri? = null
+    private var urlProfile: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -128,7 +129,14 @@ class ProfileActivity : AppCompatActivity() {
                         progressDialog.setMessage("Fetching Image ...")
                         progressDialog.setCancelable(false)
                         progressDialog.show()
-                        val localfile = File.createTempFile("tempImage","jpg")
+                        urlProfile = document.get("photoUrl").toString()
+                        Log.d("photoUrl","${urlProfile}")
+                        Glide.with(this)
+                            .load(urlProfile)
+                            .into(profileBinding.profileImageIV)
+                        if(progressDialog.isShowing)
+                            progressDialog.dismiss()
+                        /*val localfile = File.createTempFile("tempImage","jpg")
                         val storageRef = FirebaseStorage.getInstance().reference.child("ProfileImage").child("$value").getFile(localfile)
                         storageRef.addOnSuccessListener {
                             if(progressDialog.isShowing)
@@ -139,7 +147,7 @@ class ProfileActivity : AppCompatActivity() {
                             if(progressDialog.isShowing)
                                 progressDialog.dismiss()
                             Toast.makeText(this, "Failed to retrieve your image",Toast.LENGTH_SHORT).show()
-                        }
+                        }*/
                     }
                     .addOnFailureListener { exception ->
                         Log.d(TAG, "get failed with ", exception)
