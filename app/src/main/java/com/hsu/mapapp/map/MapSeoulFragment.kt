@@ -88,7 +88,6 @@ class MapSeoulFragment : Fragment() {
             val imageView = requireView().rootView.findViewWithTag<ImageView>("$region")
             if(imageView != null) {
                 AllIMGS["$region"] = imageView
-                Log.d("tag!","$region")
             }
         }
 }
