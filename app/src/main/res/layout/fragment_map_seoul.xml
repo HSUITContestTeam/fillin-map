@@ -59,6 +59,7 @@
 
         <ImageView
             android:id="@+id/seoul"
+            android:tag="seoul"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -72,6 +73,7 @@
 
         <ImageView
             android:id="@+id/ganghwa"
+            android:tag="ganghwa"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -84,6 +86,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/incheon"
+            android:tag="incheon"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -94,6 +97,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/gimpo"
+            android:tag="gimpo"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -104,6 +108,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/goyang"
+            android:tag="goyang"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -114,6 +119,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/paju"
+            android:tag="paju"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -124,6 +130,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/yangju"
+            android:tag="yangju"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -134,6 +141,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/uijeongbu"
+            android:tag="uijeongbu"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -145,6 +153,7 @@
 
         <ImageView
             android:id="@+id/dongducheon"
+            android:tag="dongducheon"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -156,6 +165,7 @@
 
         <ImageView
             android:id="@+id/yeoncheon"
+            android:tag="yeoncheon"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -166,6 +176,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/pocheon"
+            android:tag="pocheon"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -176,6 +187,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/namyangju"
+            android:tag="namyangju"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -186,6 +198,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/guri"
+            android:tag="guri"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -196,6 +209,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/hanam"
+            android:tag="hanam"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -206,6 +220,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/yangpyeong"
+            android:tag="yangpyeong"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -216,6 +231,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/gapyeong"
+            android:tag="gapyeong"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -226,6 +242,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/yeoju"
+            android:tag="yeoju"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -236,6 +253,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/gyeonggidoGwangju"
+            android:tag="gyeonggidoGwangju"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -246,6 +264,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/seongnam"
+            android:tag="seongnam"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -256,6 +275,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/gwacheon"
+            android:tag="gwacheon"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -266,6 +286,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/uiwang"
+            android:tag="uiwang"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -276,6 +297,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/yongin"
+            android:tag="yongin"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -286,6 +308,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/anyang"
+            android:tag="anyang"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -296,6 +319,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/bucheon"
+            android:tag="bucheon"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -306,6 +330,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/gwangmyeong"
+            android:tag="gwangmyeong"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -316,6 +341,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/siheung"
+            android:tag="siheung"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -326,6 +352,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/icheon"
+            android:tag="icheon"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -336,6 +363,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/suwon"
+            android:tag="suwon"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -346,6 +374,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/gunpo"
+            android:tag="gunpo"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -356,6 +385,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/ansan"
+            android:tag="ansan"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -366,6 +396,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/osan"
+            android:tag="osan"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -376,6 +407,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/pyeongtaek"
+            android:tag="pyeongtaek"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -386,6 +418,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/anseong"
+            android:tag="anseong"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -396,6 +429,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/hwaseong"
+            android:tag="hwaseong"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -406,6 +440,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/cheorwon"
+            android:tag="cheorwon"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -416,6 +451,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/hwacheon"
+            android:tag="hwacheon"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -426,6 +462,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/chuncheon"
+            android:tag="chuncheon"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -436,6 +473,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/hongcheon"
+            android:tag="hongcheon"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -446,6 +484,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/hoengseong"
+            android:tag="hoengseong"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -456,6 +495,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/wonju"
+            android:tag="wonju"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -466,6 +506,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/yanggu"
+            android:tag="yanggu"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -478,6 +519,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/inje"
+            android:tag="inje"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -490,6 +532,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/sokcho"
+            android:tag="sokcho"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -502,6 +545,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/yangyang"
+            android:tag="yangyang"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -514,6 +558,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/pyeongchang"
+            android:tag="pyeongchang"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -526,6 +571,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/gangneung"
+            android:tag="gangneung"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -538,6 +584,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/jeongseon"
+            android:tag="jeongseon"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -550,6 +597,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/donghae"
+            android:tag="donghae"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -562,6 +610,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/yeongwol"
+            android:tag="yeongwol"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -574,6 +623,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/taebaek"
+            android:tag="taebaek"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -586,6 +636,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/samcheok"
+            android:tag="samcheok"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -598,6 +649,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/jincheon"
+            android:tag="jincheon"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -610,6 +662,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/eumseong"
+            android:tag="eumseong"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -622,6 +675,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/chungju"
+            android:tag="chungju"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -634,6 +688,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/jecheon"
+            android:tag="jecheon"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -646,6 +701,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/danyang"
+            android:tag="danyang"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -658,6 +714,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/goesan"
+            android:tag="goesan"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -670,6 +727,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/cheongju"
+            android:tag="cheongju"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -682,6 +740,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/boeun"
+            android:tag="boeun"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -694,6 +753,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/okcheon"
+            android:tag="okcheon"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -706,6 +766,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/yeongdong"
+            android:tag="yeongdong"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -718,6 +779,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/daejeon"
+            android:tag="daejeon"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -730,6 +792,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/cheonan"
+            android:tag="cheonan"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -742,6 +805,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/gyeryong"
+            android:tag="gyeryong"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -754,6 +818,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/gongju"
+            android:tag="gongju"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -766,6 +831,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/asan"
+            android:tag="asan"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -778,6 +844,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/dangjin"
+            android:tag="dangjin"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -790,6 +857,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/yesan"
+            android:tag="yesan"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -802,6 +870,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/seosan"
+            android:tag="seosan"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -814,6 +883,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/taean"
+            android:tag="taean"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -826,6 +896,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/sejong"
+            android:tag="sejong"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -838,6 +909,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/hongseong"
+            android:tag="hongseong"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -850,6 +922,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/cheongyang"
+            android:tag="cheongyang"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -862,6 +935,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/nonsan"
+            android:tag="nonsan"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -874,6 +948,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/geumsan"
+            android:tag="geumsan"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -886,6 +961,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/buyeo"
+            android:tag="buyeo"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -898,6 +974,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/boryeong"
+            android:tag="boryeong"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -910,6 +987,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/seocheon"
+            android:tag="seocheon"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -922,6 +1000,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/jeju"
+            android:tag="jeju"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -934,6 +1013,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/seogwipo"
+            android:tag="seogwipo"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -946,6 +1026,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/mungyeong"
+            android:tag="mungyeong"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -958,6 +1039,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/sangju"
+            android:tag="sangju"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -970,6 +1052,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/yecheon"
+            android:tag="yecheon"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -982,6 +1065,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/yeongju"
+            android:tag="yeongju"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -994,6 +1078,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/bonghwa"
+            android:tag="bonghwa"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1006,6 +1091,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/yeongyang"
+            android:tag="yeongyang"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1018,6 +1104,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/uljin"
+            android:tag="uljin"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1030,6 +1117,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/andong"
+            android:tag="andong"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1042,6 +1130,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/uiseong"
+            android:tag="uiseong"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1054,6 +1143,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/gimcheon"
+            android:tag="gimcheon"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1066,6 +1156,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/gumi"
+            android:tag="gumi"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1078,6 +1169,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/seongju"
+            android:tag="seongju"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1090,6 +1182,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/goryeong"
+            android:tag="goryeong"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1102,6 +1195,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/chilgok"
+            android:tag="chilgok"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1114,6 +1208,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/gunwi"
+            android:tag="gunwi"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1126,6 +1221,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/yeongdeok"
+            android:tag="yeongdeok"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1138,6 +1234,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/cheongsong"
+            android:tag="cheongsong"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1150,6 +1247,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/pohang"
+            android:tag="pohang"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1162,6 +1260,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/yeongcheon"
+            android:tag="yeongcheon"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1174,6 +1273,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/gyeongsan"
+            android:tag="gyeongsan"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1186,6 +1286,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/cheongdo"
+            android:tag="cheongdo"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1198,6 +1299,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/gyeongju"
+            android:tag="gyeongju"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1210,6 +1312,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/ulleung"
+            android:tag="ulleung"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1222,6 +1325,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/daegu"
+            android:tag="daegu"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1234,6 +1338,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/ulsan"
+            android:tag="ulsan"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1246,6 +1351,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/geochang"
+            android:tag="geochang"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1258,6 +1364,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/hapcheon"
+            android:tag="hapcheon"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1270,6 +1377,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/hamyang"
+            android:tag="hamyang"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1282,6 +1390,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/changnyeong"
+            android:tag="changnyeong"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1294,6 +1403,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/miryang"
+            android:tag="miryang"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1306,6 +1416,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/yangsan"
+            android:tag="yangsan"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1318,6 +1429,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/gimhae"
+            android:tag="gimhae"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1330,6 +1442,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/changwon"
+            android:tag="changwon"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1342,6 +1455,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/haman"
+            android:tag="haman"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1354,6 +1468,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/uiryeong"
+            android:tag="uiryeong"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1366,6 +1481,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/sancheong"
+            android:tag="sancheong"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1378,6 +1494,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/jinju"
+            android:tag="jinju"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1390,6 +1507,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/gyeongsangnamdoGoseong"
+            android:tag="gyeongsangnamdoGoseong"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1402,6 +1520,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/geoje"
+            android:tag="geoje"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1414,6 +1533,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/sacheon"
+            android:tag="sacheon"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1426,6 +1546,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/hadong"
+            android:tag="hadong"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1438,6 +1559,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/namhae"
+            android:tag="namhae"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1450,6 +1572,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/busan"
+            android:tag="busan"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1462,6 +1585,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/muju"
+            android:tag="muju"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1474,6 +1598,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/jinan"
+            android:tag="jinan"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1486,6 +1611,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/jeonju"
+            android:tag="jeonju"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1498,6 +1624,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/wanju"
+            android:tag="wanju"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1510,6 +1637,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/iksan"
+            android:tag="iksan"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1522,6 +1650,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/jangsu"
+            android:tag="jangsu"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1534,6 +1663,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/namwon"
+            android:tag="namwon"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1546,6 +1676,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/imsil"
+            android:tag="imsil"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1558,6 +1689,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/sunchang"
+            android:tag="sunchang"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1570,6 +1702,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/jeongeup"
+            android:tag="jeongeup"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1582,6 +1715,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/gimje"
+            android:tag="gimje"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1594,6 +1728,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/buan"
+            android:tag="buan"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1606,6 +1741,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/gochang"
+            android:tag="gochang"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1618,6 +1754,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/gunsan"
+            android:tag="gunsan"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1630,6 +1767,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/jeollanamdoGwangju"
+            android:tag="jeollanamdoGwangju"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1642,6 +1780,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/gurye"
+            android:tag="gurye"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1654,6 +1793,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/gokseong"
+            android:tag="gokseong"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1666,6 +1806,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/damyang"
+            android:tag="damyang"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1678,6 +1819,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/jangseong"
+            android:tag="jangseong"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1690,6 +1832,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/yeonggwang"
+            android:tag="yeonggwang"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1702,6 +1845,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/hampyeong"
+            android:tag="hampyeong"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1714,6 +1858,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/suncheon"
+            android:tag="suncheon"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1726,6 +1871,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/gwangyang"
+            android:tag="gwangyang"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1738,6 +1884,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/yeosu"
+            android:tag="yeosu"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1750,6 +1897,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/hwasun"
+            android:tag="hwasun"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1762,6 +1910,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/naju"
+            android:tag="naju"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1774,6 +1923,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/muan"
+            android:tag="muan"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1786,6 +1936,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/mokpo"
+            android:tag="mokpo"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1798,6 +1949,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/yeongam"
+            android:tag="yeongam"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1810,6 +1962,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/boseong"
+            android:tag="boseong"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1822,6 +1975,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/goheung"
+            android:tag="goheung"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1834,6 +1988,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/jangheung"
+            android:tag="jangheung"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1846,6 +2001,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/gangjin"
+            android:tag="gangjin"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1858,6 +2014,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/jindo"
+            android:tag="jindo"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
@@ -1870,6 +2027,7 @@
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/wando"
+            android:tag="wando"
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
