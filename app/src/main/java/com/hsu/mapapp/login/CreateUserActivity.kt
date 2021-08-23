@@ -46,26 +46,21 @@ class CreateUserActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // 회원가입 성공
                     val currentUser = auth.currentUser
-                    Toast.makeText(this, "회원가입 성공", Toast.LENGTH_SHORT).show()
-                    // 계정 정보 firbase에 추가
-                    addUserInfoToFirebase()
-                    // 회원가입 액티비티 종료
-                    finish()
 
-//                    //사용자 인증메일 보내기.//
-//                    currentUser
-//                        ?.sendEmailVerification()
-//                        ?.addOnCompleteListener { varifiTask ->
-//                            if (varifiTask.isSuccessful) {
-//                                Toast.makeText(this, "회원가입 성공", Toast.LENGTH_SHORT).show()
-//                                // 계정 정보 firbase에 추가
-//                                addUserInfoToFirebase()
-//                                // 회원가입 액티비티 종료
-//                                finish()
-//                            } else {
-//                                Toast.makeText(this, "에러", Toast.LENGTH_SHORT).show()
-//                            }
-//                        }
+                   //사용자 인증메일 보내기.//
+                    currentUser
+                        ?.sendEmailVerification()
+                        ?.addOnCompleteListener { varifiTask ->
+                            if (varifiTask.isSuccessful) {
+                                Toast.makeText(this, "회원가입 성공", Toast.LENGTH_SHORT).show()
+                                // 계정 정보 firbase에 추가
+                                addUserInfoToFirebase()
+                                // 회원가입 액티비티 종료
+                                finish()
+                            } else {
+                                Toast.makeText(this, "에러", Toast.LENGTH_SHORT).show()
+                            }
+                        }
                 } else {
                     // 계정 중복
                     Toast.makeText(this, "계정이 이미 있습니다.", Toast.LENGTH_SHORT).show()

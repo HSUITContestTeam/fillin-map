@@ -63,12 +63,13 @@ class LoginActivity : AppCompatActivity() {
 
                     //인증받은 사용자인지 확인.
                     if (currentUser?.isEmailVerified!!) {
-
+                        Toast.makeText(applicationContext, "로그인 성공", Toast.LENGTH_SHORT).show()
+                        updateUI(currentUser, email, password)
                     } else {
                         Toast.makeText(applicationContext, "이메일 인증을 하지 않았습니다.", Toast.LENGTH_SHORT).show()
                     }
-                    updateUI(currentUser, email, password)
                 } else {
+                    Toast.makeText(applicationContext, "로그인 실패", Toast.LENGTH_SHORT).show()
                     updateUI(null, email, password)
                 }
             }
