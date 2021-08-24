@@ -30,16 +30,16 @@
 
         <ImageView
             android:id="@+id/gangwondoGoseong"
-            android:tag="gangwondoGoseong"
             android:layout_width="107px"
             android:layout_height="151px"
+            android:tag="gangwondoGoseong"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/ic_map_of_south_korea"
             app:layout_constraintEnd_toEndOf="@+id/ic_map_of_south_korea"
             app:layout_constraintHorizontal_bias="0.659"
             app:layout_constraintStart_toStartOf="@+id/ic_map_of_south_korea"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.086"
+            app:layout_constraintVertical_bias="0.089"
             tools:src="@tools:sample/avatars" />
 
         <ImageView
@@ -516,7 +516,7 @@
             app:layout_constraintHorizontal_bias="0.554"
             app:layout_constraintStart_toStartOf="@+id/ic_map_of_south_korea"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.142"
+            app:layout_constraintVertical_bias="0.141"
             tools:src="@tools:sample/avatars" />
 
         <ImageView
@@ -656,7 +656,7 @@
             app:layout_constraintHorizontal_bias="0.876"
             app:layout_constraintStart_toStartOf="@+id/ic_map_of_south_korea"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.315"
+            app:layout_constraintVertical_bias="0.313"
             tools:src="@tools:sample/avatars" />
 
         <ImageView
