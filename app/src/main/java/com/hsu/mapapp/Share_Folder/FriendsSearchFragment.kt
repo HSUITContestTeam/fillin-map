@@ -1,6 +1,7 @@
 package com.hsu.mapapp.Share_Folder
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.hsu.mapapp.R
@@ -23,7 +23,7 @@ class FriendsSearchFragment : Fragment(R.layout.search_friends_list_item) {
     private lateinit var viewModel: ShareViewModel
 
     var firestore : FirebaseFirestore? = null
-    private val uid = Firebase.auth.currentUser?.uid
+    private val uid = Firebase.auth.currentUser ?.uid
 
     private lateinit var adapter: FriendsSearchAdapter
 
@@ -69,16 +69,26 @@ class FriendsSearchFragment : Fragment(R.layout.search_friends_list_item) {
             fun setFriendsName(item: FriendsSearchItemList){
                 binding.friendsSearchName.text = item.userId
             }
-            fun Add_Friends_btn_OnClick(item: FriendsSearchItemList){
+            fun addFriendsBtnOnclick(item: FriendsSearchItemList){
                 binding.addFriendsBtn.isSelected = isStartBtnSelected
                 isStartBtnSelected = !isStartBtnSelected
                 binding.addFriendsBtn.setOnClickListener {
-                    var uidRef = firestore?.collection("users")?.document("$uid")
-                    uidRef!!.get()
+                    var friendsRef = firestore
+                        ?.collection("users")?.document("$uid")
+                    //    ?.collection("friends")?.document(item.userId)
+                    friendsRef!!.get()
                         .addOnSuccessListener { document->
-                            uidRef.update("friendsList", FieldValue.arrayUnion(item.userId))
-                            Toast.makeText(activity,"$item.userId에게 친구요청을 보냈습니다",Toast.LENGTH_LONG).show()
+                            //uidRef.update("friendsList", FieldValue.arrayUnion(item.userId))
+                            friendsRef.update("friendsList", hashMapOf(
+                                item.uid to "request"
+                            ))
+                            Toast.makeText(activity,"${item.uid}에게 친구요청을 보냈습니다",Toast.LENGTH_LONG).show()
+                             Log.d("친구요청","성공")
                         }
+                        .addOnFailureListener {
+                        Toast.makeText(activity,"${item.uid}에게 친구요청 보내기를 실패하였습니다",Toast.LENGTH_LONG).show()
+                        Log.d("친구요청","실패")
+                    }
                 }
             }
         }
@@ -92,7 +102,7 @@ class FriendsSearchFragment : Fragment(R.layout.search_friends_list_item) {
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             holder.setFriendsName(datas_friends_search[position])
-            holder.Add_Friends_btn_OnClick(datas_friends_search[position])
+            holder.addFriendsBtnOnclick(datas_friends_search[position])
         }
 
         override fun getItemCount() = datas_friends_search.size
