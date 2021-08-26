@@ -13,5 +13,6 @@
         android:layout_weight="1"
         android:ems="10"
         android:hint="닉네임을 입력하세요"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:padding="20dp" />
 </LinearLayout>
