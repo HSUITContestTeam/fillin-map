@@ -55,37 +55,44 @@ class ShareFragment : Fragment(R.layout.activity_share) {
         var myRef = firestore?.collection("users")?.document("$uid")
         myRef!!.get()
             .addOnSuccessListener { document->
-                val hashMap :Map<String,String>  = document.get("friendsList") as Map<String, String>
-                val keySet = hashMap.keys
-                for (key in keySet){
-                    Log.d("hashMapKey",key)
-                    if(hashMap[key].toString() == "requested"){
-                        val builder = AlertDialog.Builder(requireContext())
-                        builder
-                            .setTitle("친구 요청")
-                            .setMessage(key +"가 친구 요청을 보냈습니다. 수락하시겠습니까?")
-                            .setPositiveButton("예") {dialog, which ->
-                                myRef.update("friendsList", hashMapOf(
-                                    key to "friend"
-                                ))
-                                val friendRef = firestore
-                                    ?.collection("users")?.document(key)
-                                friendRef!!.get()
-                                    .addOnSuccessListener { document->
-                                        // uid에게 친구 요청을 받음
-                                        friendRef.update("friendsList", hashMapOf(
-                                            uid to "friend"
-                                        ))
+                if(document.get("friendsList") != null) {
+                    val hashMap: Map<String, String> =
+                        document.get("friendsList") as Map<String, String>
+                    val keySet = hashMap.keys
+                    for (key in keySet) {
+                        Log.d("hashMapKey", key)
+                        if (hashMap[key].toString() == "requested") {
+                            val builder = AlertDialog.Builder(requireContext())
+                            builder
+                                .setTitle("친구 요청")
+                                .setMessage(key + "가 친구 요청을 보냈습니다. 수락하시겠습니까?")
+                                .setPositiveButton("예") { dialog, which ->
+                                    myRef.update(
+                                        "friendsList", hashMapOf(
+                                            key to "friend"
+                                        )
+                                    )
+                                    val friendRef = firestore
+                                        ?.collection("users")?.document(key)
+                                    friendRef!!.get()
+                                        .addOnSuccessListener { document ->
+                                            // uid에게 친구 요청을 받음
+                                            friendRef.update(
+                                                "friendsList", hashMapOf(
+                                                    uid to "friend"
+                                                )
+                                            )
 
-                                    }
-                            }
-                            .setNegativeButton("아니오") { dialog, which ->
-                                dialog.dismiss()
-                            }
-                            .show()
+                                        }
+                                }
+                                .setNegativeButton("아니오") { dialog, which ->
+                                    dialog.dismiss()
+                                }
+                                .show()
+
+                        }
 
                     }
-
                 }
             }
     }

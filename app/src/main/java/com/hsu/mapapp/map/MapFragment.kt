@@ -104,7 +104,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
         leftAnimation.setAnimationListener(animationListener)
         rightAnimation.setAnimationListener(animationListener)
 
-        binding.mapPage.setOnTouchListener(object : OnSwipeTouchListener(requireActivity()) {
+        binding.fragmentContainerView2.setOnTouchListener(object : OnSwipeTouchListener(requireActivity()) {
             override fun onSwipeLeft() {
                 // 슬라이딩 페이지 꺼내기
                 if (!isPageOpen) { // 슬라이딩 리스트 닫기
