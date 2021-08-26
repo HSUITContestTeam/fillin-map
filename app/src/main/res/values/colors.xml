@@ -9,6 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="transparent10">#1A000000</color>
     <color name="transparent0">#00000000</color>
+
     <!--
     투명도
     100% — FF

@@ -6,58 +6,240 @@
     android:layout_height="match_parent"
     tools:context=".map.FillMapWithColorActivity">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/red_btn"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:background="@drawable/color_btn_shape"
-        android:backgroundTint="#CC0000"
-        app:layout_constraintBaseline_toBaselineOf="@+id/yellow_btn"
-        app:layout_constraintEnd_toStartOf="@+id/yellow_btn"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/yellow_btn"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="128dp"
-        android:background="@drawable/color_btn_shape"
-        android:backgroundTint="#FFCC00"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/blue_btn"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/red_btn"
-        app:layout_constraintTop_toBottomOf="@+id/imageView5" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/blue_btn"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:background="@drawable/color_btn_shape"
-        android:backgroundTint="#0000CC"
-        app:layout_constraintBaseline_toBaselineOf="@+id/yellow_btn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/yellow_btn" />
-
     <Button
         android:id="@+id/save_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
         android:text="save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/yellow_btn" />
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="256dp"
-        android:layout_height="338dp"
-        app:layout_constraintBottom_toTopOf="@+id/yellow_btn"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/color_PINK"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/color_circle_btn_shape"
+        android:backgroundTint="#E91E63"
+        android:tag="color_PINK"
+        app:layout_constraintBottom_toTopOf="@+id/color_YELLOW"
+        app:layout_constraintEnd_toStartOf="@+id/color_DEEPORANGE"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/color_RED"
+        app:layout_constraintTop_toBottomOf="@+id/selected_tv" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/color_PURPLE"
+        android:tag="color_PURPLE"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/color_circle_btn_shape"
+        android:backgroundTint="#9C27B0"
+        app:layout_constraintBottom_toTopOf="@+id/save_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/color_DEEPPURPLE"
+        app:layout_constraintTop_toBottomOf="@+id/color_LIGHTBLUE" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/color_RED"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/color_circle_btn_shape"
+        android:backgroundTint="#F44336"
+        android:tag="color_RED"
+        app:layout_constraintBottom_toTopOf="@+id/color_AMBER"
+        app:layout_constraintEnd_toStartOf="@+id/color_PINK"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selected_tv" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/color_DEEPPURPLE"
+        android:tag="color_DEEPPURPLE"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/color_circle_btn_shape"
+        android:backgroundTint="#673AB7"
+        app:layout_constraintBottom_toTopOf="@+id/save_btn"
+        app:layout_constraintEnd_toStartOf="@+id/color_PURPLE"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/color_TEAL"
+        app:layout_constraintTop_toBottomOf="@+id/color_BLUE" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/color_CYAN"
+        android:tag="color_CYAN"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/color_circle_btn_shape"
+        android:backgroundTint="#00BCD4"
+        app:layout_constraintBottom_toTopOf="@+id/save_btn"
+        app:layout_constraintEnd_toStartOf="@+id/color_TEAL"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/color_LIME" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/color_BLUE"
+        android:tag="color_BLUE"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/color_circle_btn_shape"
+        android:backgroundTint="#2196F3"
+        app:layout_constraintBottom_toTopOf="@+id/color_DEEPPURPLE"
+        app:layout_constraintEnd_toStartOf="@+id/color_LIGHTBLUE"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/color_INDIGO"
+        app:layout_constraintTop_toBottomOf="@+id/color_GREEN" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/color_LIGHTBLUE"
+        android:tag="color_LIGHTBLUE"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/color_circle_btn_shape"
+        android:backgroundTint="#03A9F4"
+        app:layout_constraintBottom_toTopOf="@+id/color_PURPLE"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/color_BLUE"
+        app:layout_constraintTop_toBottomOf="@+id/color_LIGHTGREEN" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/color_INDIGO"
+        android:tag="color_INDIGO"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/color_circle_btn_shape"
+        android:backgroundTint="#3F51B5"
+        app:layout_constraintBottom_toTopOf="@+id/color_TEAL"
+        app:layout_constraintEnd_toStartOf="@+id/color_BLUE"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/color_LIME"
+        app:layout_constraintTop_toBottomOf="@+id/color_YELLOW" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/color_LIME"
+        android:tag="color_LIME"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/color_circle_btn_shape"
+        android:backgroundTint="#CDDC39"
+        app:layout_constraintBottom_toTopOf="@+id/color_CYAN"
+        app:layout_constraintEnd_toStartOf="@+id/color_INDIGO"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/color_AMBER" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/color_GREEN"
+        android:tag="color_GREEN"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/color_circle_btn_shape"
+        android:backgroundTint="#4CAF50"
+        app:layout_constraintBottom_toTopOf="@+id/color_BLUE"
+        app:layout_constraintEnd_toStartOf="@+id/color_LIGHTGREEN"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/color_YELLOW"
+        app:layout_constraintTop_toBottomOf="@+id/color_DEEPORANGE" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/color_LIGHTGREEN"
+        android:tag="color_LIGHTGREEN"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/color_circle_btn_shape"
+        android:backgroundTint="#8BC34A"
+        app:layout_constraintBottom_toTopOf="@+id/color_LIGHTBLUE"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/color_GREEN"
+        app:layout_constraintTop_toBottomOf="@+id/color_ORANGE" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/color_YELLOW"
+        android:tag="color_YELLOW"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/color_circle_btn_shape"
+        android:backgroundTint="#FFEB3B"
+        app:layout_constraintBottom_toTopOf="@+id/color_INDIGO"
+        app:layout_constraintEnd_toStartOf="@+id/color_GREEN"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/color_AMBER"
+        app:layout_constraintTop_toBottomOf="@+id/color_PINK" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/color_DEEPORANGE"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/color_circle_btn_shape"
+        android:backgroundTint="#FF5722"
+        android:tag="color_DEEPORANGE"
+        app:layout_constraintBottom_toTopOf="@+id/color_GREEN"
+        app:layout_constraintEnd_toStartOf="@+id/color_ORANGE"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/color_PINK"
+        app:layout_constraintTop_toBottomOf="@+id/selected_tv" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/color_AMBER"
+        android:tag="color_AMBER"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/color_circle_btn_shape"
+        android:backgroundTint="#FFC107"
+        app:layout_constraintBottom_toTopOf="@+id/color_LIME"
+        app:layout_constraintEnd_toStartOf="@+id/color_YELLOW"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/color_RED" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/color_ORANGE"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/color_circle_btn_shape"
+        android:backgroundTint="#FF9800"
+        android:tag="color_ORANGE"
+        app:layout_constraintBottom_toTopOf="@+id/color_LIGHTGREEN"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/color_DEEPORANGE"
+        app:layout_constraintTop_toBottomOf="@+id/selected_tv" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/color_TEAL"
+        android:tag="color_TEAL"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/color_circle_btn_shape"
+        android:backgroundTint="#009688"
+        app:layout_constraintBottom_toTopOf="@+id/save_btn"
+        app:layout_constraintEnd_toStartOf="@+id/color_DEEPPURPLE"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/color_CYAN"
+        app:layout_constraintTop_toBottomOf="@+id/color_INDIGO" />
+
+    <TextView
+        android:id="@+id/selected_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="#BFBFBF"
+        android:paddingLeft="100dp"
+        android:paddingTop="15dp"
+        android:paddingRight="100dp"
+        android:paddingBottom="15dp"
+        android:text="SELECTED"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

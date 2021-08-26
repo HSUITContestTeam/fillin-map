@@ -305,9 +305,6 @@ class MapSeoulFragment : Fragment() {
                 richPathView.findRichPathByName(mapName.toString())?.fillColor =
                     Color.parseColor(colorResult.toString())
 
-                /*val firestore = FirebaseFirestore.getInstance()
-                firestore?.collection("pathColor").document("$uid").set(color)*/
-
                 /* 이미지로 채워져 있으면 firebase storage에서 이미지 삭제 */
                 val uidRef = storage.reference.child("mapImageView/$uid")
                 uidRef.child("$mapName").delete().addOnSuccessListener{
