@@ -3,8 +3,10 @@ package com.hsu.mapapp.login
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -14,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.hsu.mapapp.MainActivity
 import com.hsu.mapapp.R
@@ -21,10 +24,15 @@ import com.hsu.mapapp.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
 
-    private lateinit var auth: FirebaseAuth
+
     val GOOGLE_REQUEST_CODE = 99
     val TAG = "googleLogin"
     private lateinit var googleSignInClient: GoogleSignInClient
+
+    // Firebase Auth
+    private lateinit var auth: FirebaseAuth
+    private lateinit var fbAuth : FirebaseAuth
+    private lateinit var firestore: FirebaseFirestore
 
 
     private lateinit var loginBinding: ActivityLoginBinding
@@ -39,6 +47,8 @@ class LoginActivity : AppCompatActivity() {
         setGoogleLogin()
 
         //initializig firebase auth object
+        firestore = FirebaseFirestore.getInstance() //Firestore선언
+        fbAuth = FirebaseAuth.getInstance() // Firebase Auth 선언
         auth = Firebase.auth
     }
 
@@ -171,7 +181,7 @@ class LoginActivity : AppCompatActivity() {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "로그인 성공")
                     val user = auth!!.currentUser
-                    loginSuccess()
+                    loginSuccess(user)
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
@@ -179,22 +189,60 @@ class LoginActivity : AppCompatActivity() {
             }
     }
 
-    private fun loginSuccess() {
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-        finish()
+    private fun loginSuccess(user: FirebaseUser?) {
+        if (user != null) {
+            // firestore에 해당 계정 정보가 있는지 체크
+            firestore.collection("users").document(user.uid).get().addOnSuccessListener { doc ->
+                if (doc.exists()) { // 있으면 MainActivity로 이동
+                    toMainActivity(user)
+                }
+                else { // 없으면 새로 등록
+                    setNickName(user)
+                }
+            }
+        }
+    }
+
+    private fun setNickName(user: FirebaseUser?) {
+        // 닉네임 입력 다이얼로그 설정
+        var nickname = ""
+        val linearLayout = View.inflate(this, R.layout.dialog_name, null)
+        val builder = AlertDialog.Builder(this)
+            .setView(linearLayout)
+            .setPositiveButton("확인") { dialog, which ->
+                val editText: EditText = linearLayout.findViewById(R.id.name_editText)
+                nickname = editText.text.toString()
+                addUserToFireStore(nickname, user)
+            }
+            .setNegativeButton("취소") { dialog, which ->
+                dialog.dismiss()
+            }
+        // 다이얼로그 실행
+        builder.show()
+    }
+
+    private fun addUserToFireStore(nickname : String, user: FirebaseUser?) {
+        val userInfo = AddUser()
+        userInfo.uid = auth?.uid //유저 정보 가져오기
+        userInfo.userId = auth?.currentUser?.email
+        userInfo.name = nickname
+        firestore?.collection("users")?.document(auth?.uid.toString())?.set(userInfo)
+        toMainActivity(user)
+    }
+
+    private fun toMainActivity(user: FirebaseUser?) {
+        if (user != null) {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 
     override fun onStart() {
         super.onStart()
-        if (GoogleSignIn.getLastSignedInAccount(this) != null) {
-            startActivity(
-                Intent(
-                    this, MainActivity
-                    ::class.java
-                )
-            )
-            finish()
+        val account = GoogleSignIn.getLastSignedInAccount(this)
+        if (account != null) {
+            toMainActivity(auth.currentUser)
         }
     }
 
