@@ -73,13 +73,12 @@ class FriendsSearchFragment : Fragment(R.layout.search_friends_list_item) {
                 binding.addFriendsBtn.isSelected = isStartBtnSelected
                 isStartBtnSelected = !isStartBtnSelected
                 binding.addFriendsBtn.setOnClickListener {
-                    var friendsRef = firestore
+                    var myRef = firestore
                         ?.collection("users")?.document("$uid")
-                    //    ?.collection("friends")?.document(item.userId)
-                    friendsRef!!.get()
+                    myRef!!.get()
                         .addOnSuccessListener { document->
-                            //uidRef.update("friendsList", FieldValue.arrayUnion(item.userId))
-                            friendsRef.update("friendsList", hashMapOf(
+                            // item.uid에게 친구 요청
+                            myRef.update("friendsList", hashMapOf(
                                 item.uid to "request"
                             ))
                             Toast.makeText(activity,"${item.uid}에게 친구요청을 보냈습니다",Toast.LENGTH_LONG).show()
@@ -89,6 +88,16 @@ class FriendsSearchFragment : Fragment(R.layout.search_friends_list_item) {
                         Toast.makeText(activity,"${item.uid}에게 친구요청 보내기를 실패하였습니다",Toast.LENGTH_LONG).show()
                         Log.d("친구요청","실패")
                     }
+                    var friendRef = firestore
+                        ?.collection("users")?.document(item.uid)
+                    friendRef!!.get()
+                        .addOnSuccessListener { document->
+                            // uid에게 친구 요청을 받음
+                            friendRef.update("friendsList", hashMapOf(
+                                uid to "requested"
+                            ))
+
+                        }
                 }
             }
         }
