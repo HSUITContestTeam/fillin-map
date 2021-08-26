@@ -41,6 +41,7 @@ class ProfileActivity : AppCompatActivity() {
     private val GALLERY_REQUEST_CODE = 1234
     private var uriPhoto: Uri? = null
     private var urlProfile: String? = null
+    private var userID: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -130,7 +131,7 @@ class ProfileActivity : AppCompatActivity() {
                         progressDialog.setCancelable(false)
                         progressDialog.show()
                         urlProfile = document.get("photoUrl").toString()
-                        Log.d("photoUrl","${urlProfile}")
+                        userID = document.get("uid").toString()
                         Glide.with(this)
                             .load(urlProfile)
                             .into(profileBinding.profileImageIV)
@@ -276,8 +277,7 @@ class ProfileActivity : AppCompatActivity() {
         progressDialog.setCancelable(false)
         progressDialog.show()
 
-        val imageName = profileBinding.profileNameTV.text
-        val storageReference = FirebaseStorage.getInstance().getReference("ProfileImage/$imageName")
+        val storageReference = FirebaseStorage.getInstance().getReference("ProfileImage/$userID")
 
         storageReference.putFile(uriPhoto!!).addOnSuccessListener {
             Toast.makeText(this@ProfileActivity, "Successfully uploaded", Toast.LENGTH_SHORT).show()
