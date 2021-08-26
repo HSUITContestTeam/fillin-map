@@ -26,14 +26,11 @@
         <activity
             android:name=".profile.UpdatePasswordActivity"
             android:exported="true" />
-        <activity
-            android:name=".profile.ProfileUpdatePasswordActivity"
-            android:exported="true" />
         <activity android:name=".login.CreateUserActivity" />
         <activity android:name=".profile.ProfileModifyActivity" />
         <activity android:name=".profile.ProfileActivity" />
         <activity android:name=".profile.CropImg" />
-        <activity android:name=".login.LoginActivity"></activity>
+        <activity android:name=".login.LoginActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".settings.NoticeActivity" />
         <activity android:name=".settings.AppinfoActivity" />
