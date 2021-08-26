@@ -3,7 +3,6 @@ package com.hsu.mapapp.profile
 import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -19,7 +18,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -29,7 +27,6 @@ import com.hsu.mapapp.login.AddUser
 import com.hsu.mapapp.login.LoginActivity
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
-import java.io.File
 import java.util.*
 
 
@@ -43,11 +40,14 @@ class ProfileActivity : AppCompatActivity() {
     private var urlProfile: String? = null
     private var userID: String? = null
 
+    private var firestore : FirebaseFirestore? = null
+    private val uid = Firebase.auth.currentUser?.uid
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         profileBinding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(profileBinding.root)
-
+        firestore = FirebaseFirestore.getInstance()
         setProfileModifyBtnClickEvent()
         setUpdatePasswordBtn()
 
@@ -112,19 +112,14 @@ class ProfileActivity : AppCompatActivity() {
     private fun setProfile() {
         val user = Firebase.auth.currentUser
         if (user != null) {
-            user?.let {
-                val name = user.displayName
+            user.let {
                 val email = user.email
-                val photoUrl = user.photoUrl
-                val emailVerified = user.isEmailVerified
-                val uid = user.uid
-
                 val firestore = FirebaseFirestore.getInstance()
-                val docRef = firestore.collection("users").document(uid)
+
+                val docRef = firestore.collection("users").document(uid!!)
                 docRef.get()
                     .addOnSuccessListener { document ->
                         profileBinding.profileNameTV.text = document.get("name").toString()
-                        val value = document.get("name").toString()
 
                         val progressDialog = ProgressDialog(this)
                         progressDialog.setMessage("Fetching Image ...")
@@ -138,17 +133,17 @@ class ProfileActivity : AppCompatActivity() {
                         if(progressDialog.isShowing)
                             progressDialog.dismiss()
                         /*val localfile = File.createTempFile("tempImage","jpg")
-                        val storageRef = FirebaseStorage.getInstance().reference.child("ProfileImage").child("$value").getFile(localfile)
-                        storageRef.addOnSuccessListener {
-                            if(progressDialog.isShowing)
-                                progressDialog.dismiss()
-                            val bitmap = BitmapFactory.decodeFile(localfile.absolutePath)
-                            profileBinding.profileImageIV.setImageBitmap(bitmap)
-                        }.addOnFailureListener{
-                            if(progressDialog.isShowing)
-                                progressDialog.dismiss()
-                            Toast.makeText(this, "Failed to retrieve your image",Toast.LENGTH_SHORT).show()
-                        }*/
+                                val storageRef = FirebaseStorage.getInstance().reference.child("ProfileImage").child("$value").getFile(localfile)
+                                storageRef.addOnSuccessListener {
+                                    if(progressDialog.isShowing)
+                                        progressDialog.dismiss()
+                                    val bitmap = BitmapFactory.decodeFile(localfile.absolutePath)
+                                    profileBinding.profileImageIV.setImageBitmap(bitmap)
+                                }.addOnFailureListener{
+                                    if(progressDialog.isShowing)
+                                        progressDialog.dismiss()
+                                    Toast.makeText(this, "Failed to retrieve your image",Toast.LENGTH_SHORT).show()
+                                }*/
                     }
                     .addOnFailureListener { exception ->
                         Log.d(TAG, "get failed with ", exception)
@@ -215,19 +210,12 @@ class ProfileActivity : AppCompatActivity() {
                 .setPositiveButton("확인") { dialog, which ->
                     val editText: EditText = linearLayout.findViewById(R.id.name_editText)
                     value = editText.text.toString()
+                    profileBinding.profileNameTV.text = value
                     // firestore - users - name 업데이트
-                    val firestore = FirebaseFirestore.getInstance()
-                    var map = mutableMapOf<String,Any>()
-                    map["name"] = value
-                    firestore.collection("users").document(Firebase.auth.uid.toString()).update(map)
-                        .addOnCompleteListener {
-                            if (it.isSuccessful) {
-                                Log.d("user name", "updated")
-                                // 바뀐 name text 설정
-                                profileBinding.profileNameTV.text = value
-                                userProfileChangeRequest { displayName = value }
-                            }
-                        }
+                    val profileRef = firestore?.collection("users")?.document(uid!!)
+                    profileRef?.get()?.addOnSuccessListener {
+                        profileRef.update("name",value)
+                    }
                     // [END update_profile]
 
                 }
