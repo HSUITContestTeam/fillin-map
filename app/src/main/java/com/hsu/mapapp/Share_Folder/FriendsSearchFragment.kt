@@ -73,31 +73,46 @@ class FriendsSearchFragment : Fragment(R.layout.search_friends_list_item) {
                 binding.addFriendsBtn.isSelected = isStartBtnSelected
                 isStartBtnSelected = !isStartBtnSelected
                 binding.addFriendsBtn.setOnClickListener {
-                    var myRef = firestore
-                        ?.collection("users")?.document("$uid")
-                    myRef!!.get()
-                        .addOnSuccessListener { document->
-                            // item.uid에게 친구 요청
-                            myRef.update("friendsList", hashMapOf(
-                                item.uid to "request"
-                            ))
-                            Toast.makeText(activity,"${item.uid}에게 친구요청을 보냈습니다",Toast.LENGTH_LONG).show()
-                             Log.d("친구요청","성공")
-                        }
-                        .addOnFailureListener {
-                        Toast.makeText(activity,"${item.uid}에게 친구요청 보내기를 실패하였습니다",Toast.LENGTH_LONG).show()
-                        Log.d("친구요청","실패")
+                    if(item.uid != uid){
+                        val myRef = firestore
+                            ?.collection("users")?.document("$uid")
+                        myRef!!.get()
+                            .addOnSuccessListener { document->
+                                // 친구 리스트가 있는 경우
+                                if(document.get("friendsList") != null) {
+                                    val hashMap: Map<String, String> =
+                                        document.get("friendsList") as Map<String, String>
+                                    // 선택한 아이템의 uid와의 관계가 friend가 아닌 경우
+                                    if(hashMap[item.uid] == "request"){
+                                        Toast.makeText(activity,"이미 친구요청을 보냈습니다", Toast.LENGTH_LONG).show()
+                                    }
+                                    else {
+                                        Toast.makeText(activity,item.uid+"와 이미 친구입니다.", Toast.LENGTH_LONG).show()
+                                    }
+                                }
+                                else{ // 친구 리스트가 없는 경우
+                                    myRef.update("friendsList", hashMapOf(
+                                        item.uid to "request"
+                                    ))
+                                    val friendRef = firestore
+                                        ?.collection("users")?.document(item.uid)
+                                    friendRef!!.get()
+                                        .addOnSuccessListener { document->
+                                            // uid에게 친구 요청을 받음
+                                            friendRef.update("friendsList", hashMapOf(
+                                                uid to "requested"
+                                            ))
+                                            Toast.makeText(activity,item.uid+"에게 친구요청을 보냈습니다",
+                                                Toast.LENGTH_LONG).show()
+                                            Log.d("친구요청","성공")
+                                        }
+                                }
+                            }
+                            .addOnFailureListener {
+                                Toast.makeText(activity,"${item.uid}에게 친구요청 보내기를 실패하였습니다", Toast.LENGTH_LONG).show()
+                                Log.d("친구요청","실패")
+                            }
                     }
-                    var friendRef = firestore
-                        ?.collection("users")?.document(item.uid)
-                    friendRef!!.get()
-                        .addOnSuccessListener { document->
-                            // uid에게 친구 요청을 받음
-                            friendRef.update("friendsList", hashMapOf(
-                                uid to "requested"
-                            ))
-
-                        }
                 }
             }
         }
