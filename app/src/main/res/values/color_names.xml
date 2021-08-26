@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="color_palette">
+        <item>RED</item>
+        <item>PINK</item>
+        <item>DEEPORANGE</item>
+        <item>ORANGE</item>
+        <item>AMBER</item>
+        <item>YELLOW</item>
+        <item>GREEN</item>
+        <item>LIGHTGREEN</item>
+        <item>LIME</item>
+        <item>INDIGO</item>
+        <item>BLUE</item>
+        <item>LIGHTBLUE</item>
+        <item>CYAN</item>
+        <item>TEAL</item>
+        <item>DEEPPURBLE</item>
+        <item>PURBLE</item>
+    </string-array>
+</resources>

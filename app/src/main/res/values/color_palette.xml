@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="RED">#F44336</string>
+    <string name="PINK">#E91E63</string>
+    <string name="DEEPORANGE">#FF5722</string>
+    <string name="ORANGE">#FF9800</string>
+    <string name="AMBER">#FFC107</string>
+    <string name="YELLOW">#FFEB3B</string>
+    <string name="GREEN">#4CAF50</string>
+    <string name="LIGHTGREEN">#8BC34A</string>
+    <string name="LIME">#CDDC39</string>
+    <string name="INDIGO">#3F51B5</string>
+    <string name="BLUE">#2196F3</string>
+    <string name="LIGHTBLUE">#03A9F4</string>
+    <string name="CYAN">#00BCD4</string>
+    <string name="TEAL">#009688</string>
+    <string name="DEEPPURBLE">#673AB7</string>
+    <string name="PURBLE">#9C27B0</string>
+</resources>
