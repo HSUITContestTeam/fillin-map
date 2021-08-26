@@ -40,7 +40,7 @@ class ProfileActivity : AppCompatActivity() {
     private var urlProfile: String? = null
     private var userID: String? = null
 
-    private var firestore : FirebaseFirestore? = null
+    private var firestore: FirebaseFirestore? = null
     private val uid = Firebase.auth.currentUser?.uid
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -130,7 +130,7 @@ class ProfileActivity : AppCompatActivity() {
                         Glide.with(this)
                             .load(urlProfile)
                             .into(profileBinding.profileImageIV)
-                        if(progressDialog.isShowing)
+                        if (progressDialog.isShowing)
                             progressDialog.dismiss()
                         /*val localfile = File.createTempFile("tempImage","jpg")
                                 val storageRef = FirebaseStorage.getInstance().reference.child("ProfileImage").child("$value").getFile(localfile)
@@ -180,7 +180,14 @@ class ProfileActivity : AppCompatActivity() {
     //---------------------회원 탈퇴----------------------//
     private fun revokeAccess() {
         val user = Firebase.auth.currentUser!!
-        signOut()
+        signOut() // 로그아웃
+
+        // firestore에서 회원정보 삭제
+        FirebaseFirestore.getInstance().collection("users").document(user.uid).delete()
+            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully deleted!") }
+            .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
+
+        // firebase authentication 에서 회원정보 삭제
         user.delete()
             .addOnCompleteListener { task ->
                 Toast.makeText(this, "회원 정보 삭제 완료", Toast.LENGTH_SHORT).show()
@@ -214,7 +221,7 @@ class ProfileActivity : AppCompatActivity() {
                     // firestore - users - name 업데이트
                     val profileRef = firestore?.collection("users")?.document(uid!!)
                     profileRef?.get()?.addOnSuccessListener {
-                        profileRef.update("name",value)
+                        profileRef.update("name", value)
                     }
                     // [END update_profile]
 
@@ -239,9 +246,8 @@ class ProfileActivity : AppCompatActivity() {
                     data?.data?.let { uri ->
                         launchImageCrop(uri)
                     }
-                }
-                else{
-                    Log.e(TAG, "Image selection error: Couldn't select that image from memory." )
+                } else {
+                    Log.e(TAG, "Image selection error: Couldn't select that image from memory.")
                 }
             }
 
@@ -251,9 +257,8 @@ class ProfileActivity : AppCompatActivity() {
                 if (resultCode == Activity.RESULT_OK) {
                     setImage(result.uri)
                     imageUpload()
-                }
-                else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                    Log.e(TAG, "Crop error: ${result.getError()}" )
+                } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                    Log.e(TAG, "Crop error: ${result.getError()}")
                 }
             }
         }
@@ -274,7 +279,8 @@ class ProfileActivity : AppCompatActivity() {
                 var fbFirestore = FirebaseFirestore.getInstance()
                 var fbAuth = FirebaseAuth.getInstance()
                 userInfo.photoUrl = uri.toString()
-                fbFirestore?.collection("users")?.document(fbAuth?.uid.toString())?.update("photoUrl",userInfo.photoUrl.toString())
+                fbFirestore?.collection("users")?.document(fbAuth?.uid.toString())
+                    ?.update("photoUrl", userInfo.photoUrl.toString())
             }
             if (progressDialog.isShowing)
                 progressDialog.dismiss()
@@ -285,13 +291,13 @@ class ProfileActivity : AppCompatActivity() {
         }
     }
 
-    private fun setImage(uri: Uri){
+    private fun setImage(uri: Uri) {
         Glide.with(this)
             .load(uri)
             .into(profileBinding.profileImageIV)
     }
 
-    private fun launchImageCrop(uri: Uri){
+    private fun launchImageCrop(uri: Uri) {
         CropImage.activity(uri)
             .setGuidelines(CropImageView.Guidelines.ON)
             .setCropShape(CropImageView.CropShape.RECTANGLE) // default is rectangle
