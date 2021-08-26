@@ -12,6 +12,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
@@ -212,7 +213,11 @@ class LoginActivity : AppCompatActivity() {
             .setPositiveButton("확인") { dialog, which ->
                 val editText: EditText = linearLayout.findViewById(R.id.name_editText)
                 nickname = editText.text.toString()
-                addUserToFireStore(nickname, user)
+                if (nickname != "") { // 닉네임 입력 안하면
+                    addUserToFireStore(nickname, user)
+                } else {
+                    Snackbar.make(loginBinding.root, "닉네임을 반드시 입력해 주세요!😊", Snackbar.LENGTH_LONG).show()
+                }
             }
             .setNegativeButton("취소") { dialog, which ->
                 dialog.dismiss()
