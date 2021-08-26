@@ -108,6 +108,7 @@ class CreateUserActivity : AppCompatActivity() {
                 }
                 else{
                     Toast.makeText(this, "같은 별명이 존재합니다.", Toast.LENGTH_SHORT).show()
+                    createUseBinding.nameEt.setText("")
                 }
             }
         }
@@ -143,7 +144,7 @@ class CreateUserActivity : AppCompatActivity() {
                 Log.w("checkNameExist", "Error getting documents: ", exception)
                 flag = 1
             }
-        return flag != 0
+        return flag == 0
 
     }
 }
