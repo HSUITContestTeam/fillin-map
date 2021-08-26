@@ -183,9 +183,9 @@ class ProfileActivity : AppCompatActivity() {
         signOut() // 로그아웃
 
         // firestore에서 회원정보 삭제
-        FirebaseFirestore.getInstance().collection("users").document(user.uid).delete()
-            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully deleted!") }
-            .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
+        firestore?.collection("users")?.document(user.uid)?.delete()
+            ?.addOnSuccessListener { Log.d("firebase user info delete", "success")}
+            ?.addOnFailureListener { e -> Log.w("firebase user info delete", "fail", e) }
 
         // firebase authentication 에서 회원정보 삭제
         user.delete()
