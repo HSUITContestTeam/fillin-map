@@ -1,29 +1,16 @@
 package com.hsu.mapapp.Share_Folder
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import android.view.View.inflate
 import android.widget.SearchView
-import android.widget.Toolbar
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil.inflate
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.onNavDestinationSelected
 import com.hsu.mapapp.MainActivity
 import com.hsu.mapapp.R
-import com.hsu.mapapp.databinding.ActivityAppinfoBinding.inflate
 import com.hsu.mapapp.databinding.ActivityShareBinding
-import java.util.zip.Inflater
 
 class ShareFragment : Fragment(R.layout.activity_share) {
 
@@ -55,7 +42,10 @@ class ShareFragment : Fragment(R.layout.activity_share) {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
+    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater){
         super.onCreateOptionsMenu(menu, inflater);
