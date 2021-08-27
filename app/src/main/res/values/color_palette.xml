@@ -13,7 +13,6 @@
     <string name="BLUE">#2196F3</string>
     <string name="LIGHTBLUE">#03A9F4</string>
     <string name="CYAN">#00BCD4</string>
-    <string name="TEAL">#009688</string>
-    <string name="DEEPPURBLE">#673AB7</string>
-    <string name="PURBLE">#9C27B0</string>
+    <string name="DEEPPURPLE">#673AB7</string>
+    <string name="PURPLE">#9C27B0</string>
 </resources>
