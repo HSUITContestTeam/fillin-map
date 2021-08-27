@@ -23,7 +23,7 @@ class FriendsSearchFragment : Fragment(R.layout.search_friends_list_item) {
     private lateinit var viewModel: ShareViewModel
 
     var firestore : FirebaseFirestore? = null
-    private val uid = Firebase.auth.currentUser ?.uid
+    private val uid = Firebase.auth.currentUser?.uid
 
     private lateinit var adapter: FriendsSearchAdapter
 
