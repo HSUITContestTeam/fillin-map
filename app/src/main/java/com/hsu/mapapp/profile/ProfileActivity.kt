@@ -180,7 +180,6 @@ class ProfileActivity : AppCompatActivity() {
     //---------------------회원 탈퇴----------------------//
     private fun revokeAccess() {
         val user = Firebase.auth.currentUser!!
-        signOut() // 로그아웃
 
         // firestore에서 회원정보 삭제
         firestore?.collection("users")?.document(user.uid)?.delete()
@@ -192,6 +191,8 @@ class ProfileActivity : AppCompatActivity() {
             .addOnCompleteListener { task ->
                 Toast.makeText(this, "회원 정보 삭제 완료", Toast.LENGTH_SHORT).show()
             }
+
+        signOut() // 로그아웃
 
         val loginIntent = Intent(this, LoginActivity::class.java)
         startActivity(loginIntent)

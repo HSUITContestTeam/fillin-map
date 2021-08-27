@@ -47,6 +47,9 @@ class CreateUserActivity : AppCompatActivity() {
                     // 회원가입 성공
                     val currentUser = auth.currentUser
 
+                    // 이메일 인증 안내
+                    Toast.makeText(this.baseContext, "이메일 인증 메일을 보냈습니다.\n이메일 인증을 완료 해 주셔야 로그인이 가능합니다!😘", Toast.LENGTH_LONG).show()
+
                    //사용자 인증메일 보내기.//
                     currentUser
                         ?.sendEmailVerification()
