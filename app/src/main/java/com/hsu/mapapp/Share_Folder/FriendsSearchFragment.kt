@@ -1,5 +1,7 @@
 package com.hsu.mapapp.Share_Folder
 
+import android.database.Cursor
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,12 +12,17 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.hsu.mapapp.R
 import com.hsu.mapapp.databinding.FragmentSearchFriendsBinding
 import com.hsu.mapapp.databinding.SearchFriendsListItemBinding
+import android.provider.MediaStore
+import androidx.loader.content.CursorLoader
+import com.theartofdev.edmodo.cropper.CropImageOptions
+
 
 class FriendsSearchFragment : Fragment(R.layout.search_friends_list_item) {
     private var _binding: FragmentSearchFriendsBinding? = null
@@ -67,7 +74,12 @@ class FriendsSearchFragment : Fragment(R.layout.search_friends_list_item) {
         inner class ViewHolder(private val binding: SearchFriendsListItemBinding) :
             RecyclerView.ViewHolder(binding.root){
             fun setFriendsName(item: FriendsSearchItemList){
-                binding.friendsSearchName.text = item.userId
+                binding.friendsSearchName.text = item.name
+            }
+            fun SetFriendsImage(item: FriendsSearchItemList){
+                Glide.with(context)
+                    .load(item.photoUrl)
+                    .into(binding.imageView6)
             }
             fun addFriendsBtnOnclick(item: FriendsSearchItemList){
                 binding.addFriendsBtn.isSelected = isStartBtnSelected
@@ -127,10 +139,10 @@ class FriendsSearchFragment : Fragment(R.layout.search_friends_list_item) {
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             holder.setFriendsName(datas_friends_search[position])
             holder.addFriendsBtnOnclick(datas_friends_search[position])
+            holder.SetFriendsImage(datas_friends_search[position])
         }
 
         override fun getItemCount() = datas_friends_search.size
-
 
 
         fun search(searchWord : String, option : String) {
