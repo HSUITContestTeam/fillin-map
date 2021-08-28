@@ -74,7 +74,7 @@ class FriendsSearchFragment : Fragment(R.layout.search_friends_list_item) {
         inner class ViewHolder(private val binding: SearchFriendsListItemBinding) :
             RecyclerView.ViewHolder(binding.root){
             fun setFriendsName(item: FriendsSearchItemList){
-                binding.friendsSearchName.text = item.userId
+                binding.friendsSearchName.text = item.name
             }
             fun SetFriendsImage(item: FriendsSearchItemList){
                 Glide.with(context)
