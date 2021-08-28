@@ -1,5 +1,6 @@
 package com.hsu.mapapp.map
 
+import android.R.attr
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
@@ -16,6 +17,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -36,7 +38,13 @@ import com.hsu.mapapp.R
 import com.hsu.mapapp.databinding.FragmentMapSeoulBinding
 import com.richpath.RichPathView
 import java.io.*
+import java.util.*
+import kotlin.collections.HashMap
 import kotlin.collections.set
+import android.R.attr.path
+import android.R.attr.path
+import android.os.Environment
+import javax.xml.transform.stream.StreamResult
 
 
 class MapSeoulFragment : Fragment() {
@@ -80,6 +88,7 @@ class MapSeoulFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initialImageViewHashMap()
         uploadImageFromStorage()
+        uploadColorFromStorage()
     }
     //-----------------------------AllIMGS 해시맵 초기화----------------------------------//
     private fun initialImageViewHashMap() {
@@ -105,6 +114,27 @@ class MapSeoulFragment : Fragment() {
                                     BitmapImageViewTarget(AllIMGS["${fileRef.name}"]) {});
                         }
                     }
+                }
+            })
+            .addOnFailureListener(OnFailureListener {})
+    }
+
+    private fun uploadColorFromStorage() {
+        val uidRef = storage.reference.child("mapColor/$uid")
+        uidRef.listAll()
+            .addOnSuccessListener(OnSuccessListener<ListResult> { result ->
+                for (fileRef in result.items) {
+                    val localFile = File.createTempFile("${fileRef.name}", "txt")
+                    Log.d("fileName","${fileRef.name}")
+                    fileRef.getFile(localFile).addOnSuccessListener {
+                        activity?.let {
+                            val colorValue: String = localFile.readText()
+                            Log.d("colorValue","$colorValue")
+                            localFile.delete()
+                            richPathView.findRichPathByName("${fileRef.name}")?.fillColor =
+                                Color.parseColor("$colorValue")
+                        }
+                    }.addOnFailureListener { }
                 }
             })
             .addOnFailureListener(OnFailureListener {})
@@ -184,6 +214,28 @@ class MapSeoulFragment : Fragment() {
                             val intent =
                                 Intent(this.context, FillMapWithColorActivity::class.java)
                             fillColorActivityLancher.launch(intent)
+                        }
+
+                        2 -> { // 삭제하기
+                            val uidRef = storage.reference.child("mapImageView/$uid")
+                            uidRef.child("$mapName").delete().addOnSuccessListener{
+                                Log.d("image delete", "success")
+                                //Toast.makeText(getActivity(), "Successfully deleted", Toast.LENGTH_SHORT).show()
+                                AllIMGS["$mapName"]?.isVisible = false
+                                ClickedIMGS.remove("$mapName")
+                            }.addOnFailureListener {
+                                richPathView.findRichPathByName(mapName.toString())?.fillColor =
+                                    Color.parseColor("#d2d2d2")
+                            }
+
+                            val uidColorRef = storage.reference.child("mapColor/$uid")
+                            uidColorRef.child("$mapName").delete().addOnSuccessListener{
+                                AllIMGS["$mapName"]?.isVisible = false
+                                ClickedIMGS.remove("$mapName")
+                            }.addOnFailureListener {
+                                richPathView.findRichPathByName(mapName.toString())?.fillColor =
+                                    Color.parseColor("#d2d2d2")
+                            }
                         }
                     }
                 })
@@ -304,6 +356,23 @@ class MapSeoulFragment : Fragment() {
                 val colorResult = it.data?.getStringExtra("color")
                 richPathView.findRichPathByName(mapName.toString())?.fillColor =
                     Color.parseColor(colorResult.toString())
+                /*var uriColor: Uri? = null
+                val storageReference = storage.getReference("mapColor/$uid/$mapName")
+                val fo = FileWriter("$mapName",false)
+                fo.write("$colorResult")
+                fo.close()
+                val result =
+                    StreamResult(File(Environment.getExternalStorageDirectory(), "$mapName"))
+                var output: Writer? = null
+                val path = "$mapName"
+                val file = File(path)
+                output = BufferedWriter(FileWriter(file))
+                output.write("${colorResult.toString()}")
+                output.close()
+                uriColor = Uri.fromFile(file)
+                storageReference.putFile(uriColor).addOnSuccessListener {
+                    Toast.makeText(this.context, "Successfully uploaded", Toast.LENGTH_SHORT).show()
+                }*/
 
                 /* 이미지로 채워져 있으면 firebase storage에서 이미지 삭제 */
                 val uidRef = storage.reference.child("mapImageView/$uid")
@@ -316,7 +385,6 @@ class MapSeoulFragment : Fragment() {
                 }
             }
         }
-
 }
 
 

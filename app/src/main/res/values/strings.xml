@@ -6,5 +6,6 @@
     <string-array name="fillMapItems">
         <item>이미지로 채우기</item>
         <item>색칠하기</item>
+        <item>삭제하기</item>
     </string-array>
 </resources>
