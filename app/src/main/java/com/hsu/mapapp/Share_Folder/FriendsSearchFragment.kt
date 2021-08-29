@@ -22,6 +22,20 @@ import com.hsu.mapapp.databinding.SearchFriendsListItemBinding
 import android.provider.MediaStore
 import androidx.loader.content.CursorLoader
 import com.theartofdev.edmodo.cropper.CropImageOptions
+import android.app.Activity
+import android.content.Context
+import android.view.KeyEvent
+import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat
+
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.content.ContextCompat.getSystemService
+
+
+
+
+
+
 
 
 class FriendsSearchFragment : Fragment(R.layout.search_friends_list_item) {
@@ -34,6 +48,11 @@ class FriendsSearchFragment : Fragment(R.layout.search_friends_list_item) {
 
     private lateinit var adapter: FriendsSearchAdapter
 
+    var searchOption = "name"
+
+    val inputMethodManager = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -43,15 +62,20 @@ class FriendsSearchFragment : Fragment(R.layout.search_friends_list_item) {
 
         _binding = FragmentSearchFriendsBinding.inflate(inflater, container, false)
 
-        //서치뷰의 검색버튼.setOnclickListener{
-        //(binding.FriendsSearchRecycler.adapter as FriendsSearchAdapter).search(searchWord.text.toString())
-    //}
+
+        binding.SearchBtn.setOnClickListener {
+
+            (binding.FriendsSearchRecycler.adapter as FriendsSearchAdapter).search(binding.SearchText.text.toString(),searchOption)
+        }
 
         return binding.root
     }
     interface OnItemClickListener {
         fun onItemClick(view: View?, position: Int, isUser: Boolean)
     }
+
+
+
     inner class FriendsSearchAdapter(private val context: FriendsSearchFragment) :
         RecyclerView.Adapter<FriendsSearchAdapter.ViewHolder>() {
         var datas_friends_search :ArrayList<FriendsSearchItemList> = arrayListOf()
@@ -144,17 +168,16 @@ class FriendsSearchFragment : Fragment(R.layout.search_friends_list_item) {
 
         override fun getItemCount() = datas_friends_search.size
 
-
-        fun search(searchWord : String, option : String) {
+        fun search(searchWord : String,option:String) {
             firestore?.collection("users")?.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 // ArrayList 비워줌
                 datas_friends_search.clear()
 
                 for (snapshot in querySnapshot!!.documents) {
-                    if (snapshot.getString(option)!!.contains(searchWord)) {
-                        var item = snapshot.toObject(FriendsSearchItemList::class.java)
-                        datas_friends_search.add(item!!)
-                    }
+                        if(snapshot.getString(option)!!.contains(searchWord)) {
+                            var item = snapshot.toObject(FriendsSearchItemList::class.java)
+                            datas_friends_search.add(item!!)
+                        }
                 }
                 notifyDataSetChanged()
             }
@@ -180,5 +203,6 @@ class FriendsSearchFragment : Fragment(R.layout.search_friends_list_item) {
         super.onDestroyView()
         _binding = null
     }
+
 
 }

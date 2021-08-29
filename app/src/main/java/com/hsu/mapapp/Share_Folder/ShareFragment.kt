@@ -101,33 +101,34 @@ class ShareFragment : Fragment(R.layout.activity_share) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.share_menu, menu);
 
-        val searchItem = menu.findItem(R.id.item_search)
-        val searchView = searchItem.actionView as SearchView
-        searchView.queryHint = "검색어를 입력하시오"
+//        val searchItem = menu.findItem(R.id.item_search)
+//        val searchView = searchItem.actionView as SearchView
+//        searchView.queryHint = "검색어를 입력하시오"
+//
+//
+//
+//        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+//            override fun onQueryTextSubmit(query: String?): Boolean {
+//                if (query != null) {
+//                    text = query
+//
+//                }
+//                findNavController().navigate(R.id.action_shareFragment_to_friendsSearchFragment2)
+//                // 검색어 완료시
+//               //println(query)
+//                return true
+//            }
+//
+//            override fun onQueryTextChange(newText: String): Boolean {
+//                text = newText;
+//
+//                //검색어 입력시
+//                //println(newText);
+//
+//                return true
+//            }
+//        })
 
-
-
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                if (query != null) {
-                    text = query
-
-                }
-                findNavController().navigate(R.id.action_shareFragment_to_friendsSearchFragment2)
-                // 검색어 완료시
-               //println(query)
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String): Boolean {
-                text = newText;
-
-                //검색어 입력시
-                //println(newText);
-
-                return true
-            }
-        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -142,6 +143,10 @@ class ShareFragment : Fragment(R.layout.activity_share) {
             R.id.item_group -> {
                 println("그룹목록 클릭")
                 findNavController().navigate(R.id.action_shareFragment_to_groupListFragment)
+            }
+
+            R.id.item_search->{
+                findNavController().navigate(R.id.action_shareFragment_to_friendsSearchFragment2)
             }
         }
         return true
