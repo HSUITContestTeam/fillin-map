@@ -19,10 +19,10 @@
     <Button
         android:id="@+id/SearchBtn"
         android:layout_width="64dp"
-        android:layout_height="46dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
+        android:backgroundTint="@color/black"
         android:text="검색"
-        android:background="@drawable/login_border"
         android:textColor="@android:color/background_light"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
