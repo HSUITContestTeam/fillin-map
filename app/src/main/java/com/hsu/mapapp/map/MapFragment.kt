@@ -105,10 +105,10 @@ class MapFragment : Fragment(R.layout.fragment_map) {
         leftAnimation.setAnimationListener(animationListener)
         rightAnimation.setAnimationListener(animationListener)
 
-        binding.fragmentContainerView2.setOnTouchListener(object : OnSwipeTouchListener(requireActivity()) {
+        binding.mapPage.setOnTouchListener(object : OnSwipeTouchListener(requireActivity()) {
             override fun onSwipeLeft() {
                 // 슬라이딩 페이지 꺼내기
-                if (!isPageOpen) { // 슬라이딩 리스트 닫기
+                if (!isPageOpen) {
                     binding.slidingList.setVisibility(View.VISIBLE)
                     binding.slidingList.startAnimation(leftAnimation)
                 }
@@ -121,6 +121,19 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                 }
             }
         })
+
+        // 일단 버튼으로 열고닫기 하도록.. 해놨음 ㅜ
+        binding.button2.setOnClickListener {
+            // 슬라이딩 페이지 꺼내기
+            if (!isPageOpen) {
+                binding.slidingList.setVisibility(View.VISIBLE)
+                binding.slidingList.startAnimation(leftAnimation)
+                binding.button2.text = "close"
+            } else { // 슬라이딩 페이지 닫기
+                binding.slidingList.startAnimation(rightAnimation)
+                binding.button2.text = "open"
+            }
+        }
     }
 
     // ----------------------지도 목록 recycler-------------------------
