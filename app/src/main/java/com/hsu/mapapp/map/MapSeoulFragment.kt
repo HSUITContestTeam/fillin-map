@@ -353,6 +353,7 @@ class MapSeoulFragment : Fragment() {
     private val fillColorActivityLancher: ActivityResultLauncher<Intent> =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK && it.data != null) {
+                deleteImageFromMap() // 이미지 삭제
                 val colorResult = it.data?.getStringExtra("color")
                 richPathView.findRichPathByName(mapName.toString())?.fillColor =
                     Color.parseColor(colorResult.toString())
@@ -374,17 +375,20 @@ class MapSeoulFragment : Fragment() {
                     Toast.makeText(this.context, "Successfully uploaded", Toast.LENGTH_SHORT).show()
                 }*/
 
-                /* 이미지로 채워져 있으면 firebase storage에서 이미지 삭제 */
-                val uidRef = storage.reference.child("mapImageView/$uid")
-                uidRef.child("$mapName").delete().addOnSuccessListener{
-                    Log.d("image delete", "success")
-                    AllIMGS["$mapName"]?.isVisible = false
-                    ClickedIMGS.remove("$mapName")
-                }.addOnFailureListener {
-                    Log.d("image delete", "fail")
-                }
             }
         }
+
+    private fun deleteImageFromMap(){
+        /* 이미지로 채워져 있으면 firebase storage에서 이미지 삭제 */
+        val uidRef = storage.reference.child("mapImageView/$uid")
+        uidRef.child("$mapName").delete().addOnSuccessListener{
+            Log.d("image delete", "success")
+            AllIMGS["$mapName"]?.isVisible = false
+            ClickedIMGS.remove("$mapName")
+        }.addOnFailureListener {
+            Log.d("image delete", "fail")
+        }
+    }
 }
 
 
