@@ -97,6 +97,8 @@ class ShareFragment : Fragment(R.layout.activity_share) {
             }
     }
 
+
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater){
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.share_menu, menu);
@@ -146,6 +148,7 @@ class ShareFragment : Fragment(R.layout.activity_share) {
             }
 
             R.id.item_search->{
+                println("검색버튼 클릭")
                 findNavController().navigate(R.id.action_shareFragment_to_friendsSearchFragment2)
             }
         }
