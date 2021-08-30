@@ -72,7 +72,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setSlidingAnimation() // 지도목록 스와이핑, 슬라이딩 설정
-        setRecycler() // 리사이클러뷰 (지도목록 슬라이딩 화면) 설정
+        setRecycler() // 리사이클러뷰 (지도목록 슬라이딩 화면) 설정S
         setAddMapBtn() // 지도추가버튼, Dialog 띄움
         setFABClickEvent() // FAB 버튼 설정
     }
@@ -376,7 +376,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
 
                     // putting file information in content values
                     put(MediaStore.MediaColumns.DISPLAY_NAME, filename)
-                    put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg")
+                    put(MediaStore.MediaColumns.MIME_TYPE, "image/*")
                     put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
                 }
 
