@@ -26,6 +26,7 @@ import android.app.Activity
 import android.content.Context
 import android.view.KeyEvent
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 
 import androidx.core.content.ContextCompat.getSystemService
@@ -50,7 +51,7 @@ class FriendsSearchFragment : Fragment(R.layout.search_friends_list_item) {
 
     var searchOption = "name"
 
-    val inputMethodManager = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    //val inputMethodManager = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
 
     override fun onCreateView(
@@ -204,5 +205,22 @@ class FriendsSearchFragment : Fragment(R.layout.search_friends_list_item) {
         _binding = null
     }
 
+
+    // ----------------------상단 액션바 hide-------------------------
+    override fun onStart() {
+        super.onStart()
+        (activity as AppCompatActivity).supportActionBar!!.hide()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        (activity as AppCompatActivity).supportActionBar!!.show()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as AppCompatActivity).supportActionBar!!.hide()
+    }
+    // --------------------------------------------------------------
 
 }
