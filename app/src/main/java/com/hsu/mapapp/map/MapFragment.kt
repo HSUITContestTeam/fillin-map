@@ -20,6 +20,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.webkit.MimeTypeMap
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -372,11 +373,10 @@ class MapFragment : Fragment(R.layout.fragment_map) {
             this.requireActivity().contentResolver?.also { resolver ->
 
                 // Content resolver will process the contentvalues
-                val contentValues = ContentValues().apply {
+                var contentValues = ContentValues().apply {
 
                     // putting file information in content values
                     put(MediaStore.MediaColumns.DISPLAY_NAME, filename)
-                    put(MediaStore.MediaColumns.MIME_TYPE, "image/*")
                     put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
                 }
 
@@ -384,6 +384,8 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                 // contentResolver and getting the Uri
                 val imageUri: Uri? =
                     resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+
+                contentValues = ContentValues().apply { put(MediaStore.MediaColumns.MIME_TYPE, getMimeType(imageUri.toString())) }
 
                 // Opening an outputstream with the Uri that we got
                 fos = imageUri?.let { resolver.openOutputStream(it) }
@@ -403,6 +405,16 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                 .show()
         }
 
+    }
+
+    // url = file path or whatever suitable URL you want.
+    fun getMimeType(url: String?): String? {
+        var type: String? = null
+        val extension = MimeTypeMap.getFileExtensionFromUrl(url)
+        if (extension != null) {
+            type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension)
+        }
+        return type
     }
 
     // ----------------------상단 액션바 hide-------------------------
