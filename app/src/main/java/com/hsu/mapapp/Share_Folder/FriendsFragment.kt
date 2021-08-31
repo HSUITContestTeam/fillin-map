@@ -1,7 +1,6 @@
 package com.hsu.mapapp.Share_Folder
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,19 +48,25 @@ class FriendsFragment : Fragment(R.layout.fragment_friends) {
         myRef!!.get()
             .addOnSuccessListener { document ->
                 if (document.get("friendsList") != null) {
-                    val hashMap: Map<String, String> =
-                        document.get("friendsList") as Map<String, String>
-                    val keySet = hashMap.keys
-                    for (key in keySet) {
-                        if (hashMap[key].toString() == "friend") {
-                            Log.d("friend",key)
-                            data_friends.apply {
-                                add(FriendsItemList((key)))
-                                adapter.datas_friends = data_friends
-                                adapter.notifyDataSetChanged()
+                    val hashMap: ArrayList<Map<String,String>> =
+                        document.get("friendsList") as ArrayList<Map<String, String>>
+                    for(keys in hashMap){
+                        val key = keys.keys.iterator().next()
+                            if (keys[key].toString() == "friend") {
+                                val friendRef = firestore
+                                    ?.collection("users")?.document(key)
+                                friendRef?.get()?.addOnSuccessListener { document->
+                                    data_friends.apply {
+                                        add(FriendsItemList((document.get("name").toString())))
+                                        adapter.datas_friends = data_friends
+                                        adapter.notifyDataSetChanged()
+                                    }
+                                }
+
                             }
-                        }
+
                     }
+
 
                 }
             }

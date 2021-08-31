@@ -131,7 +131,7 @@ class FriendsSearchFragment : Fragment(R.layout.search_friends_list_item) {
                                                     friendRef.update("friendsList", FieldValue.arrayUnion(friend))
                                                     Toast.makeText(activity,item.uid+"에게 친구요청을 보냈습니다",
                                                         Toast.LENGTH_LONG).show()
-                                                    Log.d("친구요청","성공")
+                                                    Log.d("uid.toString()","에게 친구요청 성공")
                                                 }
                                         }
                                     }

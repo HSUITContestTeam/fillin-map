@@ -65,30 +65,35 @@ class ShareFragment : Fragment(R.layout.activity_share) {
                         val key = keys.keys.iterator().next()
                         Log.d("key",key)
                         if (keys[key] == "requested") {
-                            val builder = AlertDialog.Builder(requireContext())
-                            builder
-                                .setTitle("친구 요청")
-                                .setMessage(key.toString() + "가 친구 요청을 보냈습니다. 수락하시겠습니까?")
-                                .setPositiveButton("예") { dialog, which ->
-                                    mine[key] = "requested"
-                                    myRef.update("friendsList", FieldValue.arrayRemove(mine))
-                                    mine[key] = "friend"
-                                    myRef.update("friendsList", FieldValue.arrayUnion(mine))
-                                    val friendRef = firestore
-                                        ?.collection("users")?.document(key)
-                                    friendRef!!.get()
-                                        .addOnSuccessListener { document ->
+                            val friendRef = firestore
+                                ?.collection("users")?.document(key)
+                            friendRef!!.get()
+                                .addOnSuccessListener { document ->
+                                    val builder = AlertDialog.Builder(requireContext())
+                                    builder
+                                        .setTitle("친구 요청")
+                                        .setMessage(document.get("name").toString() + "가 친구 요청을 보냈습니다. 수락하시겠습니까?")
+                                        .setPositiveButton("예") { dialog, which ->
+                                            mine[key] = "requested"
+                                            myRef.update(
+                                                "friendsList",
+                                                FieldValue.arrayRemove(mine)
+                                            )
+                                            mine[key] = "friend"
+                                            myRef.update("friendsList", FieldValue.arrayUnion(mine))
+
                                             // uid에게 친구 요청을 받음
                                             friend[uid.toString()] = "request"
                                             friendRef.update("friendsList", FieldValue.arrayRemove(friend))
                                             friend[uid.toString()] = "friend"
                                             friendRef.update("friendsList", FieldValue.arrayUnion(friend))
                                         }
+                                        .setNegativeButton("아니오") { dialog, which ->
+                                            dialog.dismiss()
+                                        }
+                                        .show()
                                 }
-                                .setNegativeButton("아니오") { dialog, which ->
-                                    dialog.dismiss()
-                                }
-                                .show()
+
 
                         }
 
