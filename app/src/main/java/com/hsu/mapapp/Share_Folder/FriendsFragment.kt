@@ -43,31 +43,28 @@ class FriendsFragment : Fragment(R.layout.fragment_friends) {
         binding.friendsRecycler.layoutManager = LinearLayoutManager(this.context)
         binding.friendsRecycler.setHasFixedSize(true)
 
-        val myRef = firestore
-            ?.collection("users")?.document("$uid")
+        setFriends()
+    }
+    fun setFriends() {
+        val myRef = firestore?.collection("users")?.document("$uid")
         myRef!!.get()
             .addOnSuccessListener { document ->
                 if (document.get("friendsList") != null) {
-                    val hashMap: ArrayList<Map<String,String>> =
+                    val hashMap: ArrayList<Map<String, String>> =
                         document.get("friendsList") as ArrayList<Map<String, String>>
-                    for(keys in hashMap){
+                    for (keys in hashMap) {
                         val key = keys.keys.iterator().next()
-                            if (keys[key].toString() == "friend") {
-                                val friendRef = firestore
-                                    ?.collection("users")?.document(key)
-                                friendRef?.get()?.addOnSuccessListener { document->
-                                    data_friends.apply {
-                                        add(FriendsItemList((document.get("name").toString())))
-                                        adapter.datas_friends = data_friends
-                                        adapter.notifyDataSetChanged()
-                                    }
+                        if (keys[key].toString() == "friend") {
+                            val friendRef = firestore?.collection("users")?.document(key)
+                            friendRef?.get()?.addOnSuccessListener { document ->
+                                data_friends.apply {
+                                    add(FriendsItemList((document.get("name").toString())))
+                                    adapter.datas_friends = data_friends
+                                    adapter.notifyDataSetChanged()
                                 }
-
                             }
-
+                        }
                     }
-
-
                 }
             }
     }
