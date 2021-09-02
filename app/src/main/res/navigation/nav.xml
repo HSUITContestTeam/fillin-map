@@ -18,25 +18,11 @@
     <fragment
         android:id="@+id/shareFragment"
         android:name="com.hsu.mapapp.Share_Folder.ShareFragment"
-        android:label="공유화면" >
-        <action
-            android:id="@+id/action_shareFragment_to_friendsFragment"
-            app:destination="@id/friendsFragment" />
-        <action
-            android:id="@+id/action_shareFragment_to_groupListFragment"
-            app:destination="@id/groupListFragment" />
+        android:label="친구목록">
         <action
             android:id="@+id/action_shareFragment_to_friendsSearchFragment2"
             app:destination="@id/friendsSearchFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/friendsFragment"
-        android:name="com.hsu.mapapp.Share_Folder.FriendsFragment"
-        android:label="친구 목록" />
-    <fragment
-        android:id="@+id/groupListFragment"
-        android:name="com.hsu.mapapp.Share_Folder.GroupListFragment"
-        android:label="그룹 목록" />
     <fragment
         android:id="@+id/friendsSearchFragment"
         android:name="com.hsu.mapapp.Share_Folder.FriendsSearchFragment"
