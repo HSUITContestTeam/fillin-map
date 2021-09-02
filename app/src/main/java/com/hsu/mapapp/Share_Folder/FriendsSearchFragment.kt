@@ -20,16 +20,6 @@ import com.hsu.mapapp.R
 import com.hsu.mapapp.databinding.FragmentSearchFriendsBinding
 import com.hsu.mapapp.databinding.SearchFriendsListItemBinding
 
-
-
-
-
-
-
-
-
-
-
 class FriendsSearchFragment : Fragment(R.layout.search_friends_list_item) {
     private var _binding: FragmentSearchFriendsBinding? = null
     private val binding get() = _binding!!
