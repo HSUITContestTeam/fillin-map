@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
@@ -15,17 +16,21 @@ import com.google.firebase.ktx.Firebase
 import com.hsu.mapapp.MainActivity
 import com.hsu.mapapp.R
 import com.hsu.mapapp.databinding.ActivityShareBinding
+import com.hsu.mapapp.databinding.FragmentFriendsBinding
 
-class ShareFragment : Fragment(R.layout.activity_share) {
+class ShareFragment : Fragment(R.layout.fragment_friends) {
 
     var mainActivity: MainActivity? = null
-    private var _binding: ActivityShareBinding? = null
+    private var _binding: FragmentFriendsBinding? = null
     private val binding get() = _binding!!
     lateinit var text : String
     private lateinit var viewModel: ShareViewModel
 
     private var firestore : FirebaseFirestore? = null
     private val uid = Firebase.auth.currentUser ?.uid
+
+    private lateinit var adapter: FriendsAdapter
+    private val data_friends = mutableListOf<FriendsItemList>()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -39,7 +44,7 @@ class ShareFragment : Fragment(R.layout.activity_share) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = ActivityShareBinding.inflate(inflater, container, false)
+        _binding = FragmentFriendsBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true);
         viewModel = ViewModelProvider(this).get(ShareViewModel::class.java)
         // appbar - 뒤로 가기 버튼 없애기
@@ -51,6 +56,7 @@ class ShareFragment : Fragment(R.layout.activity_share) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setRecycler()
 
         var myRef = firestore?.collection("users")?.document("$uid")
         myRef!!.get()
@@ -91,6 +97,38 @@ class ShareFragment : Fragment(R.layout.activity_share) {
     }
 
 
+    private fun setRecycler() {
+        adapter = FriendsAdapter(this)
+        binding.friendsRecycler.adapter = adapter
+        binding.friendsRecycler.layoutManager = LinearLayoutManager(this.context)
+        binding.friendsRecycler.setHasFixedSize(true)
+
+        setFriends()
+    }
+
+    fun setFriends() {
+        val myRef = firestore?.collection("users")?.document("$uid")
+        myRef!!.get()
+            .addOnSuccessListener { document ->
+                if (document.get("friendsList") != null) {
+                    val hashMap: ArrayList<Map<String, String>> =
+                        document.get("friendsList") as ArrayList<Map<String, String>>
+                    for (keys in hashMap) {
+                        val key = keys.keys.iterator().next()
+                        if (keys[key].toString() == "friend") {
+                            val friendRef = firestore?.collection("users")?.document(key)
+                            friendRef?.get()?.addOnSuccessListener { document ->
+                                data_friends.apply {
+                                    add(FriendsItemList((document.get("name").toString())))
+                                    adapter.datas_friends = data_friends
+                                    adapter.notifyDataSetChanged()
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater){
         super.onCreateOptionsMenu(menu, inflater);
@@ -128,18 +166,7 @@ class ShareFragment : Fragment(R.layout.activity_share) {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        when(item.itemId){
-            R.id.item_friends -> {
-                println("친구목록 클릭")
-                findNavController().navigate(R.id.action_shareFragment_to_friendsFragment)
-                //mainActivity!!.openFragementOnFrameLayout(1)
-
-            }
-            R.id.item_group -> {
-                println("그룹목록 클릭")
-                findNavController().navigate(R.id.action_shareFragment_to_groupListFragment)
-            }
-
+        when(item.itemId) {
             R.id.item_search->{
                 println("검색버튼 클릭")
                 findNavController().navigate(R.id.action_shareFragment_to_friendsSearchFragment2)

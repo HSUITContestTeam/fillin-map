@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.hsu.mapapp.databinding.FriendsListItemBinding
 
 
-class FriendsAdapter(private val context: FriendsFragment) :
+class FriendsAdapter(private val context:ShareFragment) :
     RecyclerView.Adapter<FriendsAdapter.ViewHolder>() {
     var datas_friends = mutableListOf<FriendsItemList>()
     var isStartBtnSelected = false
