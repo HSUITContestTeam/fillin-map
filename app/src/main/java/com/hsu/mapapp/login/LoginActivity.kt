@@ -23,6 +23,7 @@ import com.hsu.mapapp.MainActivity
 import com.hsu.mapapp.R
 import com.hsu.mapapp.databinding.ActivityLoginBinding
 
+
 class LoginActivity : AppCompatActivity() {
 
 
@@ -247,6 +248,10 @@ class LoginActivity : AppCompatActivity() {
         super.onStart()
         val account = GoogleSignIn.getLastSignedInAccount(this)
         if (account != null) {
+            toMainActivity(auth.currentUser)
+        }
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user != null) {
             toMainActivity(auth.currentUser)
         }
     }
