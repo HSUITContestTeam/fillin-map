@@ -90,16 +90,17 @@ class MapSeoulFragment : Fragment() {
         uploadImageFromStorage()
         uploadColorFromStorage()
     }
+
     //-----------------------------AllIMGS 해시맵 초기화----------------------------------//
     private fun initialImageViewHashMap() {
         val mapOfKoreaRegions = resources.getStringArray(R.array.map_of_korea_regions)
         for (region in mapOfKoreaRegions) {
             val imageView = requireView().rootView.findViewWithTag<ImageView>("$region")
-            if(imageView != null) {
+            if (imageView != null) {
                 AllIMGS["$region"] = imageView
             }
         }
-}
+    }
 
     //-----------------------------map ImageView 서버에서 불러오기----------------------------------//
     private fun uploadImageFromStorage() {
@@ -125,11 +126,11 @@ class MapSeoulFragment : Fragment() {
             .addOnSuccessListener(OnSuccessListener<ListResult> { result ->
                 for (fileRef in result.items) {
                     val localFile = File.createTempFile("${fileRef.name}", "txt")
-                    Log.d("fileName","${fileRef.name}")
+                    Log.d("fileName", "${fileRef.name}")
                     fileRef.getFile(localFile).addOnSuccessListener {
                         activity?.let {
                             val colorValue: String = localFile.readText()
-                            Log.d("colorValue","$colorValue")
+                            Log.d("colorValue", "$colorValue")
                             localFile.delete()
                             richPathView.findRichPathByName("${fileRef.name}")?.fillColor =
                                 Color.parseColor("$colorValue")
@@ -177,7 +178,8 @@ class MapSeoulFragment : Fragment() {
 
         val mapOfKoreaRegions = resources.getStringArray(R.array.map_of_korea_regions)
         for (region in mapOfKoreaRegions) {
-            richPathView.findRichPathByName("$region")?.setOnPathClickListener { mapName = "$region" }
+            richPathView.findRichPathByName("$region")
+                ?.setOnPathClickListener { mapName = "$region" }
         }
 
         richPathView.setOnPathClickListener {
@@ -218,7 +220,7 @@ class MapSeoulFragment : Fragment() {
 
                         2 -> { // 삭제하기
                             val uidRef = storage.reference.child("mapImageView/$uid")
-                            uidRef.child("$mapName").delete().addOnSuccessListener{
+                            uidRef.child("$mapName").delete().addOnSuccessListener {
                                 Log.d("image delete", "success")
                                 //Toast.makeText(getActivity(), "Successfully deleted", Toast.LENGTH_SHORT).show()
                                 AllIMGS["$mapName"]?.isVisible = false
@@ -229,7 +231,7 @@ class MapSeoulFragment : Fragment() {
                             }
 
                             val uidColorRef = storage.reference.child("mapColor/$uid")
-                            uidColorRef.child("$mapName").delete().addOnSuccessListener{
+                            uidColorRef.child("$mapName").delete().addOnSuccessListener {
                                 AllIMGS["$mapName"]?.isVisible = false
                                 ClickedIMGS.remove("$mapName")
                             }.addOnFailureListener {
@@ -378,10 +380,10 @@ class MapSeoulFragment : Fragment() {
             }
         }
 
-    private fun deleteImageFromMap(){
+    private fun deleteImageFromMap() {
         /* 이미지로 채워져 있으면 firebase storage에서 이미지 삭제 */
         val uidRef = storage.reference.child("mapImageView/$uid")
-        uidRef.child("$mapName").delete().addOnSuccessListener{
+        uidRef.child("$mapName").delete().addOnSuccessListener {
             Log.d("image delete", "success")
             AllIMGS["$mapName"]?.isVisible = false
             ClickedIMGS.remove("$mapName")
