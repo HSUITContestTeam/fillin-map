@@ -102,48 +102,61 @@ class FriendsSearchFragment : Fragment(R.layout.search_friends_list_item) {
                 isStartBtnSelected = !isStartBtnSelected
                 binding.addFriendsBtn.setOnClickListener {
                     if(item.uid != uid){
+                        val friendRef = firestore?.collection("users")?.document(item.uid)
                         val myRef = firestore?.collection("users")?.document("$uid")
-                        myRef!!.get()
-                            .addOnSuccessListener { document->
-                                val friend: MutableMap<String, Any> = HashMap()
-                                val mine: MutableMap<String, Any> = HashMap()
-                                if(document.get("friendsList") != null) { // 친구 리스트가 있는 경우
-                                    val hashMap: ArrayList<Map<String,String>> =
-                                        document.get("friendsList") as ArrayList<Map<String, String>>
-                                    for(i in hashMap){
-                                        if(i[item.uid] == "request"){ Toast.makeText(activity,"이미 친구요청을 보냈습니다", Toast.LENGTH_LONG).show() }
-                                        else if(i[item.uid] == "friend"){ Toast.makeText(activity,item.uid+"와 이미 친구입니다.", Toast.LENGTH_LONG).show() }
-                                        else { // 친구가 아닌 경우
-                                            mine[item.uid] = "request"
-                                            myRef.update("friendsList", FieldValue.arrayUnion(mine))
-                                            val friendRef = firestore?.collection("users")?.document(item.uid)
-                                            friendRef!!.get()
-                                                .addOnSuccessListener { document->
-                                                    friend[uid.toString()] = "requested"
-                                                    friendRef.update("friendsList", FieldValue.arrayUnion(friend))
-                                                    Toast.makeText(activity,item.uid+"에게 친구요청을 보냈습니다", Toast.LENGTH_LONG).show()
-                                                    Log.d("uid.toString()","에게 친구요청 성공")
+                        friendRef!!.get()
+                            .addOnSuccessListener { friendDocument ->
+                                myRef!!.get()
+                                    .addOnSuccessListener { myDocument->
+                                        val friend: MutableMap<String, Any> = HashMap()
+                                        val mine: MutableMap<String, Any> = HashMap()
+                                        if( myDocument.get("friendsList") != null){
+                                            val hashMap: ArrayList<Map<String,String>> =
+                                                myDocument.get("friendsList") as ArrayList<Map<String, String>>
+                                            var flag = 0
+                                            for(keys in hashMap){
+                                                if(keys == mapOf(item.uid to "friend")){
+                                                    Toast.makeText(activity,friendDocument.get("name").toString()+"와 이미 친구입니다.", Toast.LENGTH_LONG).show()
+                                                    Log.d(friendDocument.get("name").toString(),"와 이미 친구")
+                                                    flag = 1
                                                 }
+                                                if(keys == mapOf(item.uid to "request")){
+                                                    Toast.makeText(activity,friendDocument.get("name").toString()+"에게 이미 친구요청을 보냈습니다.", Toast.LENGTH_LONG).show()
+                                                    Log.d(friendDocument.get("name").toString(),"에게 이미 친구요청을 보냈음")
+                                                    flag = 1
+
+                                                }
+                                            }
+                                            if(flag == 0){
+                                                mine[item.uid] = "request"
+                                                myRef.update("friendsList", FieldValue.arrayUnion(mine))
+
+                                                friend[uid.toString()] = "requested"
+                                                friendRef.update("friendsList", FieldValue.arrayUnion(friend))
+
+                                                Toast.makeText(activity,friendDocument.get("name").toString()+"에게 친구요청을 보냈습니다", Toast.LENGTH_LONG).show()
+                                                Log.d(friendDocument.get("name").toString(),"에게 친구요청 성공")
+                                            }
+                                        }
+
+                                            // 친구 리스트가 없는 경우
+                                        else {
+                                                mine[item.uid] = "request"
+                                                myRef.update("friendsList", FieldValue.arrayUnion(mine))
+
+                                                friend[uid.toString()] = "requested"
+                                                friendRef.update("friendsList", FieldValue.arrayUnion(friend))
+
+                                                Toast.makeText(activity,friendDocument.get("name").toString()+"에게 친구요청을 보냈습니다", Toast.LENGTH_LONG).show()
+                                                Log.d(friendDocument.get("name").toString(),"에게 친구요청 성공")
                                         }
                                     }
-                                }
-                                else{ // 친구 리스트가 없는 경우
-                                    mine[item.uid] = "request"
-                                    myRef.update("friendsList", FieldValue.arrayUnion(mine))
-                                    val friendRef = firestore?.collection("users")?.document(item.uid)
-                                    friendRef!!.get()
-                                        .addOnSuccessListener { document->
-                                            friend[uid.toString()] = "requested"
-                                            friendRef.update("friendsList", FieldValue.arrayUnion(friend))
-                                            Toast.makeText(activity,item.uid+"에게 친구요청을 보냈습니다", Toast.LENGTH_LONG).show()
-                                            Log.d("uid.toString()","에게 친구요청 성공")
-                                        }
-                                }
+                                    .addOnFailureListener {
+                                        Toast.makeText(activity,friendDocument.get("name").toString()+"에게 친구요청 보내기를 실패하였습니다", Toast.LENGTH_LONG).show()
+                                        Log.d(friendDocument.get("name").toString(),"에게 친구요청 실패")
+                                    }
                             }
-                            .addOnFailureListener {
-                                Toast.makeText(activity,item.uid+"에게 친구요청 보내기를 실패하였습니다", Toast.LENGTH_LONG).show()
-                                Log.d("친구요청","실패")
-                            }
+
                     }
                 }
             }
