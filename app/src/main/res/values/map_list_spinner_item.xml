@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="map_list_array">
-        <item>강원도</item>
+        <item>대한민국</item>
         <item>서울</item>
     </string-array>
 </resources>

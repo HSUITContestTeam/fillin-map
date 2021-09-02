@@ -27,7 +27,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -35,11 +34,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.hsu.mapapp.R
 import com.hsu.mapapp.databinding.FragmentMapBinding
 import com.hsu.mapapp.utils.OnSwipeTouchListener
-import java.io.File
-import java.io.FileOutputStream
-import java.io.OutputStream
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.io.*
 
 
 class MapFragment : Fragment(R.layout.fragment_map) {
@@ -47,10 +44,12 @@ class MapFragment : Fragment(R.layout.fragment_map) {
 
     private var data = MutableLiveData<ArrayList<MapItemList>>()
     private lateinit var mapAdapter: MapAdapter
-    private lateinit var mapViewModel: MapViewModel
+    private val mapViewModel by lazy { ViewModelProvider(this).get(MapViewModel::class.java) }
 
     private var isFabOpen = false // Fab 버튼 default는 닫혀있음
     private var isPageOpen = false
+
+    private var spinnerSelected: Int = 0
 
     private val binding get() = _binding!!
 
@@ -63,7 +62,6 @@ class MapFragment : Fragment(R.layout.fragment_map) {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMapBinding.inflate(inflater, container, false)
-        mapViewModel = ViewModelProvider(this).get(MapViewModel::class.java)
 
         return binding.root
     }
@@ -142,7 +140,13 @@ class MapFragment : Fragment(R.layout.fragment_map) {
         binding.MapListRecyclerView.layoutManager = LinearLayoutManager(this.context)
         binding.MapListRecyclerView.setHasFixedSize(true)
 
-        val dataObserver: Observer<ArrayList<MapItemList>> =
+        mapAdapter = MapAdapter(this)
+
+        binding.MapListRecyclerView.layoutManager = LinearLayoutManager(this.context)
+        binding.MapListRecyclerView.adapter = mapAdapter
+        observeData()
+
+        /*val dataObserver: Observer<ArrayList<MapItemList>> =
             Observer { liveData ->
                 data.value = liveData
                 mapAdapter = MapAdapter(data)
@@ -171,10 +175,18 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                 println("지도 추가")
             }
 
-        mapViewModel.mapLiveData.observe(viewLifecycleOwner, dataObserver)
+        mapViewModel.mapLiveData.observe(viewLifecycleOwner, dataObserver)*/
 
 
         setRecyclerDeco()
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun observeData() {
+        mapViewModel.fetchData().observe(viewLifecycleOwner, Observer {
+            mapAdapter.setListData(it)
+            mapAdapter.notifyDataSetChanged()
+        })
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -195,10 +207,11 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                 builder.setPositiveButton("변경") { dialog, which ->
                     mapViewModel.changeMapTitle(mapAdapter.longPos, maptitle.toString())
                     mapAdapter.notifyItemChanged(mapAdapter.longPos)
+                    observeData()
                 }
-                builder.setNegativeButton("취소", { dialog, which ->
+                builder.setNegativeButton("취소") { dialog, which ->
                     builder.setCancelable(true)
-                })
+                }
 
                 builder.show()
 
@@ -206,11 +219,12 @@ class MapFragment : Fragment(R.layout.fragment_map) {
 
             1 -> {
                 val builder = androidx.appcompat.app.AlertDialog.Builder(requireContext())
-                builder.setMessage("정말로 ${mapViewModel.mapData[mapAdapter.longPos].mapTitle} 지도를 삭제 하시겠습니까?")
+                builder.setMessage("정말로 지도를 삭제 하시겠습니까?")
 
                 builder.setPositiveButton("예") { dialog, which ->
                     mapViewModel.deleteMap(mapAdapter.longPos)
                     mapAdapter.notifyItemRemoved(mapAdapter.longPos)
+                    observeData()
                 }
                 builder.setNegativeButton("아니오") { dialog, which ->
                     builder.setCancelable(true)
@@ -229,7 +243,6 @@ class MapFragment : Fragment(R.layout.fragment_map) {
     }
 
     // ----------------------지도 추가 dialog-------------------------
-
     private fun setAddMapBtn() {
         binding.addMapBtn.setOnClickListener {
             val builder = AlertDialog.Builder(requireContext())
@@ -240,16 +253,20 @@ class MapFragment : Fragment(R.layout.fragment_map) {
             val mapTitle: TextView = view.findViewById(R.id.map_name_editTv)
 
             builder.setView(view)
+            setSpinner(view)
 
             builder.setPositiveButton("저장") { dialog, which ->
                 val newMapTitle = mapTitle.text
-                var newData = MapItemList(newMapTitle.toString())
+                val mapListItems = resources.getStringArray(R.array.map_list_array)
+                val imageUri = getURLForResource(R.drawable.base_map)
+                var newData =
+                    MapItemList(newMapTitle.toString(), imageUri, mapListItems[spinnerSelected])
                 mapViewModel.addMap(newData)
+                observeData()
             }
             builder.setNegativeButton("취소", DialogInterface.OnClickListener { dialog, which ->
 
             })
-            setSpinner(view)
             builder.show()
         }
     }
@@ -275,15 +292,22 @@ class MapFragment : Fragment(R.layout.fragment_map) {
             ) {
                 Toast.makeText(
                     requireContext(),
-                    "지도종류 : ${mapSortSpinner.getItemAtPosition(position)}",
+                    "selected : ${mapSortSpinner.getItemAtPosition(position)}",
                     Toast.LENGTH_SHORT
                 ).show()
+                spinnerSelected = position
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
         }
+    }
+
+    fun getURLForResource(resourceId: Int): String {
+        //use BuildConfig.APPLICATION_ID instead of R.class.getPackage().getName() if both are not same
+        return Uri.parse("android.resource://" + R::class.java.getPackage().name + "/" + resourceId)
+            .toString()
     }
 
     // ----------------------FAB button-------------------------
@@ -398,7 +422,12 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                 val imageUri: Uri? =
                     resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
 
-                contentValues = ContentValues().apply { put(MediaStore.MediaColumns.MIME_TYPE, getMimeType(imageUri.toString())) }
+                contentValues = ContentValues().apply {
+                    put(
+                        MediaStore.MediaColumns.MIME_TYPE,
+                        getMimeType(imageUri.toString())
+                    )
+                }
 
                 // Opening an outputstream with the Uri that we got
                 fos = imageUri?.let { resolver.openOutputStream(it) }
