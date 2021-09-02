@@ -15,7 +15,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.hsu.mapapp.MainActivity
 import com.hsu.mapapp.R
-import com.hsu.mapapp.databinding.ActivityShareBinding
 import com.hsu.mapapp.databinding.FragmentFriendsBinding
 
 class ShareFragment : Fragment(R.layout.fragment_friends) {
@@ -37,8 +36,6 @@ class ShareFragment : Fragment(R.layout.fragment_friends) {
         mainActivity = context as MainActivity
     }
 
-
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -57,7 +54,44 @@ class ShareFragment : Fragment(R.layout.fragment_friends) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setRecycler()
+        setDialog()
+    }
 
+
+    private fun setRecycler() {
+        adapter = FriendsAdapter(this)
+        binding.friendsRecycler.adapter = adapter
+        binding.friendsRecycler.layoutManager = LinearLayoutManager(this.context)
+        binding.friendsRecycler.setHasFixedSize(true)
+
+        setFriends()
+    }
+
+    fun setFriends() {
+        val myRef = firestore?.collection("users")?.document("$uid")
+        myRef!!.get()
+            .addOnSuccessListener { document ->
+                if (document.get("friendsList") != null) {
+                    val hashMap: ArrayList<Map<String, String>> =
+                        document.get("friendsList") as ArrayList<Map<String, String>>
+                    for (keys in hashMap) {
+                        val key = keys.keys.iterator().next()
+                        if (keys[key].toString() == "friend") {
+                            val friendRef = firestore?.collection("users")?.document(key)
+                            friendRef?.get()?.addOnSuccessListener { document ->
+                                data_friends.apply {
+                                    add(FriendsItemList((document.get("name").toString())))
+                                    adapter.datas_friends = data_friends
+                                    adapter.notifyDataSetChanged()
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+    }
+
+    fun setDialog() {
         var myRef = firestore?.collection("users")?.document("$uid")
         myRef!!.get()
             .addOnSuccessListener { document->
@@ -90,40 +124,6 @@ class ShareFragment : Fragment(R.layout.fragment_friends) {
                                         .setNegativeButton("아니오") { dialog, which -> dialog.dismiss() }
                                         .show()
                                 }
-                        }
-                    }
-                }
-            }
-    }
-
-
-    private fun setRecycler() {
-        adapter = FriendsAdapter(this)
-        binding.friendsRecycler.adapter = adapter
-        binding.friendsRecycler.layoutManager = LinearLayoutManager(this.context)
-        binding.friendsRecycler.setHasFixedSize(true)
-
-        setFriends()
-    }
-
-    fun setFriends() {
-        val myRef = firestore?.collection("users")?.document("$uid")
-        myRef!!.get()
-            .addOnSuccessListener { document ->
-                if (document.get("friendsList") != null) {
-                    val hashMap: ArrayList<Map<String, String>> =
-                        document.get("friendsList") as ArrayList<Map<String, String>>
-                    for (keys in hashMap) {
-                        val key = keys.keys.iterator().next()
-                        if (keys[key].toString() == "friend") {
-                            val friendRef = firestore?.collection("users")?.document(key)
-                            friendRef?.get()?.addOnSuccessListener { document ->
-                                data_friends.apply {
-                                    add(FriendsItemList((document.get("name").toString())))
-                                    adapter.datas_friends = data_friends
-                                    adapter.notifyDataSetChanged()
-                                }
-                            }
                         }
                     }
                 }
@@ -179,5 +179,6 @@ class ShareFragment : Fragment(R.layout.fragment_friends) {
         super.onDestroyView()
         _binding = null
     }
+
 }
 
