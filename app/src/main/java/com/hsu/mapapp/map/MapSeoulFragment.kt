@@ -1,6 +1,5 @@
 package com.hsu.mapapp.map
 
-import android.R.attr
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
@@ -9,6 +8,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
+import android.media.ExifInterface
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -17,7 +17,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -25,7 +24,6 @@ import androidx.core.graphics.PathParser
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.BitmapImageViewTarget
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.ktx.auth
@@ -39,13 +37,7 @@ import com.hsu.mapapp.databinding.FragmentMapSeoulBinding
 import com.richpath.RichPathView
 import java.io.*
 import java.util.*
-import kotlin.collections.HashMap
 import kotlin.collections.set
-import android.R.attr.path
-import android.R.attr.path
-import android.os.Environment
-import javax.xml.transform.stream.StreamResult
-
 
 class MapSeoulFragment : Fragment() {
     private var _binding: FragmentMapSeoulBinding? = null
@@ -68,7 +60,7 @@ class MapSeoulFragment : Fragment() {
     private var AllIMGS: HashMap<String, ImageView> = hashMapOf<String, ImageView>()
     private var width: Int? = null
     private var height: Int? = null
-
+    private var sizeFlag:Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         storage = FirebaseStorage.getInstance()
@@ -87,7 +79,6 @@ class MapSeoulFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initialImageViewHashMap()
-        uploadImageFromStorage()
         uploadColorFromStorage()
     }
 
@@ -95,9 +86,9 @@ class MapSeoulFragment : Fragment() {
     private fun initialImageViewHashMap() {
         val mapOfKoreaRegions = resources.getStringArray(R.array.map_of_korea_regions)
         for (region in mapOfKoreaRegions) {
-            val imageView = requireView().rootView.findViewWithTag<ImageView>("$region")
+            val imageView = requireView().rootView.findViewWithTag<ImageView>(region)
             if (imageView != null) {
-                AllIMGS["$region"] = imageView
+                AllIMGS[region] = imageView
             }
         }
     }
@@ -108,11 +99,10 @@ class MapSeoulFragment : Fragment() {
         uidRef.listAll()
             .addOnSuccessListener(OnSuccessListener<ListResult> { result ->
                 for (fileRef in result.items) {
-                    uidRef.child("${fileRef.name}").downloadUrl.addOnCompleteListener {
+                    uidRef.child(fileRef.name).downloadUrl.addOnCompleteListener {
                         if (it.isSuccessful) {
-                            Glide.with(this).asBitmap().load(it.result)
-                                .into(object :
-                                    BitmapImageViewTarget(AllIMGS["${fileRef.name}"]) {});
+                            Glide.with(this).load(it.result)
+                                .into(AllIMGS[fileRef.name]!!)
                         }
                     }
                 }
@@ -125,15 +115,15 @@ class MapSeoulFragment : Fragment() {
         uidRef.listAll()
             .addOnSuccessListener(OnSuccessListener<ListResult> { result ->
                 for (fileRef in result.items) {
-                    val localFile = File.createTempFile("${fileRef.name}", "txt")
-                    Log.d("fileName", "${fileRef.name}")
+                    val localFile = File.createTempFile(fileRef.name, "txt")
+                    Log.d("fileName", fileRef.name)
                     fileRef.getFile(localFile).addOnSuccessListener {
                         activity?.let {
                             val colorValue: String = localFile.readText()
-                            Log.d("colorValue", "$colorValue")
+                            Log.d("colorValue", colorValue)
                             localFile.delete()
-                            richPathView.findRichPathByName("${fileRef.name}")?.fillColor =
-                                Color.parseColor("$colorValue")
+                            richPathView.findRichPathByName(fileRef.name)?.fillColor =
+                                Color.parseColor(colorValue)
                         }
                     }.addOnFailureListener { }
                 }
@@ -145,6 +135,27 @@ class MapSeoulFragment : Fragment() {
     @SuppressLint("WrongThread")
     override fun onResume() {
         super.onResume()
+        imageUploadToFirebase()
+        setALLIMGSsize() // 이미지뷰 사이즈 초기화
+        uploadImageFromStorage()
+    }
+    private fun setALLIMGSsize(){
+        sizeFlag = 1
+        val mapOfKoreaRegions = resources.getStringArray(R.array.map_of_korea_regions)
+        for (region in mapOfKoreaRegions) {
+            val imageView = requireView().rootView.findViewWithTag<ImageView>(region)
+            if (imageView != null) {
+                width =
+                    binding.icMapOfSouthKorea.findRichPathByName(region)!!.originalWidth.toInt()
+                height =
+                    binding.icMapOfSouthKorea.findRichPathByName(region)!!.originalHeight.toInt()
+                AllIMGS[region]!!.layoutParams.width = width as Int
+                AllIMGS[region]!!.layoutParams.height = height as Int
+
+            }
+        }
+    }
+    private fun imageUploadToFirebase() {
         val keySet = ClickedIMGS.keys
         for (name in keySet) {
             val imageView = ClickedIMGS[name]
@@ -171,7 +182,6 @@ class MapSeoulFragment : Fragment() {
             }
         }
     }
-
     //-----------------------------지도 클릭 이벤트 ----------------------------------//
     fun onClick() {
         richPathView = binding.icMapOfSouthKorea
@@ -272,21 +282,31 @@ class MapSeoulFragment : Fragment() {
                 if (currentImageUri != null) {
                     try {
                         // 이미지 uri를 절대 경로로 바꾸기
-                        var path = ""
+                        var imagePath = ""
                         currentImageUri?.let { it1 ->
-                            path = createCopyAndReturnRealPath(it1).toString()
+                            imagePath = createCopyAndReturnRealPath(it1).toString()
                         }
-                        var srcBitmap = BitmapFactory.decodeFile(path)
+                        // 이미지뷰 회전 체크
+                        var exif: ExifInterface? = null
+                        try {
+                            exif = ExifInterface(imagePath)
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                        }
+                        val orientation = exif!!.getAttributeInt(
+                            ExifInterface.TAG_ORIENTATION,
+                            ExifInterface.ORIENTATION_UNDEFINED
+                        )
+                        var srcBitmap = BitmapFactory.decodeFile(imagePath)
+                        srcBitmap = rotateBitmap(srcBitmap,orientation)
                         // bitmap 사이즈 조절
-                        //******* 추후 수정하겠음 - 서버에서 꺼내오는걸로
                         width =
                             binding.icMapOfSouthKorea.findRichPathByName("$mapName")!!.originalWidth.toInt()
                         height =
                             binding.icMapOfSouthKorea.findRichPathByName("$mapName")!!.originalHeight.toInt()
-                        srcBitmap = Bitmap.createScaledBitmap(srcBitmap, width!!, height!!, true)
-                        // 첫번째 방법 - 이미지뷰 이용
-                        Log.d("mapName", mapName!!)
-                        AllIMGS["$mapName"]?.setImageBitmap(convertToMap(srcBitmap)) // bitmap을 이미지뷰에 붙이기
+                        srcBitmap = Bitmap.createScaledBitmap(srcBitmap,width!!,height!!,true)
+                        // bitmap을 이미지뷰에 붙이기
+                        AllIMGS["$mapName"]?.setImageBitmap(convertToMap(srcBitmap))
                         ClickedIMGS["$mapName"]!!.layoutParams.width = width as Int
                         ClickedIMGS["$mapName"]!!.layoutParams.height = height as Int
                         Log.d("width", width.toString())
@@ -389,6 +409,39 @@ class MapSeoulFragment : Fragment() {
             ClickedIMGS.remove("$mapName")
         }.addOnFailureListener {
             Log.d("image delete", "fail")
+        }
+    }
+    //-----------------------------이미지뷰 회전 관련 함수----------------------------------//
+    fun rotateBitmap(bitmap: Bitmap, orientation: Int): Bitmap? {
+        val matrix = Matrix()
+        when (orientation) {
+            ExifInterface.ORIENTATION_NORMAL -> return bitmap
+            ExifInterface.ORIENTATION_FLIP_HORIZONTAL -> matrix.setScale((-1).toFloat(), 1F)
+            ExifInterface.ORIENTATION_ROTATE_180 -> matrix.setRotate(180F)
+            ExifInterface.ORIENTATION_FLIP_VERTICAL -> {
+                matrix.setRotate(180F)
+                matrix.postScale((-1).toFloat(), 1F)
+            }
+            ExifInterface.ORIENTATION_TRANSPOSE -> {
+                matrix.setRotate(90F)
+                matrix.postScale((-1).toFloat(), 1F)
+            }
+            ExifInterface.ORIENTATION_ROTATE_90 -> matrix.setRotate(90F)
+            ExifInterface.ORIENTATION_TRANSVERSE -> {
+                matrix.setRotate((-90).toFloat())
+                matrix.postScale((-1).toFloat(), 1F)
+            }
+            ExifInterface.ORIENTATION_ROTATE_270 -> matrix.setRotate((-90).toFloat())
+            else -> return bitmap
+        }
+        return try {
+            val bmRotated =
+                Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+            bitmap.recycle()
+            bmRotated
+        } catch (e: OutOfMemoryError) {
+            e.printStackTrace()
+            null
         }
     }
 }
