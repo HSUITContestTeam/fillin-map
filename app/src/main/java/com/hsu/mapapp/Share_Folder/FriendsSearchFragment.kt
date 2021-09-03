@@ -97,6 +97,9 @@ class FriendsSearchFragment : Fragment(R.layout.search_friends_list_item) {
                     .load(item.photoUrl)
                     .into(binding.imageView6)
             }
+            fun setFriendsMessage(item:FriendsSearchItemList){
+                binding.FriendsMessageSearch.text = item.Message
+            }
             fun addFriendsBtnOnclick(item: FriendsSearchItemList){
                 binding.addFriendsBtn.isSelected = isStartBtnSelected
                 isStartBtnSelected = !isStartBtnSelected
@@ -160,6 +163,7 @@ class FriendsSearchFragment : Fragment(R.layout.search_friends_list_item) {
             holder.setFriendsName(datas_friends_search[position])
             holder.addFriendsBtnOnclick(datas_friends_search[position])
             holder.SetFriendsImage(datas_friends_search[position])
+            holder.setFriendsMessage(datas_friends_search[position])
         }
 
         override fun getItemCount() = datas_friends_search.size

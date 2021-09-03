@@ -125,6 +125,7 @@ class CreateUserActivity : AppCompatActivity() {
         userInfo.name = createUseBinding.nameEt.text.toString()
         userInfo.uid = auth?.uid //유저 정보 가져오기
         userInfo.userId = auth?.currentUser?.email
+        userInfo.Message = ""
 
         //Firestore데이터 베이스에 업로드
         firestore?.collection("users")?.document(auth?.uid.toString())?.set(userInfo)

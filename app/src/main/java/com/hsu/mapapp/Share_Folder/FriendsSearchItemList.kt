@@ -4,7 +4,8 @@ data class FriendsSearchItemList (
     val userId : String, //연결하고자 하는 것과 이름이 일치해야함
     val uid : String,
     val photoUrl : String,
-    val name : String
+    val name : String,
+    val Message: String
 ) {
-    constructor():this("","", "", "")
+    constructor():this("","", "", "","")
 }
