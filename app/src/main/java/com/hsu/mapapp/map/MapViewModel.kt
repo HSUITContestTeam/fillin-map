@@ -23,7 +23,9 @@ class MapViewModel : ViewModel() {
     }
 
     init {
-        fetchData()
+        mapRepository.getData().observeForever {
+            mutableData.value = it
+        }
     }
 
     fun addMap(mapItem: MapItemList) {

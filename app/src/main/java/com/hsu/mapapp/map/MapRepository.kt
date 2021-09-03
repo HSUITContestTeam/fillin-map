@@ -4,9 +4,6 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
@@ -20,7 +17,7 @@ class MapRepository {
         firestore = FirebaseFirestore.getInstance()
         val myRef = firestore?.collection("users")?.document("$uid")
         myRef!!.get().addOnSuccessListener { document ->
-            val listData: MutableList<MapItemList> = mutableListOf<MapItemList>()
+            val listData: MutableList<MapItemList> = mutableListOf()
             if (document.get("mapList") != null) {
                 val mapList: ArrayList<Map<String, String>> =
                     document.get("mapList") as ArrayList<Map<String, String>>
@@ -43,11 +40,7 @@ class MapRepository {
         firestore = FirebaseFirestore.getInstance()
         val myRef = firestore?.collection("users")?.document("$uid")
         myRef!!.get().addOnSuccessListener { document ->
-            val listData: MutableList<MapItemList> = mutableListOf()
-            if (document.get("mapList") != null) {
-                myRef.update("mapList", FieldValue.arrayUnion(item))
-                Log.d("mapEdit", "add : ${item}")
-            }
+            myRef.update("mapList", FieldValue.arrayUnion(item))
         }
     }
 
@@ -60,7 +53,6 @@ class MapRepository {
                     document.get("mapList") as ArrayList<Map<String, String>>
                 myRef.update("mapList", FieldValue.arrayRemove(mapList[pos]))
                 mapList.removeAt(pos)
-                Log.d("mapEdit", "delete : mapList[${pos}]")
             }
         }
     }
@@ -80,7 +72,6 @@ class MapRepository {
                 )
                 myRef.update("mapList", FieldValue.arrayRemove(mapList[pos]))
                 myRef.update("mapList", FieldValue.arrayUnion(replace))
-                Log.d("mapEdit", "titleChanged")
             }
         }
     }
