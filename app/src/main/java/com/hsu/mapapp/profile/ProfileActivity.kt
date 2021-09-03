@@ -209,7 +209,10 @@ class ProfileActivity : AppCompatActivity() {
     //---------------------닉네임 재설정----------------------//
     private fun updateName() {
         val user = Firebase.auth.currentUser
-        var value = ""
+        val uid = user?.uid
+        var value_N = ""
+        var value_M = ""
+
         val linearLayout = View.inflate(this, R.layout.dialog_name, null)
         if (user != null) {
             // 닉네임 입력 다이얼로그 설정
@@ -217,12 +220,19 @@ class ProfileActivity : AppCompatActivity() {
                 .setView(linearLayout)
                 .setPositiveButton("확인") { dialog, which ->
                     val editText: EditText = linearLayout.findViewById(R.id.name_editText)
-                    value = editText.text.toString()
-                    profileBinding.profileNameTV.text = value
+                    val editText_M : EditText = linearLayout.findViewById(R.id.Message_editText)
+
+                    value_N = editText.text.toString()
+                    value_M = editText_M.text.toString()
+
+                    profileBinding.profileNameTV.text = value_N
+                    profileBinding.StatusMessage.text= value_M
+
                     // firestore - users - name 업데이트
                     val profileRef = firestore?.collection("users")?.document(uid!!)
                     profileRef?.get()?.addOnSuccessListener {
-                        profileRef.update("name", value)
+                        profileRef.update("name", value_N)
+                        profileRef.update("Message",value_M)
                     }
                     // [END update_profile]
 
@@ -235,6 +245,8 @@ class ProfileActivity : AppCompatActivity() {
 
         }
     }
+
+
 
     //------------------프로필 이미지 크롭----------------------//
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
