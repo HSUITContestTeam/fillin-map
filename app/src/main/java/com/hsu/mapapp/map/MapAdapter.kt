@@ -1,24 +1,12 @@
 package com.hsu.mapapp.map
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.net.toUri
-import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.hsu.mapapp.databinding.MapListItemBinding
-import android.provider.MediaStore
-
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.net.Uri
-
-import android.os.ParcelFileDescriptor
-import android.util.Base64
-import com.bumptech.glide.Glide
 import java.io.*
 
 
@@ -27,14 +15,12 @@ class MapAdapter(private val context: MapFragment) :
     private lateinit var binding: MapListItemBinding
     private var isStartBtnSelected = false
     private var itemListener: OnItemClickListener? = null
-    var longPos = -1
+    var longPos = -1 // 롱클릭 position
     private var mapItemList = mutableListOf<MapItemList>()
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setListData(data: MutableList<MapItemList>) {
-        mapItemList.clear()
-        mapItemList.addAll(data)
-        notifyDataSetChanged()
+    fun setListData(newMapItemList: MutableList<MapItemList>) {
+        this.mapItemList = newMapItemList
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
@@ -46,9 +32,8 @@ class MapAdapter(private val context: MapFragment) :
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val mapItem: MapItemList = mapItemList[position]
         viewHolder.mapTitle.text = mapItem.mapTitle
-        Log.d("viewHolder", "mapTitle: ${mapItem.mapTitle}")
         viewHolder.previewImage.setImageURI(mapItem.previewImage.toUri())
-        viewHolder.startOnclick()
+        viewHolder.setOnclick()
     }
 
     override fun getItemCount(): Int {
@@ -60,7 +45,7 @@ class MapAdapter(private val context: MapFragment) :
         var mapTitle = binding.mapTitle
         val previewImage = binding.previewImage
 
-        fun startOnclick() {
+        fun setOnclick() {
             binding.startBtn.setOnClickListener {
                 binding.startBtn.isSelected = isStartBtnSelected
                 isStartBtnSelected = !isStartBtnSelected

@@ -76,7 +76,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
         setFABClickEvent() // FAB 버튼 설정
     }
 
-    // ----------------------슬라이딩 Layout-------------------------
+    // ----------------------슬라이딩 Layout 애니메이션-------------------------
 
     @SuppressLint("ClickableViewAccessibility")
     private fun setSlidingAnimation() {
@@ -134,8 +134,9 @@ class MapFragment : Fragment(R.layout.fragment_map) {
         }
     }
 
-    // ----------------------지도 목록 recycler-------------------------
+    // ----------------------지도 목록 recycler setting-------------------------
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun setRecycler() {
         binding.MapListRecyclerView.layoutManager = LinearLayoutManager(this.context)
         binding.MapListRecyclerView.setHasFixedSize(true)
@@ -144,7 +145,11 @@ class MapFragment : Fragment(R.layout.fragment_map) {
 
         binding.MapListRecyclerView.layoutManager = LinearLayoutManager(this.context)
         binding.MapListRecyclerView.adapter = mapAdapter
-        observeData()
+
+        mapViewModel.fetchData().observe(viewLifecycleOwner, Observer { datas ->
+            mapAdapter.setListData(datas)
+            mapAdapter.notifyDataSetChanged()
+        })
 
         /*val dataObserver: Observer<ArrayList<MapItemList>> =
             Observer { liveData ->
@@ -181,14 +186,16 @@ class MapFragment : Fragment(R.layout.fragment_map) {
         setRecyclerDeco()
     }
 
+    // 데이터 변하면 fech, notify
     @SuppressLint("NotifyDataSetChanged")
     fun observeData() {
-        mapViewModel.fetchData().observe(viewLifecycleOwner, Observer {
-            mapAdapter.setListData(it)
+        mapViewModel.fetchData().observe(viewLifecycleOwner, Observer { datas ->
+            mapAdapter.setListData(datas)
             mapAdapter.notifyDataSetChanged()
         })
     }
 
+    // ----------------------리사이클러뷰 롱클릭 팝업메뉴(지도편집) itemSelected-------------------------
     @SuppressLint("NotifyDataSetChanged")
     override fun onContextItemSelected(item: MenuItem): Boolean {
 
@@ -207,7 +214,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                 builder.setPositiveButton("변경") { dialog, which ->
                     mapViewModel.changeMapTitle(mapAdapter.longPos, maptitle.toString())
                     mapAdapter.notifyItemChanged(mapAdapter.longPos)
-                    observeData()
+                    //observeData()
                 }
                 builder.setNegativeButton("취소") { dialog, which ->
                     builder.setCancelable(true)
@@ -224,7 +231,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                 builder.setPositiveButton("예") { dialog, which ->
                     mapViewModel.deleteMap(mapAdapter.longPos)
                     mapAdapter.notifyItemRemoved(mapAdapter.longPos)
-                    observeData()
+                    //observeData()
                 }
                 builder.setNegativeButton("아니오") { dialog, which ->
                     builder.setCancelable(true)
@@ -243,6 +250,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
     }
 
     // ----------------------지도 추가 dialog-------------------------
+    @SuppressLint("NotifyDataSetChanged")
     private fun setAddMapBtn() {
         binding.addMapBtn.setOnClickListener {
             val builder = AlertDialog.Builder(requireContext())
@@ -262,7 +270,8 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                 var newData =
                     MapItemList(newMapTitle.toString(), imageUri, mapListItems[spinnerSelected])
                 mapViewModel.addMap(newData)
-                observeData()
+                mapAdapter.notifyDataSetChanged()
+                //observeData()
             }
             builder.setNegativeButton("취소", DialogInterface.OnClickListener { dialog, which ->
 
