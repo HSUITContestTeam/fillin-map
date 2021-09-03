@@ -60,7 +60,7 @@ class MapSeoulFragment : Fragment() {
     private var AllIMGS: HashMap<String, ImageView> = hashMapOf<String, ImageView>()
     private var width: Int? = null
     private var height: Int? = null
-    private var sizeFlag:Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         storage = FirebaseStorage.getInstance()
@@ -78,12 +78,21 @@ class MapSeoulFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initialImageViewHashMap()
+        if(AllIMGS.isEmpty())
+            initialImageViewHashMap()
         uploadColorFromStorage()
+    }
+
+    @SuppressLint("WrongThread")
+    override fun onResume() {
+        super.onResume()
+        setALLIMGSsize() // 이미지뷰 사이즈 초기화
+        imageWithFirebase() // 이미지뷰 서버에 업로드 및 가져오기
     }
 
     //-----------------------------AllIMGS 해시맵 초기화----------------------------------//
     private fun initialImageViewHashMap() {
+        Log.d("initialImageViewHashMap()","실행")
         val mapOfKoreaRegions = resources.getStringArray(R.array.map_of_korea_regions)
         for (region in mapOfKoreaRegions) {
             val imageView = requireView().rootView.findViewWithTag<ImageView>(region)
@@ -93,23 +102,7 @@ class MapSeoulFragment : Fragment() {
         }
     }
 
-    //-----------------------------map ImageView 서버에서 불러오기----------------------------------//
-    private fun uploadImageFromStorage() {
-        val uidRef = storage.reference.child("mapImageView/$uid")
-        uidRef.listAll()
-            .addOnSuccessListener(OnSuccessListener<ListResult> { result ->
-                for (fileRef in result.items) {
-                    uidRef.child(fileRef.name).downloadUrl.addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            Glide.with(this).load(it.result)
-                                .into(AllIMGS[fileRef.name]!!)
-                        }
-                    }
-                }
-            })
-            .addOnFailureListener(OnFailureListener {})
-    }
-
+    //-----------------------------map color Firebase로부터 가져오기----------------------------------//
     private fun uploadColorFromStorage() {
         val uidRef = storage.reference.child("mapColor/$uid")
         uidRef.listAll()
@@ -130,17 +123,8 @@ class MapSeoulFragment : Fragment() {
             })
             .addOnFailureListener(OnFailureListener {})
     }
-
-    //-----------------------------map ImageView 서버에 저장----------------------------------//
-    @SuppressLint("WrongThread")
-    override fun onResume() {
-        super.onResume()
-        imageUploadToFirebase()
-        setALLIMGSsize() // 이미지뷰 사이즈 초기화
-        uploadImageFromStorage()
-    }
+    //-----------------------------이미지뷰 사이즈 초기화화---------------------------------//
     private fun setALLIMGSsize(){
-        sizeFlag = 1
         val mapOfKoreaRegions = resources.getStringArray(R.array.map_of_korea_regions)
         for (region in mapOfKoreaRegions) {
             val imageView = requireView().rootView.findViewWithTag<ImageView>(region)
@@ -151,36 +135,60 @@ class MapSeoulFragment : Fragment() {
                     binding.icMapOfSouthKorea.findRichPathByName(region)!!.originalHeight.toInt()
                 AllIMGS[region]!!.layoutParams.width = width as Int
                 AllIMGS[region]!!.layoutParams.height = height as Int
-
             }
         }
     }
-    private fun imageUploadToFirebase() {
-        val keySet = ClickedIMGS.keys
-        for (name in keySet) {
-            val imageView = ClickedIMGS[name]
-            if (imageView != null && imageView.drawable is BitmapDrawable) {
-                val bitmap = (imageView.drawable as BitmapDrawable).bitmap
-                val baos = ByteArrayOutputStream()
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    bitmap.compress(Bitmap.CompressFormat.WEBP_LOSSLESS, 100, baos)
-                } else {
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos)
-                }
-                val data = baos.toByteArray()
-                // FirebaseStorage
-                val storageRef = storage.reference
-                val bitmapRef = storageRef.child("mapImageView/$uid/$name")
-                val uploadTask: UploadTask = bitmapRef.putBytes(data)
-                uploadTask.addOnFailureListener {
-                    // Handle unsuccessful uploads
-                    Log.d("uploadTask", "Faliure")
-                }.addOnSuccessListener {
-                    // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                    Log.d("uploadTask", "Success")
+    //-----------------------------이미지 업로드/가져오기 with Firebase---------------------------------//
+    private fun imageWithFirebase() {
+        if(ClickedIMGS.isNotEmpty()){ // 클릭한 이미지가 있는 경우 이미지뷰를 서버에 저장 후 표시
+            Log.d("imageUploadToFirebase()","실행")
+            val keySet = ClickedIMGS.keys
+            for (name in keySet) {
+                val imageView = ClickedIMGS[name]
+                if (imageView != null && imageView.drawable is BitmapDrawable) {
+                    val bitmap = (imageView.drawable as BitmapDrawable).bitmap
+                    val baos = ByteArrayOutputStream()
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                        bitmap.compress(Bitmap.CompressFormat.WEBP_LOSSLESS, 100, baos)
+                    } else {
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos)
+                    }
+                    val data = baos.toByteArray()
+                    // FirebaseStorage
+                    val storageRef = storage.reference
+                    val bitmapRef = storageRef.child("mapImageView/$uid/$name")
+                    val uploadTask: UploadTask = bitmapRef.putBytes(data)
+                    uploadTask.addOnFailureListener {
+                        // Handle unsuccessful uploads
+                        Log.d("uploadTask", "Faliure")
+                    }.addOnSuccessListener {
+                        // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                        Log.d("uploadTask", "Success")
+                        // 파이어베이스에 클릭한 이미지 저장 후 불러오기
+                        showImageViewFromStorage()
+                    }
                 }
             }
+        } else{
+            showImageViewFromStorage()
         }
+    }
+    //-----------------------------map ImageView Firebase에서 불러오기----------------------------------//
+    private fun showImageViewFromStorage() {
+        Log.d("showImageViewFromStorage()","실행")
+        val uidRef = storage.reference.child("mapImageView/$uid")
+        uidRef.listAll()
+            .addOnSuccessListener(OnSuccessListener<ListResult> { result ->
+                for (fileRef in result.items) {
+                    uidRef.child(fileRef.name).downloadUrl.addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            Glide.with(this).load(it.result)
+                                .into(AllIMGS[fileRef.name]!!)
+                        }
+                    }
+                }
+            })
+            .addOnFailureListener(OnFailureListener {})
     }
     //-----------------------------지도 클릭 이벤트 ----------------------------------//
     fun onClick() {
@@ -306,7 +314,8 @@ class MapSeoulFragment : Fragment() {
                             binding.icMapOfSouthKorea.findRichPathByName("$mapName")!!.originalHeight.toInt()
                         srcBitmap = Bitmap.createScaledBitmap(srcBitmap,width!!,height!!,true)
                         // bitmap을 이미지뷰에 붙이기
-                        AllIMGS["$mapName"]?.setImageBitmap(convertToMap(srcBitmap))
+                        Log.d("setImageBitmap","실행")
+                        ClickedIMGS["$mapName"]?.setImageBitmap(convertToMap(srcBitmap))
                         ClickedIMGS["$mapName"]!!.layoutParams.width = width as Int
                         ClickedIMGS["$mapName"]!!.layoutParams.height = height as Int
                         Log.d("width", width.toString())
