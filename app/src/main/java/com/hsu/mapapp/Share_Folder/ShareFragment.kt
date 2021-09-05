@@ -22,11 +22,11 @@ class ShareFragment : Fragment(R.layout.fragment_friends) {
     var mainActivity: MainActivity? = null
     private var _binding: FragmentFriendsBinding? = null
     private val binding get() = _binding!!
-    lateinit var text : String
+    lateinit var text: String
     private lateinit var viewModel: ShareViewModel
 
-    private var firestore : FirebaseFirestore? = null
-    private val uid = Firebase.auth.currentUser ?.uid
+    private var firestore: FirebaseFirestore? = null
+    private val uid = Firebase.auth.currentUser?.uid
 
     private lateinit var adapter: FriendsAdapter
     private val data_friends = mutableListOf<FriendsItemList>()
@@ -74,6 +74,7 @@ class ShareFragment : Fragment(R.layout.fragment_friends) {
                 if (document.get("friendsList") != null) {
                     val hashMap: ArrayList<Map<String, String>> =
                         document.get("friendsList") as ArrayList<Map<String, String>>
+                    data_friends.clear()
                     for (keys in hashMap) {
                         val key = keys.keys.iterator().next()
                         if (keys[key].toString() == "friend") {
@@ -81,7 +82,7 @@ class ShareFragment : Fragment(R.layout.fragment_friends) {
                             friendRef?.get()?.addOnSuccessListener { document ->
                                 data_friends.apply {
                                     add(FriendsItemList((document.get("name").toString())))
-                                    adapter.datas_friends = data_friends
+                                    adapter.setData(data_friends)
                                     adapter.notifyDataSetChanged()
                                 }
                             }
@@ -94,9 +95,9 @@ class ShareFragment : Fragment(R.layout.fragment_friends) {
     fun setDialog() {
         var myRef = firestore?.collection("users")?.document("$uid")
         myRef!!.get()
-            .addOnSuccessListener { document->
-                if(document.get("friendsList") != null) {
-                    val hashMap: ArrayList<Map<String,String>> =
+            .addOnSuccessListener { document ->
+                if (document.get("friendsList") != null) {
+                    val hashMap: ArrayList<Map<String, String>> =
                         document.get("friendsList") as ArrayList<Map<String, String>>
                     for (keys in hashMap) {
                         val friend: MutableMap<String, Any> = HashMap()
@@ -109,17 +110,29 @@ class ShareFragment : Fragment(R.layout.fragment_friends) {
                                     val builder = AlertDialog.Builder(requireContext())
                                     builder
                                         .setTitle("친구 요청")
-                                        .setMessage(document.get("name").toString() + "가 친구 요청을 보냈습니다. 수락하시겠습니까?")
+                                        .setMessage(
+                                            document.get("name")
+                                                .toString() + "가 친구 요청을 보냈습니다. 수락하시겠습니까?"
+                                        )
                                         .setPositiveButton("예") { dialog, which ->
                                             mine[key] = "requested"
-                                            myRef.update("friendsList", FieldValue.arrayRemove(mine))
+                                            myRef.update(
+                                                "friendsList",
+                                                FieldValue.arrayRemove(mine)
+                                            )
                                             mine[key] = "friend"
                                             myRef.update("friendsList", FieldValue.arrayUnion(mine))
 
                                             friend[uid.toString()] = "request"
-                                            friendRef.update("friendsList", FieldValue.arrayRemove(friend))
+                                            friendRef.update(
+                                                "friendsList",
+                                                FieldValue.arrayRemove(friend)
+                                            )
                                             friend[uid.toString()] = "friend"
-                                            friendRef.update("friendsList", FieldValue.arrayUnion(friend))
+                                            friendRef.update(
+                                                "friendsList",
+                                                FieldValue.arrayUnion(friend)
+                                            )
                                         }
                                         .setNegativeButton("아니오") { dialog, which -> dialog.dismiss() }
                                         .show()
@@ -130,7 +143,7 @@ class ShareFragment : Fragment(R.layout.fragment_friends) {
             }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater){
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.share_menu, menu);
 
@@ -166,8 +179,8 @@ class ShareFragment : Fragment(R.layout.fragment_friends) {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        when(item.itemId) {
-            R.id.item_search->{
+        when (item.itemId) {
+            R.id.item_search -> {
                 println("검색버튼 클릭")
                 findNavController().navigate(R.id.action_shareFragment_to_friendsSearchFragment2)
             }
