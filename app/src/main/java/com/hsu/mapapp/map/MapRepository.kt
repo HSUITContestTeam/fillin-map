@@ -1,16 +1,9 @@
 package com.hsu.mapapp.map
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
-
-interface MyCallback {
-    fun onCallback(value: ArrayList<MapItemList>)
-}
 
 class MapRepository {
     private var firestore: FirebaseFirestore? = null
@@ -20,9 +13,8 @@ class MapRepository {
         firestore = FirebaseFirestore.getInstance()
         val listData: ArrayList<MapItemList> = arrayListOf()
         val myRef = firestore?.collection("users")?.document("$uid")
-        myRef!!.get().addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val document = task.result
+        myRef!!.get().addOnSuccessListener { document ->
+            if (document.get("mapList") != null) {
                 val mapList: ArrayList<Map<String, String>> =
                     document.get("mapList") as ArrayList<Map<String, String>>
                 for (map in mapList) {
@@ -34,10 +26,8 @@ class MapRepository {
                         )
                     )
                 }
-                println("listData inside task: $listData")
             }
         }
-        println("listData outside task: $listData")
         return listData
     }
 
