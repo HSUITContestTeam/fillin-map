@@ -8,17 +8,21 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 
+interface MyCallback {
+    fun onCallback(value: ArrayList<MapItemList>)
+}
+
 class MapRepository {
     private var firestore: FirebaseFirestore? = null
     private val uid = Firebase.auth.currentUser?.uid
 
-    fun getData(): LiveData<MutableList<MapItemList>> {
-        val mutableData = MutableLiveData<MutableList<MapItemList>>()
+    fun getData(): ArrayList<MapItemList> {
         firestore = FirebaseFirestore.getInstance()
+        val listData: ArrayList<MapItemList> = arrayListOf()
         val myRef = firestore?.collection("users")?.document("$uid")
-        myRef!!.get().addOnSuccessListener { document ->
-            val listData: MutableList<MapItemList> = mutableListOf()
-            if (document.get("mapList") != null) {
+        myRef!!.get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val document = task.result
                 val mapList: ArrayList<Map<String, String>> =
                     document.get("mapList") as ArrayList<Map<String, String>>
                 for (map in mapList) {
@@ -29,22 +33,24 @@ class MapRepository {
                             map["mapSort"].toString()
                         )
                     )
-                    mutableData.value = listData
                 }
+                println("listData inside task: $listData")
             }
         }
-        return mutableData
+        println("listData outside task: $listData")
+        return listData
     }
 
-    fun addData(item: MapItemList) {
+    fun addData(item: MapItemList): ArrayList<MapItemList> {
         firestore = FirebaseFirestore.getInstance()
         val myRef = firestore?.collection("users")?.document("$uid")
         myRef!!.get().addOnSuccessListener { document ->
             myRef.update("mapList", FieldValue.arrayUnion(item))
         }
+        return getData()
     }
 
-    fun deleteData(pos: Int) {
+    fun deleteData(pos: Int): ArrayList<MapItemList> {
         firestore = FirebaseFirestore.getInstance()
         val myRef = firestore?.collection("users")?.document("$uid")
         myRef!!.get().addOnSuccessListener { document ->
@@ -55,9 +61,10 @@ class MapRepository {
                 mapList.removeAt(pos)
             }
         }
+        return getData()
     }
 
-    fun editMapTitle(pos: Int, title: String) {
+    fun editMapTitle(pos: Int, title: String): ArrayList<MapItemList> {
         firestore = FirebaseFirestore.getInstance()
         val myRef = firestore?.collection("users")?.document("$uid")
         myRef!!.get().addOnSuccessListener { document ->
@@ -74,5 +81,6 @@ class MapRepository {
                 myRef.update("mapList", FieldValue.arrayUnion(replace))
             }
         }
+        return getData()
     }
 }

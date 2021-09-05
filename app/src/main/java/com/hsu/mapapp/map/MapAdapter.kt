@@ -5,23 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.net.toUri
+import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
+import com.google.protobuf.Internal
 import com.hsu.mapapp.databinding.MapListItemBinding
 import java.io.*
 
 
-class MapAdapter(private val context: MapFragment) :
+class MapAdapter(private var data: LiveData<ArrayList<MapItemList>>) :
     RecyclerView.Adapter<MapAdapter.ViewHolder>() {
     private lateinit var binding: MapListItemBinding
     private var isStartBtnSelected = false
     private var itemListener: OnItemClickListener? = null
     var longPos = -1 // 롱클릭 position
-    private var mapItemList = mutableListOf<MapItemList>()
-
-    @SuppressLint("NotifyDataSetChanged")
-    fun setListData(newMapItemList: MutableList<MapItemList>) {
-        this.mapItemList = newMapItemList
-    }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(viewGroup.context)
@@ -30,20 +26,18 @@ class MapAdapter(private val context: MapFragment) :
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        val mapItem: MapItemList = mapItemList[position]
-        viewHolder.mapTitle.text = mapItem.mapTitle
-        viewHolder.previewImage.setImageURI(mapItem.previewImage.toUri())
+        data.value!!.get(position).let { item ->
+            binding.mapTitle.text = item.mapTitle
+        }
         viewHolder.setOnclick()
     }
 
     override fun getItemCount(): Int {
-        return mapItemList.size
+        return data.value!!.size
     }
 
     inner class ViewHolder(private val binding: MapListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        var mapTitle = binding.mapTitle
-        val previewImage = binding.previewImage
 
         fun setOnclick() {
             binding.startBtn.setOnClickListener {
@@ -74,6 +68,10 @@ class MapAdapter(private val context: MapFragment) :
 
     interface OnItemClickListener {
         fun onItemClick(v: View, position: Int)
+    }
+
+    fun setOnItemClickListener(itemListener: OnItemClickListener) {
+        this.itemListener = itemListener
     }
 
 }
