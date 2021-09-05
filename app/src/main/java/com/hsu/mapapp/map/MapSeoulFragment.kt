@@ -318,6 +318,7 @@ class MapSeoulFragment : Fragment() {
                         ClickedIMGS["$mapName"]?.setImageBitmap(convertToMap(srcBitmap))
                         ClickedIMGS["$mapName"]!!.layoutParams.width = width as Int
                         ClickedIMGS["$mapName"]!!.layoutParams.height = height as Int
+                        Log.d("mapName is ", "$mapName")
                         Log.d("width", width.toString())
                         Log.d("height", height.toString())
                     } catch (e: Exception) {
