@@ -13,6 +13,12 @@ class FriendsAdapter(private val context:ShareFragment) :
     var datas_friends = mutableListOf<FriendsItemList>()
     var isStartBtnSelected = false
 
+    fun setData(newData: MutableList<FriendsItemList>) {
+        datas_friends.clear()
+        datas_friends.addAll(newData)
+        println("friendsListCount : ${datas_friends.size} ")
+    }
+
     inner class ViewHolder (private val binding : FriendsListItemBinding) :
             RecyclerView.ViewHolder(binding.root){
                 fun setFriendsName(item: FriendsItemList){
