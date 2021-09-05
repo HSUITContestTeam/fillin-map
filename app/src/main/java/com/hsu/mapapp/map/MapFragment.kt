@@ -27,9 +27,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hsu.mapapp.R
 import com.hsu.mapapp.databinding.FragmentMapBinding
@@ -44,8 +46,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
 
     private var data = MutableLiveData<ArrayList<MapItemList>>()
     private lateinit var mapAdapter: MapAdapter
-    private val mapViewModel by lazy { ViewModelProvider(this).get(MapViewModel::class.java) }
-
+    private lateinit var mapViewModel: MapViewModel
     private var isFabOpen = false // Fab 버튼 default는 닫혀있음
     private var isPageOpen = false
 
@@ -62,7 +63,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMapBinding.inflate(inflater, container, false)
-
+        mapViewModel = ViewModelProvider(this).get(MapViewModel::class.java)
         return binding.root
     }
 
@@ -141,23 +142,12 @@ class MapFragment : Fragment(R.layout.fragment_map) {
         binding.MapListRecyclerView.layoutManager = LinearLayoutManager(this.context)
         binding.MapListRecyclerView.setHasFixedSize(true)
 
-        mapAdapter = MapAdapter(this)
-
-        binding.MapListRecyclerView.layoutManager = LinearLayoutManager(this.context)
-        binding.MapListRecyclerView.adapter = mapAdapter
-
-        mapViewModel.fetchData().observe(viewLifecycleOwner, Observer { datas ->
-            mapAdapter.setListData(datas)
-            mapAdapter.notifyDataSetChanged()
-        })
-
-        /*val dataObserver: Observer<ArrayList<MapItemList>> =
+        val dataObserver: Observer<ArrayList<MapItemList>> =
             Observer { liveData ->
                 data.value = liveData
                 mapAdapter = MapAdapter(data)
                 binding.MapListRecyclerView.adapter = mapAdapter // RecyclerView와 CustomAdapter 연결
                 mapAdapter.notifyDataSetChanged()
-
                 // 지도 목록에서 map 클릭하면 mapFragment 바뀜
                 mapAdapter.setOnItemClickListener(object : MapAdapter.OnItemClickListener {
                     override fun onItemClick(v: View, position: Int) {
@@ -176,24 +166,19 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                         }
                     }
                 })
-
-                println("지도 추가")
             }
 
-        mapViewModel.mapLiveData.observe(viewLifecycleOwner, dataObserver)*/
-
-
-        setRecyclerDeco()
+        mapViewModel.mapLiveData.observe(viewLifecycleOwner, dataObserver)
     }
 
-    // 데이터 변하면 fech, notify
+/*    // 데이터 변하면 fech, notify
     @SuppressLint("NotifyDataSetChanged")
     fun observeData() {
         mapViewModel.fetchData().observe(viewLifecycleOwner, Observer { datas ->
             mapAdapter.setListData(datas)
             mapAdapter.notifyDataSetChanged()
         })
-    }
+    }*/
 
     // ----------------------리사이클러뷰 롱클릭 팝업메뉴(지도편집) itemSelected-------------------------
     @SuppressLint("NotifyDataSetChanged")
@@ -212,7 +197,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                 builder.setView(view)
                 builder.setTitle("지도 제목 변경")
                 builder.setPositiveButton("변경") { dialog, which ->
-                    mapViewModel.changeMapTitle(mapAdapter.longPos, maptitle.toString())
+                    mapViewModel.editMapTitle(mapAdapter.longPos, maptitle.toString())
                     mapAdapter.notifyItemChanged(mapAdapter.longPos)
                     //observeData()
                 }
@@ -271,7 +256,6 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                     MapItemList(newMapTitle.toString(), imageUri, mapListItems[spinnerSelected])
                 mapViewModel.addMap(newData)
                 mapAdapter.notifyDataSetChanged()
-                //observeData()
             }
             builder.setNegativeButton("취소", DialogInterface.OnClickListener { dialog, which ->
 
