@@ -2,6 +2,6 @@
 <resources>
     <string-array name="map_list_array">
         <item>대한민국</item>
-        <item>서울</item>
+        <item>강원도</item>
     </string-array>
 </resources>

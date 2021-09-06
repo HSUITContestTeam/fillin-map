@@ -39,6 +39,8 @@ import com.hsu.mapapp.utils.OnSwipeTouchListener
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.io.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class MapFragment : Fragment(R.layout.fragment_map) {
@@ -56,6 +58,8 @@ class MapFragment : Fragment(R.layout.fragment_map) {
 
     private var gangwondoFragment = MapGangwondoFragment()
     private var seoulFragment = MapSeoulFragment()
+
+    private var selectedMapID: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -152,14 +156,17 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                 mapAdapter.setOnItemClickListener(object : MapAdapter.OnItemClickListener {
                     override fun onItemClick(v: View, position: Int) {
                         Log.d("Mapclick", position.toString())
-                        when (position) {
-                            // Map1
-                            0 -> childFragmentManager.beginTransaction()
+                        when (mapViewModel.fetch().value?.get(position)?.mapID) {
+
+                        }
+                        when (mapViewModel.fetch().value?.get(position)?.mapSort) { // mapSort에 따라 지도 종류 식별
+                            // 대한민국지도
+                            "대한민국" -> childFragmentManager.beginTransaction()
                                 .replace(R.id.fragmentContainerView2, seoulFragment)
                                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                                 .commit()
-                            // Map2
-                            1 -> childFragmentManager.beginTransaction()
+                            // 강원도지도
+                            "강원도" -> childFragmentManager.beginTransaction()
                                 .replace(R.id.fragmentContainerView2, gangwondoFragment)
                                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                                 .commit()
@@ -252,8 +259,9 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                 val newMapTitle = mapTitle.text
                 val mapListItems = resources.getStringArray(R.array.map_list_array)
                 val imageUri = getURLForResource(R.drawable.base_map)
+                val uniqueID = UUID.randomUUID().toString()
                 var newData =
-                    MapItemList(newMapTitle.toString(), imageUri, mapListItems[spinnerSelected])
+                    MapItemList(newMapTitle.toString(), imageUri, mapListItems[spinnerSelected], uniqueID)
                 mapViewModel.add(newData)
                 mapAdapter.notifyDataSetChanged()
             }

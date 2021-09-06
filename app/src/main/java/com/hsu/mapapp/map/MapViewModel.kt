@@ -17,7 +17,6 @@ import kotlin.collections.ArrayList
 import kotlin.jvm.internal.MagicApiIntrinsics
 
 class MapViewModel : ViewModel() {
-    var mapData = ArrayList<MapItemList>()
     var mapLiveData: MutableLiveData<ArrayList<MapItemList>> =
         MutableLiveData()
 
