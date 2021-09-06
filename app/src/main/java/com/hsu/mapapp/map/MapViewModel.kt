@@ -1,20 +1,10 @@
 package com.hsu.mapapp.map
 
-import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.launch
-import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.jvm.internal.MagicApiIntrinsics
 
 class MapViewModel : ViewModel() {
     var mapLiveData: MutableLiveData<ArrayList<MapItemList>> =
@@ -26,7 +16,42 @@ class MapViewModel : ViewModel() {
     init {
         mapLiveData = fetch()
     }
-
+//    MapRepository 에서
+//    interface MyCallback {
+//        fun onCallback(mapList : ArrayList<MapItemList>)
+//    }
+//    fun readData(myCallback: MyCallback){
+//        firestore = FirebaseFirestore.getInstance()
+//
+//        val myRef = firestore?.collection("users")?.document("$uid")
+//        myRef!!.get().addOnSuccessListener { document ->
+//            if (document.get("mapList") != null) {
+//                val mapList: ArrayList<Map<String, String>> =
+//                    document.get("mapList") as ArrayList<Map<String, String>>
+//                for (map in mapList) {
+//                    listData.add(
+//                        MapItemList(
+//                            map["mapTitle"].toString(),
+//                            map["previewImage"].toString(),
+//                            map["mapSort"].toString()
+//                        )
+//                    )
+//                }
+//                myCallback.onCallback(listData)
+//            }
+//        }
+//    }
+//    MapViewModel
+//    init {
+//        mapRepository.readData(object : MapRepository.MyCallback {
+//            override fun onCallback(mapList : ArrayList<MapItemList>) {
+//                mapData = mapList
+//                Log.d("mapData",mapData.toString())
+//            }
+//        })
+//        mapLiveData.postValue(mapData)
+//        println("mapViewModel: $mapData")
+//    }
     fun fetch(): MutableLiveData<ArrayList<MapItemList>> {
         firestore = FirebaseFirestore.getInstance()
         val listData: ArrayList<MapItemList> = arrayListOf()
