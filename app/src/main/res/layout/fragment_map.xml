@@ -13,7 +13,6 @@
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragmentContainerView2"
-            android:name="com.hsu.mapapp.map.MapSeoulFragment"
             android:layout_width="423dp"
             android:layout_height="731dp"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -29,7 +29,8 @@ class MapViewModel : ViewModel() {
                         MapItemList(
                             map["mapTitle"].toString(),
                             map["previewImage"].toString(),
-                            map["mapSort"].toString()
+                            map["mapSort"].toString(),
+                            map["mapId"].toString()
                         )
                     )
                 }
