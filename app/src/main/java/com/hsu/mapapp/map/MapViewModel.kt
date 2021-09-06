@@ -16,42 +16,6 @@ class MapViewModel : ViewModel() {
     init {
         mapLiveData = fetch()
     }
-//    MapRepository 에서
-//    interface MyCallback {
-//        fun onCallback(mapList : ArrayList<MapItemList>)
-//    }
-//    fun readData(myCallback: MyCallback){
-//        firestore = FirebaseFirestore.getInstance()
-//
-//        val myRef = firestore?.collection("users")?.document("$uid")
-//        myRef!!.get().addOnSuccessListener { document ->
-//            if (document.get("mapList") != null) {
-//                val mapList: ArrayList<Map<String, String>> =
-//                    document.get("mapList") as ArrayList<Map<String, String>>
-//                for (map in mapList) {
-//                    listData.add(
-//                        MapItemList(
-//                            map["mapTitle"].toString(),
-//                            map["previewImage"].toString(),
-//                            map["mapSort"].toString()
-//                        )
-//                    )
-//                }
-//                myCallback.onCallback(listData)
-//            }
-//        }
-//    }
-//    MapViewModel
-//    init {
-//        mapRepository.readData(object : MapRepository.MyCallback {
-//            override fun onCallback(mapList : ArrayList<MapItemList>) {
-//                mapData = mapList
-//                Log.d("mapData",mapData.toString())
-//            }
-//        })
-//        mapLiveData.postValue(mapData)
-//        println("mapViewModel: $mapData")
-//    }
     fun fetch(): MutableLiveData<ArrayList<MapItemList>> {
         firestore = FirebaseFirestore.getInstance()
         val listData: ArrayList<MapItemList> = arrayListOf()
