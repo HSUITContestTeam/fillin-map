@@ -28,6 +28,7 @@ class MapAdapter(private var data: LiveData<ArrayList<MapItemList>>) :
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         data.value!!.get(position).let { item ->
             binding.mapTitle.text = item.mapTitle
+            binding.previewImage.setImageURI(item.previewImage.toUri())
         }
         viewHolder.setOnclick()
     }

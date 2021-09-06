@@ -197,7 +197,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                 builder.setView(view)
                 builder.setTitle("지도 제목 변경")
                 builder.setPositiveButton("변경") { dialog, which ->
-                    mapViewModel.editMapTitle(mapAdapter.longPos, maptitle.toString())
+                    mapViewModel.editTitle(mapAdapter.longPos, maptitle.toString())
                     mapAdapter.notifyItemChanged(mapAdapter.longPos)
                     //observeData()
                 }
@@ -214,7 +214,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                 builder.setMessage("정말로 지도를 삭제 하시겠습니까?")
 
                 builder.setPositiveButton("예") { dialog, which ->
-                    mapViewModel.deleteMap(mapAdapter.longPos)
+                    mapViewModel.delete(mapAdapter.longPos)
                     mapAdapter.notifyItemRemoved(mapAdapter.longPos)
                     //observeData()
                 }
@@ -254,7 +254,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                 val imageUri = getURLForResource(R.drawable.base_map)
                 var newData =
                     MapItemList(newMapTitle.toString(), imageUri, mapListItems[spinnerSelected])
-                mapViewModel.addMap(newData)
+                mapViewModel.add(newData)
                 mapAdapter.notifyDataSetChanged()
             }
             builder.setNegativeButton("취소", DialogInterface.OnClickListener { dialog, which ->
