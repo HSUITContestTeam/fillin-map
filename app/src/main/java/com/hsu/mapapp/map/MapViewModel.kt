@@ -1,20 +1,10 @@
 package com.hsu.mapapp.map
 
-import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.launch
-import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.jvm.internal.MagicApiIntrinsics
 
 class MapViewModel : ViewModel() {
     var mapLiveData: MutableLiveData<ArrayList<MapItemList>> =
@@ -26,7 +16,6 @@ class MapViewModel : ViewModel() {
     init {
         mapLiveData = fetch()
     }
-
     fun fetch(): MutableLiveData<ArrayList<MapItemList>> {
         firestore = FirebaseFirestore.getInstance()
         val listData: ArrayList<MapItemList> = arrayListOf()
