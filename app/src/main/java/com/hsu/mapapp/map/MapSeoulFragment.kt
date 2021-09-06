@@ -23,6 +23,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.PathParser
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
@@ -38,6 +40,9 @@ import com.richpath.RichPathView
 import java.io.*
 import java.util.*
 import kotlin.collections.set
+
+
+
 
 class MapSeoulFragment : Fragment() {
     private var _binding: FragmentMapSeoulBinding? = null
@@ -61,9 +66,13 @@ class MapSeoulFragment : Fragment() {
     private var width: Int? = null
     private var height: Int? = null
 
+    private lateinit var mapIdViewModel: MapIdViewModel
+    private var selectedMapId: String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         storage = FirebaseStorage.getInstance()
+        mapIdViewModel = ViewModelProvider(requireActivity()).get(MapIdViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -73,12 +82,14 @@ class MapSeoulFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentMapSeoulBinding.inflate(inflater, container, false)
         onClick()
+        mapIdViewModel.mapId.observe(viewLifecycleOwner, androidx.lifecycle.Observer<String> { selectedMapId = it })
+        Log.d("selectedMapId",selectedMapId)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if(AllIMGS.isEmpty())
+        if (AllIMGS.isEmpty())
             initialImageViewHashMap()
         uploadColorFromStorage()
     }
@@ -92,7 +103,7 @@ class MapSeoulFragment : Fragment() {
 
     //-----------------------------AllIMGS 해시맵 초기화----------------------------------//
     private fun initialImageViewHashMap() {
-        Log.d("initialImageViewHashMap()","실행")
+        Log.d("initialImageViewHashMap()", "실행")
         val mapOfKoreaRegions = resources.getStringArray(R.array.map_of_korea_regions)
         for (region in mapOfKoreaRegions) {
             val imageView = requireView().rootView.findViewWithTag<ImageView>(region)
@@ -123,8 +134,9 @@ class MapSeoulFragment : Fragment() {
             })
             .addOnFailureListener(OnFailureListener {})
     }
+
     //-----------------------------이미지뷰 사이즈 초기화화---------------------------------//
-    private fun setALLIMGSsize(){
+    private fun setALLIMGSsize() {
         val mapOfKoreaRegions = resources.getStringArray(R.array.map_of_korea_regions)
         for (region in mapOfKoreaRegions) {
             val imageView = requireView().rootView.findViewWithTag<ImageView>(region)
@@ -138,10 +150,11 @@ class MapSeoulFragment : Fragment() {
             }
         }
     }
+
     //-----------------------------이미지 업로드/가져오기 with Firebase---------------------------------//
     private fun imageWithFirebase() {
-        if(ClickedIMGS.isNotEmpty()){ // 클릭한 이미지가 있는 경우 이미지뷰를 서버에 저장 후 표시
-            Log.d("imageUploadToFirebase()","실행")
+        if (ClickedIMGS.isNotEmpty()) { // 클릭한 이미지가 있는 경우 이미지뷰를 서버에 저장 후 표시
+            Log.d("imageUploadToFirebase()", "실행")
             val keySet = ClickedIMGS.keys
             for (name in keySet) {
                 val imageView = ClickedIMGS[name]
@@ -156,7 +169,7 @@ class MapSeoulFragment : Fragment() {
                     val data = baos.toByteArray()
                     // FirebaseStorage
                     val storageRef = storage.reference
-                    val bitmapRef = storageRef.child("mapImageView/$uid/$name")
+                    val bitmapRef = storageRef.child("mapImageView/$selectedMapId/$name")
                     val uploadTask: UploadTask = bitmapRef.putBytes(data)
                     uploadTask.addOnFailureListener {
                         // Handle unsuccessful uploads
@@ -169,14 +182,15 @@ class MapSeoulFragment : Fragment() {
                     }
                 }
             }
-        } else{
+        } else {
             showImageViewFromStorage()
         }
     }
+
     //-----------------------------map ImageView Firebase에서 불러오기----------------------------------//
     private fun showImageViewFromStorage() {
-        Log.d("showImageViewFromStorage()","실행")
-        val uidRef = storage.reference.child("mapImageView/$uid")
+        Log.d("showImageViewFromStorage()", "실행")
+        val uidRef = storage.reference.child("mapImageView/$selectedMapId")
         uidRef.listAll()
             .addOnSuccessListener(OnSuccessListener<ListResult> { result ->
                 for (fileRef in result.items) {
@@ -190,6 +204,7 @@ class MapSeoulFragment : Fragment() {
             })
             .addOnFailureListener(OnFailureListener {})
     }
+
     //-----------------------------지도 클릭 이벤트 ----------------------------------//
     fun onClick() {
         richPathView = binding.icMapOfSouthKorea
@@ -211,7 +226,6 @@ class MapSeoulFragment : Fragment() {
         val builder = AlertDialog.Builder(requireContext())
         val inflater =
             requireActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-
         builder
             .setTitle(resources.getIdentifier("$mapName", "string", "com.hsu.mapapp"))
             .setItems(
@@ -237,7 +251,7 @@ class MapSeoulFragment : Fragment() {
                         }
 
                         2 -> { // 삭제하기
-                            val uidRef = storage.reference.child("mapImageView/$uid")
+                            val uidRef = storage.reference.child("mapImageView/$selectedMapId")
                             uidRef.child("$mapName").delete().addOnSuccessListener {
                                 Log.d("image delete", "success")
                                 //Toast.makeText(getActivity(), "Successfully deleted", Toast.LENGTH_SHORT).show()
@@ -306,15 +320,15 @@ class MapSeoulFragment : Fragment() {
                             ExifInterface.ORIENTATION_UNDEFINED
                         )
                         var srcBitmap = BitmapFactory.decodeFile(imagePath)
-                        srcBitmap = rotateBitmap(srcBitmap,orientation)
+                        srcBitmap = rotateBitmap(srcBitmap, orientation)
                         // bitmap 사이즈 조절
                         width =
                             binding.icMapOfSouthKorea.findRichPathByName("$mapName")!!.originalWidth.toInt()
                         height =
                             binding.icMapOfSouthKorea.findRichPathByName("$mapName")!!.originalHeight.toInt()
-                        srcBitmap = Bitmap.createScaledBitmap(srcBitmap,width!!,height!!,true)
+                        srcBitmap = Bitmap.createScaledBitmap(srcBitmap, width!!, height!!, true)
                         // bitmap을 이미지뷰에 붙이기
-                        Log.d("setImageBitmap","실행")
+                        Log.d("setImageBitmap", "실행")
                         ClickedIMGS["$mapName"]?.setImageBitmap(convertToMap(srcBitmap))
                         ClickedIMGS["$mapName"]!!.layoutParams.width = width as Int
                         ClickedIMGS["$mapName"]!!.layoutParams.height = height as Int
@@ -412,7 +426,7 @@ class MapSeoulFragment : Fragment() {
 
     private fun deleteImageFromMap() {
         /* 이미지로 채워져 있으면 firebase storage에서 이미지 삭제 */
-        val uidRef = storage.reference.child("mapImageView/$uid")
+        val uidRef = storage.reference.child("mapImageView/$selectedMapId")
         uidRef.child("$mapName").delete().addOnSuccessListener {
             Log.d("image delete", "success")
             AllIMGS["$mapName"]?.isVisible = false
@@ -421,6 +435,7 @@ class MapSeoulFragment : Fragment() {
             Log.d("image delete", "fail")
         }
     }
+
     //-----------------------------이미지뷰 회전 관련 함수----------------------------------//
     fun rotateBitmap(bitmap: Bitmap, orientation: Int): Bitmap? {
         val matrix = Matrix()

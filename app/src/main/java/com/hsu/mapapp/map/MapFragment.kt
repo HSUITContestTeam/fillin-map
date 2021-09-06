@@ -25,13 +25,14 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat.requestPermissions
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hsu.mapapp.R
 import com.hsu.mapapp.databinding.FragmentMapBinding
@@ -39,6 +40,7 @@ import com.hsu.mapapp.utils.OnSwipeTouchListener
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.io.*
+import java.lang.RuntimeException
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -49,6 +51,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
     private var data = MutableLiveData<ArrayList<MapItemList>>()
     private lateinit var mapAdapter: MapAdapter
     private lateinit var mapViewModel: MapViewModel
+    private lateinit var mapIdViewModel: MapIdViewModel
     private var isFabOpen = false // Fab 버튼 default는 닫혀있음
     private var isPageOpen = false
 
@@ -59,7 +62,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
     private var gangwondoFragment = MapGangwondoFragment()
     private var seoulFragment = MapSeoulFragment()
 
-    private var selectedMapID: String = ""
+    private var selectedMapId: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -68,6 +71,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
     ): View {
         _binding = FragmentMapBinding.inflate(inflater, container, false)
         mapViewModel = ViewModelProvider(this).get(MapViewModel::class.java)
+        mapIdViewModel = ViewModelProvider(requireActivity()).get(MapIdViewModel::class.java)
         return binding.root
     }
 
@@ -152,25 +156,23 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                 mapAdapter = MapAdapter(data)
                 binding.MapListRecyclerView.adapter = mapAdapter // RecyclerView와 CustomAdapter 연결
                 mapAdapter.notifyDataSetChanged()
+
+                /*// 처음은 첫번째 index의 지도로 교체
+                if (mapViewModel.mapLiveData.value?.size != 0) {
+                    selectedMapId = mapViewModel.fetch().value?.get(0)?.mapId.toString()
+                    mapIdViewModel.setMapId(selectedMapId)
+                    fragmentTransaction(mapViewModel.fetch().value?.get(0)?.mapSort.toString())
+                }*/
+
                 // 지도 목록에서 map 클릭하면 mapFragment 바뀜
                 mapAdapter.setOnItemClickListener(object : MapAdapter.OnItemClickListener {
                     override fun onItemClick(v: View, position: Int) {
                         Log.d("Mapclick", position.toString())
-                        when (mapViewModel.fetch().value?.get(position)?.mapID) {
 
-                        }
-                        when (mapViewModel.fetch().value?.get(position)?.mapSort) { // mapSort에 따라 지도 종류 식별
-                            // 대한민국지도
-                            "대한민국" -> childFragmentManager.beginTransaction()
-                                .replace(R.id.fragmentContainerView2, seoulFragment)
-                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                                .commit()
-                            // 강원도지도
-                            "강원도" -> childFragmentManager.beginTransaction()
-                                .replace(R.id.fragmentContainerView2, gangwondoFragment)
-                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                                .commit()
-                        }
+                        // 선택한 mapID 하위 프래그먼트들과 공유
+                        selectedMapId = mapViewModel.mapLiveData.value?.get(position)?.mapId.toString()
+                        mapIdViewModel.setMapId(selectedMapId)
+                        fragmentTransaction(mapViewModel.mapLiveData.value?.get(position)?.mapSort.toString())
                     }
                 })
             }
@@ -178,14 +180,21 @@ class MapFragment : Fragment(R.layout.fragment_map) {
         mapViewModel.mapLiveData.observe(viewLifecycleOwner, dataObserver)
     }
 
-/*    // 데이터 변하면 fech, notify
-    @SuppressLint("NotifyDataSetChanged")
-    fun observeData() {
-        mapViewModel.fetchData().observe(viewLifecycleOwner, Observer { datas ->
-            mapAdapter.setListData(datas)
-            mapAdapter.notifyDataSetChanged()
-        })
-    }*/
+    // 프래그먼트 교체
+    fun fragmentTransaction(mapSort: String) {
+        when(mapSort) {
+            // 대한민국지도
+            "대한민국" -> childFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainerView2, seoulFragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .commitNow()
+            // 강원도지도
+            "강원도" -> childFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainerView2, gangwondoFragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .commitNow()
+        }
+    }
 
     // ----------------------리사이클러뷰 롱클릭 팝업메뉴(지도편집) itemSelected-------------------------
     @SuppressLint("NotifyDataSetChanged")
