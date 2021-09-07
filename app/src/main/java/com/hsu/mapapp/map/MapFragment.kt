@@ -83,6 +83,9 @@ class MapFragment : Fragment(R.layout.fragment_map) {
         setRecycler() // 리사이클러뷰 (지도목록 슬라이딩 화면) 설정S
         setAddMapBtn() // 지도추가버튼, Dialog 띄움
         setFABClickEvent() // FAB 버튼 설정
+
+        (activity as AppCompatActivity).supportActionBar!!.title = "지도를 선택하세요 😀"
+
     }
 
     // ----------------------슬라이딩 Layout 애니메이션-------------------------
@@ -173,6 +176,9 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                         selectedMapId = mapViewModel.mapLiveData.value?.get(position)?.mapId.toString()
                         mapIdViewModel.setMapId(selectedMapId)
                         fragmentTransaction(mapViewModel.mapLiveData.value?.get(position)?.mapSort.toString())
+
+                        // 액션바 제목 변경
+                        (activity as AppCompatActivity).supportActionBar!!.title = mapViewModel.mapLiveData.value?.get(position)?.mapTitle.toString()
                     }
                 })
             }
@@ -479,17 +485,14 @@ class MapFragment : Fragment(R.layout.fragment_map) {
     // ----------------------상단 액션바 hide-------------------------
     override fun onStart() {
         super.onStart()
-        (activity as AppCompatActivity).supportActionBar!!.hide()
     }
 
     override fun onStop() {
         super.onStop()
-        (activity as AppCompatActivity).supportActionBar!!.show()
     }
 
     override fun onResume() {
         super.onResume()
-        (activity as AppCompatActivity).supportActionBar!!.hide()
     }
     // --------------------------------------------------------------
 
