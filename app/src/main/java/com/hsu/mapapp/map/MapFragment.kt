@@ -59,8 +59,8 @@ class MapFragment : Fragment(R.layout.fragment_map) {
 
     private val binding get() = _binding!!
 
-    private var gangwondoFragment = MapGangwondoFragment()
-    private var seoulFragment = MapSeoulFragment()
+    private lateinit var gangwondoFragment : MapGangwondoFragment
+    private lateinit var seoulFragment : MapSeoulFragment
 
     private var selectedMapId: String = ""
 
@@ -182,17 +182,24 @@ class MapFragment : Fragment(R.layout.fragment_map) {
 
     // 프래그먼트 교체
     fun fragmentTransaction(mapSort: String) {
+        seoulFragment = MapSeoulFragment()
+        gangwondoFragment = MapGangwondoFragment()
+
         when(mapSort) {
             // 대한민국지도
-            "대한민국" -> childFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainerView2, seoulFragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .commitNow()
+            "대한민국" -> {
+                childFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentContainerView2, seoulFragment)
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .commitNow()
+            }
             // 강원도지도
-            "강원도" -> childFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainerView2, gangwondoFragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .commitNow()
+            "강원도" -> {
+                childFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentContainerView2, gangwondoFragment)
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .commitNow()
+            }
         }
     }
 
