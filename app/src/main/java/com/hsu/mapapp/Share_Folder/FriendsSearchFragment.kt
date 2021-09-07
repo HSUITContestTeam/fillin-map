@@ -1,5 +1,6 @@
 package com.hsu.mapapp.Share_Folder
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -25,6 +26,8 @@ class FriendsSearchFragment : Fragment(R.layout.search_friends_list_item) {
     private val binding get() = _binding!!
     private lateinit var viewModel: ShareViewModel
 
+    private lateinit var drawable: Drawable //프로필 이미지 없을때 나오는 기본 이미지
+
     var firestore : FirebaseFirestore? = null
     private val uid = Firebase.auth.currentUser?.uid
 
@@ -44,7 +47,7 @@ class FriendsSearchFragment : Fragment(R.layout.search_friends_list_item) {
 
         _binding = FragmentSearchFriendsBinding.inflate(inflater, container, false)
 
-
+        drawable = resources.getDrawable(R.drawable.login_id)
         binding.SearchBtn.setOnClickListener {
 
             (binding.FriendsSearchRecycler.adapter as FriendsSearchAdapter).search(binding.SearchText.text.toString(),searchOption)
@@ -83,8 +86,9 @@ class FriendsSearchFragment : Fragment(R.layout.search_friends_list_item) {
                 binding.friendsSearchName.text = item.name
             }
             fun SetFriendsImage(item: FriendsSearchItemList){
-                Glide.with(context)
+                    Glide.with(context)
                     .load(item.photoUrl)
+                        .error(drawable)
                     .into(binding.imageView6)
             }
             fun setFriendsMessage(item:FriendsSearchItemList){
