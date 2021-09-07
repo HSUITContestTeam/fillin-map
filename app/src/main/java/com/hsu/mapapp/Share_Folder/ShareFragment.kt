@@ -1,5 +1,6 @@
 package com.hsu.mapapp.Share_Folder
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
@@ -17,9 +18,10 @@ import com.google.firebase.ktx.Firebase
 import com.hsu.mapapp.MainActivity
 import com.hsu.mapapp.R
 import com.hsu.mapapp.databinding.FragmentFriendsBinding
+import com.hsu.mapapp.friend_map.FriendMapViewModel
+import com.hsu.mapapp.friend_map.ShareMapActivity
 
 class ShareFragment : Fragment(R.layout.fragment_friends) {
-
     var mainActivity: MainActivity? = null
     private var _binding: FragmentFriendsBinding? = null
     private val binding get() = _binding!!
@@ -31,6 +33,8 @@ class ShareFragment : Fragment(R.layout.fragment_friends) {
 
     private lateinit var adapter: FriendsAdapter
     private val data_friends = mutableListOf<FriendsItemList>()
+
+    private lateinit var friendMapViewModel: FriendMapViewModel
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -68,14 +72,15 @@ class ShareFragment : Fragment(R.layout.fragment_friends) {
         setFriends()
         adapter.setOnItemClickListener(object : FriendsAdapter.OnItemClickListener{
             override fun onItemClick(v: View, position: Int) {
-                val FriendUid = data_friends[position].uid.toString()
+                val friendUid = data_friends[position].uid
                 val intent = Intent(context, ShareMapActivity::class.java)
-                intent.putExtra("FriendUid",FriendUid)
+                intent.putExtra("friendUid",friendUid)
                 startActivity(intent)
             }
         })
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setFriends() {
         val myRef = firestore?.collection("users")?.document("$uid")
         myRef!!.get()

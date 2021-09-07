@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MapApp">
         <activity
-            android:name=".Share_Folder.ShareMapActivity"
+            android:name=".friend_map.ShareMapActivity"
             android:exported="true" />
         <activity
             android:name=".SplashActivity"

@@ -1,4 +1,4 @@
-package com.hsu.mapapp.map
+package com.hsu.mapapp.friend_map
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
@@ -33,6 +33,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hsu.mapapp.R
 import com.hsu.mapapp.databinding.FragmentFriendMapBinding
+import com.hsu.mapapp.map.*
 import com.hsu.mapapp.utils.OnSwipeTouchListener
 import java.io.File
 import java.io.FileOutputStream
@@ -46,9 +47,10 @@ class FriendMapFragment : Fragment(R.layout.fragment_friend_map) {
     private var _binding: FragmentFriendMapBinding? = null
 
     private var data = MutableLiveData<ArrayList<MapItemList>>()
-    private lateinit var mapAdapter: MapAdapter
-    private lateinit var mapViewModel: MapViewModel
+    private lateinit var mapAdapter: FriendMapAdapter
+    private lateinit var mapViewModel: FriendMapViewModel
     private lateinit var mapIdViewModel: MapIdViewModel
+    private lateinit var friendUidViewModel: FriendUidViewModel
     private var isFabOpen = false // Fab 버튼 default는 닫혀있음
     private var isPageOpen = false
 
@@ -67,7 +69,9 @@ class FriendMapFragment : Fragment(R.layout.fragment_friend_map) {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentFriendMapBinding.inflate(inflater, container, false)
-        mapViewModel = ViewModelProvider(this).get(MapViewModel::class.java)
+        friendUidViewModel  = ViewModelProvider(this,ViewModelProvider.NewInstanceFactory()).get(FriendUidViewModel::class.java)
+        Log.d("onCreateView","실행")
+        mapViewModel = ViewModelProvider(this).get(FriendMapViewModel::class.java)
         mapIdViewModel = ViewModelProvider(requireActivity()).get(MapIdViewModel::class.java)
         return binding.root
     }
@@ -96,7 +100,7 @@ class FriendMapFragment : Fragment(R.layout.fragment_friend_map) {
 
             override fun onAnimationEnd(animation: Animation?) {
                 if (isPageOpen) {
-                    binding.slidingList.setVisibility(View.INVISIBLE)
+                    binding.slidingList.visibility = View.INVISIBLE
                     isPageOpen = false
                 } else {
                     isPageOpen = true
@@ -113,7 +117,7 @@ class FriendMapFragment : Fragment(R.layout.fragment_friend_map) {
             override fun onSwipeLeft() {
                 // 슬라이딩 페이지 꺼내기
                 if (!isPageOpen) {
-                    binding.slidingList.setVisibility(View.VISIBLE)
+                    binding.slidingList.visibility = View.VISIBLE
                     binding.slidingList.startAnimation(leftAnimation)
                 }
             }
@@ -130,7 +134,7 @@ class FriendMapFragment : Fragment(R.layout.fragment_friend_map) {
         binding.button2.setOnClickListener {
             // 슬라이딩 페이지 꺼내기
             if (!isPageOpen) {
-                binding.slidingList.setVisibility(View.VISIBLE)
+                binding.slidingList.visibility = View.VISIBLE
                 binding.slidingList.startAnimation(leftAnimation)
                 binding.button2.text = "close"
             } else { // 슬라이딩 페이지 닫기
@@ -144,13 +148,15 @@ class FriendMapFragment : Fragment(R.layout.fragment_friend_map) {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun setRecycler() {
+        Log.d("setRecycler()","실행")
+
         binding.MapListRecyclerView.layoutManager = LinearLayoutManager(this.context)
         binding.MapListRecyclerView.setHasFixedSize(true)
 
         val dataObserver: Observer<ArrayList<MapItemList>> =
             Observer { liveData ->
                 data.value = liveData
-                mapAdapter = MapAdapter(data)
+                mapAdapter = FriendMapAdapter(data)
                 binding.MapListRecyclerView.adapter = mapAdapter // RecyclerView와 CustomAdapter 연결
                 mapAdapter.notifyDataSetChanged()
 
@@ -162,7 +168,7 @@ class FriendMapFragment : Fragment(R.layout.fragment_friend_map) {
                 }*/
 
                 // 지도 목록에서 map 클릭하면 mapFragment 바뀜
-                mapAdapter.setOnItemClickListener(object : MapAdapter.OnItemClickListener {
+                mapAdapter.setOnItemClickListener(object : FriendMapAdapter.OnItemClickListener {
                     override fun onItemClick(v: View, position: Int) {
                         Log.d("Mapclick", position.toString())
 
@@ -173,7 +179,6 @@ class FriendMapFragment : Fragment(R.layout.fragment_friend_map) {
                     }
                 })
             }
-
         mapViewModel.mapLiveData.observe(viewLifecycleOwner, dataObserver)
     }
 
@@ -186,14 +191,14 @@ class FriendMapFragment : Fragment(R.layout.fragment_friend_map) {
             // 대한민국지도
             "대한민국" -> {
                 childFragmentManager.beginTransaction()
-                    .replace(R.id.fragmentContainerView2, seoulFragment)
+                    .replace(R.id.fragmentContainerView4, seoulFragment)
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .commitNow()
             }
             // 강원도지도
             "강원도" -> {
                 childFragmentManager.beginTransaction()
-                    .replace(R.id.fragmentContainerView2, gangwondoFragment)
+                    .replace(R.id.fragmentContainerView4, gangwondoFragment)
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .commitNow()
             }
