@@ -1,5 +1,6 @@
 package com.hsu.mapapp.map
 
+import LoadingDialog
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
@@ -99,6 +100,7 @@ class MapSeoulFragment : Fragment() {
         uploadColorFromStorage()
         setALLIMGSsize() // 이미지뷰 사이즈 초기화
         imageWithFirebase() // 이미지뷰 서버에 업로드 및 가져오기
+        LoadingDialog.hideLoading() // 로딩 애니메이션 종료
     }
 
     //-----------------------------AllIMGS 해시맵 초기화----------------------------------//

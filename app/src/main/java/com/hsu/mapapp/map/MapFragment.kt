@@ -1,5 +1,6 @@
 package com.hsu.mapapp.map
 
+import LoadingDialog
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.app.AlertDialog
@@ -179,6 +180,9 @@ class MapFragment : Fragment(R.layout.fragment_map) {
 
                         // 액션바 제목 변경
                         (activity as AppCompatActivity).supportActionBar!!.title = mapViewModel.mapLiveData.value?.get(position)?.mapTitle.toString()
+
+                        // 로딩 애니메이션 시작
+                        LoadingDialog.displayLoadingWithText(requireContext(), "잠시만 기다려 주세요", false)
                     }
                 })
             }
