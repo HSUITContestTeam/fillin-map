@@ -89,14 +89,14 @@ class MapSeoulFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (AllIMGS.isEmpty())
-            initialImageViewHashMap()
-        uploadColorFromStorage()
     }
 
     @SuppressLint("WrongThread")
     override fun onResume() {
         super.onResume()
+        if (AllIMGS.isEmpty())
+            initialImageViewHashMap()
+        uploadColorFromStorage()
         setALLIMGSsize() // 이미지뷰 사이즈 초기화
         imageWithFirebase() // 이미지뷰 서버에 업로드 및 가져오기
     }
@@ -468,6 +468,11 @@ class MapSeoulFragment : Fragment() {
             e.printStackTrace()
             null
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding.root.removeAllViewsInLayout()
     }
 }
 

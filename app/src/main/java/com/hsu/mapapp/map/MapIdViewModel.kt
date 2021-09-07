@@ -8,6 +8,6 @@ import androidx.lifecycle.ViewModel
 class MapIdViewModel : ViewModel() {
     val mapId = MutableLiveData<String>()
     fun setMapId(id: String) {
-        mapId.value = id
+        mapId.postValue(id)
     }
 }
