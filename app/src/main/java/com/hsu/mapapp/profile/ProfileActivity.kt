@@ -214,13 +214,34 @@ class ProfileActivity : AppCompatActivity() {
         var value_M = ""
 
         val linearLayout = View.inflate(this, R.layout.dialog_name, null)
+        val editText: EditText = linearLayout.findViewById(R.id.name_editText)
+        val editText_M : EditText = linearLayout.findViewById(R.id.Message_editText)
+
+        // firebase에서 닉네임, 상태메세지 불러와 다이얼로그에 표시
+        if (user != null) {
+            user.let {
+                val email = user.email
+                val firestore = FirebaseFirestore.getInstance()
+
+                val docRef = firestore.collection("users").document(uid!!)
+                docRef.get()
+                    .addOnSuccessListener { document ->
+                        val userName = document.get("name").toString()
+                        editText.setText(userName)
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.d(TAG, "get failed with ", exception)
+                    }
+            }
+        }
+
         if (user != null) {
             // 닉네임 입력 다이얼로그 설정
             val builder = AlertDialog.Builder(this)
                 .setView(linearLayout)
                 .setPositiveButton("확인") { dialog, which ->
-                    val editText: EditText = linearLayout.findViewById(R.id.name_editText)
-                    val editText_M : EditText = linearLayout.findViewById(R.id.Message_editText)
+                    //val editText: EditText = linearLayout.findViewById(R.id.name_editText)
+                    //val editText_M : EditText = linearLayout.findViewById(R.id.Message_editText)
 
                     value_N = editText.text.toString()
                     value_M = editText_M.text.toString()
