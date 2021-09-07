@@ -1,9 +1,8 @@
 package com.hsu.mapapp.Share_Folder
 
-import com.google.firebase.database.Exclude
-
 data class FriendsItemList(
-     var FriendsName : String
+     var FriendsName : String,
+     var uid : String
         ){
-    constructor():this("")
+    constructor():this("","")
 }
