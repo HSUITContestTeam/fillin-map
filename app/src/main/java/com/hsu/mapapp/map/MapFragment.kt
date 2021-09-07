@@ -134,15 +134,13 @@ class MapFragment : Fragment(R.layout.fragment_map) {
         })
 
         // 일단 버튼으로 열고닫기 하도록.. 해놨음 ㅜ
-        binding.button2.setOnClickListener {
+        binding.mapListToggleBtn.setOnClickListener {
             // 슬라이딩 페이지 꺼내기
             if (!isPageOpen) {
                 binding.slidingList.setVisibility(View.VISIBLE)
                 binding.slidingList.startAnimation(leftAnimation)
-                binding.button2.text = "close"
             } else { // 슬라이딩 페이지 닫기
                 binding.slidingList.startAnimation(rightAnimation)
-                binding.button2.text = "open"
             }
         }
     }
@@ -393,10 +391,11 @@ class MapFragment : Fragment(R.layout.fragment_map) {
 
     }
 
-    private fun setFABVisiblity(visible: Boolean) {
+    private fun setNoneMapUtilsVisiblity(visible: Boolean) {
         binding.fabCapture.isVisible = visible
         binding.fabShare.isVisible = visible
         binding.fabMain.isVisible = visible
+        binding.mapListToggleBtn.isVisible = visible
     }
 
     // ----------------------뷰 캡쳐-------------------------
@@ -404,7 +403,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
     private fun getScreenShotFromView(v: View): Bitmap? {
         var screenshot: Bitmap? = null
 
-        setFABVisiblity(false)
+        setNoneMapUtilsVisiblity(false)
 
         try {
             screenshot =
@@ -416,7 +415,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
             Log.e("GFG", "캡쳐실패 : " + e.message)
         }
 
-        setFABVisiblity(true)
+        setNoneMapUtilsVisiblity(true)
 
         return screenshot
     }
