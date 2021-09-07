@@ -2,6 +2,7 @@ package com.hsu.mapapp.Share_Folder
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
@@ -65,6 +66,14 @@ class ShareFragment : Fragment(R.layout.fragment_friends) {
         binding.friendsRecycler.setHasFixedSize(true)
 
         setFriends()
+        adapter.setOnItemClickListener(object : FriendsAdapter.OnItemClickListener{
+            override fun onItemClick(v: View, position: Int) {
+                val FriendUid = data_friends[position].uid.toString()
+                val intent = Intent(context, ShareMapActivity::class.java)
+                intent.putExtra("FriendUid",FriendUid)
+                startActivity(intent)
+            }
+        })
     }
 
     fun setFriends() {
@@ -81,7 +90,9 @@ class ShareFragment : Fragment(R.layout.fragment_friends) {
                             val friendRef = firestore?.collection("users")?.document(key)
                             friendRef?.get()?.addOnSuccessListener { document ->
                                 data_friends.apply {
-                                    add(FriendsItemList((document.get("name").toString())))
+                                    val name = document.get("name").toString()
+                                    val uid = document.get("uid").toString()
+                                    add(FriendsItemList(name,uid))
                                     adapter.setData(data_friends)
                                     adapter.notifyDataSetChanged()
                                 }

@@ -3,15 +3,17 @@ package com.hsu.mapapp.Share_Folder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.hsu.mapapp.databinding.FriendsListItemBinding
 
 
 class FriendsAdapter(private val context:ShareFragment) :
     RecyclerView.Adapter<FriendsAdapter.ViewHolder>() {
-    var datas_friends = mutableListOf<FriendsItemList>()
+
+    private var datas_friends = mutableListOf<FriendsItemList>()
     var isStartBtnSelected = false
+
+    private var itemListener: FriendsAdapter.OnItemClickListener? = null
 
     fun setData(newData: MutableList<FriendsItemList>) {
         datas_friends.clear()
@@ -28,6 +30,14 @@ class FriendsAdapter(private val context:ShareFragment) :
                     binding.messageBtn.isSelected = isStartBtnSelected
                     isStartBtnSelected = !isStartBtnSelected
                 }
+                fun setOnClick(){
+                    itemView.setOnClickListener {
+                        val position = adapterPosition
+                        if (position != RecyclerView.NO_POSITION) {
+                            itemListener?.onItemClick(it, position)
+                        }
+                    }
+                }
             }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
@@ -39,9 +49,15 @@ class FriendsAdapter(private val context:ShareFragment) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.setFriendsName(datas_friends[position])
         holder.Message_btn_OnClick()
+        holder.setOnClick()
     }
 
     override fun getItemCount() = datas_friends.size
 
-
+    interface OnItemClickListener {
+        fun onItemClick(v: View, position: Int)
+    }
+    fun setOnItemClickListener(itemListener: FriendsAdapter.OnItemClickListener) {
+        this.itemListener = itemListener
+    }
 }
