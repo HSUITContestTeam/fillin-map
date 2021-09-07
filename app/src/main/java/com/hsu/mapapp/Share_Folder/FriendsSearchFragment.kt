@@ -74,7 +74,8 @@ class FriendsSearchFragment : Fragment(R.layout.search_friends_list_item) {
 
                 for (snapshot in querySnapshot!!.documents) {
                     var item = snapshot.toObject(FriendsSearchItemList::class.java)
-                    datas_friends_search.add(item!!)
+                    if(uid != item?.uid)
+                        datas_friends_search.add(item!!)
                 }
                 notifyDataSetChanged()
             }
