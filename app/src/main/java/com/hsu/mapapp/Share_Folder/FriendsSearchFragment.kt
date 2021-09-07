@@ -184,7 +184,8 @@ class FriendsSearchFragment : Fragment(R.layout.search_friends_list_item) {
                 for (snapshot in querySnapshot!!.documents) {
                         if(snapshot.getString(option)!!.contains(searchWord)) {
                             var item = snapshot.toObject(FriendsSearchItemList::class.java)
-                            datas_friends_search.add(item!!)
+                            if(item?.uid!=uid)
+                                datas_friends_search.add(item!!)
                         }
                 }
                 notifyDataSetChanged()
