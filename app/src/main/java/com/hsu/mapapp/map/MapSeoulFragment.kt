@@ -24,7 +24,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.PathParser
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.android.gms.tasks.OnFailureListener
@@ -82,7 +81,8 @@ class MapSeoulFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentMapSeoulBinding.inflate(inflater, container, false)
-        onClick()
+        if(parentFragmentManager.findFragmentById(R.id.fragmentContainerView4)?.id == null)
+            onClick()
         mapIdViewModel.mapId.observe(viewLifecycleOwner, androidx.lifecycle.Observer<String> { selectedMapId = it })
         Log.d("selectedMapId",selectedMapId)
         return binding.root
