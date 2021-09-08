@@ -179,6 +179,8 @@ class MapSeoulFragment : Fragment() {
                         // Handle unsuccessful uploads
                         Log.d("uploadTask", "Faliure")
                     }.addOnSuccessListener {
+                        //선택한 지역에 색이 저장되어 있으면 삭제
+                        deleteColorFromMap()
                         // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
                         Log.d("uploadTask", "Success")
                         // 파이어베이스에 클릭한 이미지 저장 후 불러오기
@@ -438,6 +440,14 @@ class MapSeoulFragment : Fragment() {
         }
     }
 
+    private fun deleteColorFromMap() {
+        val uidColorRef = storage.reference.child("mapColor/$selectedMapId")
+        uidColorRef.child("$mapName").delete().addOnSuccessListener {
+            AllIMGS["$mapName"]?.isVisible = false
+            ClickedIMGS.remove("$mapName")
+        }
+    }
+
     //-----------------------------이미지뷰 회전 관련 함수----------------------------------//
     fun rotateBitmap(bitmap: Bitmap, orientation: Int): Bitmap? {
         val matrix = Matrix()
@@ -477,5 +487,3 @@ class MapSeoulFragment : Fragment() {
         binding.root.removeAllViewsInLayout()
     }
 }
-
-
