@@ -177,8 +177,8 @@ class LoginActivity : AppCompatActivity() {
 
     private fun firebaseAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
-        auth?.signInWithCredential(credential)
-            ?.addOnCompleteListener(this) { task ->
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "로그인 성공")
@@ -229,10 +229,10 @@ class LoginActivity : AppCompatActivity() {
 
     private fun addUserToFireStore(nickname : String, user: FirebaseUser?) {
         val userInfo = AddUser()
-        userInfo.uid = auth?.uid //유저 정보 가져오기
-        userInfo.userId = auth?.currentUser?.email
+        userInfo.uid = auth.uid //유저 정보 가져오기
+        userInfo.userId = auth.currentUser?.email
         userInfo.name = nickname
-        firestore?.collection("users")?.document(auth?.uid.toString())?.set(userInfo)
+        firestore.collection("users").document(auth.uid.toString()).set(userInfo)
         toMainActivity(user)
     }
 
@@ -246,12 +246,14 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        // 자동 로그인 - Google
         val account = GoogleSignIn.getLastSignedInAccount(this)
         if (account != null) {
             toMainActivity(auth.currentUser)
         }
+        // 자동 로그인 - 이메일
         val user = FirebaseAuth.getInstance().currentUser
-        if (user != null) {
+        if (user != null && user.isEmailVerified) {
             toMainActivity(auth.currentUser)
         }
     }
