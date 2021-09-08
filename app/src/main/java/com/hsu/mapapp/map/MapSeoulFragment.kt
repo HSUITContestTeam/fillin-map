@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.*
@@ -40,8 +41,9 @@ import com.richpath.RichPathView
 import java.io.*
 import java.util.*
 import kotlin.collections.set
-
-
+import android.os.Environment
+import android.widget.Toast
+import javax.xml.transform.stream.StreamResult
 
 
 class MapSeoulFragment : Fragment() {
@@ -117,7 +119,7 @@ class MapSeoulFragment : Fragment() {
 
     //-----------------------------map color Firebase로부터 가져오기----------------------------------//
     private fun uploadColorFromStorage() {
-        val uidRef = storage.reference.child("mapColor/$uid")
+        val uidRef = storage.reference.child("mapColor/$selectedMapId")
         uidRef.listAll()
             .addOnSuccessListener(OnSuccessListener<ListResult> { result ->
                 for (fileRef in result.items) {
@@ -264,7 +266,7 @@ class MapSeoulFragment : Fragment() {
                                     Color.parseColor("#d2d2d2")
                             }
 
-                            val uidColorRef = storage.reference.child("mapColor/$uid")
+                            val uidColorRef = storage.reference.child("mapColor/$selectedMapId")
                             uidColorRef.child("$mapName").delete().addOnSuccessListener {
                                 AllIMGS["$mapName"]?.isVisible = false
                                 ClickedIMGS.remove("$mapName")
@@ -401,28 +403,26 @@ class MapSeoulFragment : Fragment() {
     private val fillColorActivityLancher: ActivityResultLauncher<Intent> =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK && it.data != null) {
-                deleteImageFromMap() // 이미지 삭제
+
                 val colorResult = it.data?.getStringExtra("color")
                 richPathView.findRichPathByName(mapName.toString())?.fillColor =
                     Color.parseColor(colorResult.toString())
-                /*var uriColor: Uri? = null
-                val storageReference = storage.getReference("mapColor/$uid/$mapName")
-                val fo = FileWriter("$mapName",false)
-                fo.write("$colorResult")
-                fo.close()
-                val result =
-                    StreamResult(File(Environment.getExternalStorageDirectory(), "$mapName"))
-                var output: Writer? = null
-                val path = "$mapName"
-                val file = File(path)
-                output = BufferedWriter(FileWriter(file))
-                output.write("${colorResult.toString()}")
-                output.close()
+                var uriColor: Uri? = null
+                val storageReference = storage.getReference("mapColor/$selectedMapId/$mapName")
+
+                //textfile 생성 후 업로드
+                var output = getContext()?.openFileOutput("$mapName",Context.MODE_PRIVATE)
+                var dos = DataOutputStream(output)
+                dos.writeBytes("${colorResult.toString()}")
+                dos.flush()
+                dos.close()
+                var path = context?.getFileStreamPath("$mapName").toString()
+                var file = File(path)
                 uriColor = Uri.fromFile(file)
                 storageReference.putFile(uriColor).addOnSuccessListener {
+                    deleteImageFromMap() // 이미지 삭제
                     Toast.makeText(this.context, "Successfully uploaded", Toast.LENGTH_SHORT).show()
-                }*/
-
+                }
             }
         }
 
