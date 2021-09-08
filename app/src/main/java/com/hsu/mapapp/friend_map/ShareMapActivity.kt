@@ -19,6 +19,7 @@ import com.hsu.mapapp.map.MapIdViewModel
 import com.hsu.mapapp.map.MapItemList
 import com.hsu.mapapp.map.MapSeoulFragment
 import com.hsu.mapapp.utils.OnSwipeTouchListener
+import com.richpath.RichPathView
 import java.util.*
 
 class ShareMapActivity : AppCompatActivity() {
@@ -49,7 +50,7 @@ class ShareMapActivity : AppCompatActivity() {
         mapIdViewModel = ViewModelProvider(this).get(MapIdViewModel::class.java)
 
         setSlidingAnimation() // 지도목록 스와이핑, 슬라이딩 설정
-        setRecycler() // 리사이클러뷰 (지도목록 슬라이딩 화면) 설정S
+        setRecycler() // 리사이클러뷰 (지도목록 슬라이딩 화면) 설정
     }
 // ----------------------슬라이딩 Layout 애니메이션-------------------------
 
