@@ -101,6 +101,11 @@ class ProfileActivity : AppCompatActivity() {
             updateName()
         }
 
+        //프로필 메세지 설정
+        profileBinding.buildMessageIv.setOnClickListener{
+            updateMessage()
+        }
+
         // 프로필 사진 설정
         profileBinding.buildProfileIv.setOnClickListener {
             //startActivity(Intent(this, CropImg::class.java))
@@ -120,6 +125,7 @@ class ProfileActivity : AppCompatActivity() {
                 docRef.get()
                     .addOnSuccessListener { document ->
                         profileBinding.profileNameTV.text = document.get("name").toString()
+                        profileBinding.profileMessageTV.text = document.get("Message").toString()
 
                         val progressDialog = ProgressDialog(this)
                         progressDialog.setMessage("Fetching Image ...")
@@ -211,11 +217,10 @@ class ProfileActivity : AppCompatActivity() {
         val user = Firebase.auth.currentUser
         val uid = user?.uid
         var value_N = ""
-        var value_M = ""
 
-        val linearLayout = View.inflate(this, R.layout.dialog_name, null)
-        val editText: EditText = linearLayout.findViewById(R.id.name_editText)
-        val editText_M : EditText = linearLayout.findViewById(R.id.Message_editText)
+        val linearLayout_N = View.inflate(this, R.layout.dialog_name, null)
+
+        val editText: EditText = linearLayout_N.findViewById(R.id.name_editText)
 
         // firebase에서 닉네임, 상태메세지 불러와 다이얼로그에 표시
         if (user != null) {
@@ -238,22 +243,19 @@ class ProfileActivity : AppCompatActivity() {
         if (user != null) {
             // 닉네임 입력 다이얼로그 설정
             val builder = AlertDialog.Builder(this)
-                .setView(linearLayout)
+                .setView(linearLayout_N)
                 .setPositiveButton("확인") { dialog, which ->
                     //val editText: EditText = linearLayout.findViewById(R.id.name_editText)
                     //val editText_M : EditText = linearLayout.findViewById(R.id.Message_editText)
 
                     value_N = editText.text.toString()
-                    value_M = editText_M.text.toString()
 
                     profileBinding.profileNameTV.text = value_N
-                    profileBinding.StatusMessage.text= value_M
 
                     // firestore - users - name 업데이트
                     val profileRef = firestore?.collection("users")?.document(uid!!)
                     profileRef?.get()?.addOnSuccessListener {
                         profileRef.update("name", value_N)
-                        profileRef.update("Message",value_M)
                     }
                     // [END update_profile]
 
@@ -268,6 +270,51 @@ class ProfileActivity : AppCompatActivity() {
     }
 
 
+    //---------------------프로필 메세지 재설정----------------------//
+    private fun updateMessage() {
+        val user = Firebase.auth.currentUser
+        val uid = user?.uid
+        var value_M = ""
+
+        val linearLayout_M = View.inflate(this, R.layout.dialog_message, null)
+        val editText: EditText = linearLayout_M.findViewById(R.id.Message_editText)
+
+        //기존 메세지 다이얼 로그 표시
+        if (user != null) {
+            user.let {
+                val email = user.email
+                val firestore = FirebaseFirestore.getInstance()
+                val docRef = firestore.collection("users").document(uid!!)
+                docRef.get()
+                    .addOnSuccessListener { document ->
+                        val userMessage = document.get("Message").toString()
+                        editText.setText(userMessage)
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.d(TAG, "get failed with", exception)
+                    }
+            }
+        }
+
+        if (user != null) {
+            //다이얼로그 설정
+            val builder = AlertDialog.Builder(this)
+                .setView(linearLayout_M)
+                .setPositiveButton("확인") { diolog, which ->
+                    value_M = editText.text.toString()
+                    profileBinding.profileMessageTV.text = value_M
+
+                    val profileRef = firestore?.collection("users")?.document(uid!!)
+                    profileRef?.get()?.addOnSuccessListener {
+                        profileRef.update("Message", value_M)
+                    }
+                }
+                .setNegativeButton("취소") { diolog, which ->
+                    diolog.dismiss()
+                }
+            builder.show()
+        }
+    }
 
     //------------------프로필 이미지 크롭----------------------//
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
