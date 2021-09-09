@@ -245,7 +245,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                 builder.setMessage("정말로 지도를 삭제 하시겠습니까?")
 
                 builder.setPositiveButton("예") { dialog, which ->
-                    mapViewModel.delete(mapAdapter.longPos)
+                    mapViewModel.delete(mapAdapter.longPos, mapViewModel.mapLiveData.value?.get(mapAdapter.longPos)?.mapId.toString())
                     mapAdapter.notifyItemRemoved(mapAdapter.longPos)
                     //observeData()
                 }
