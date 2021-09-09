@@ -87,7 +87,7 @@
         app:layout_constraintVertical_bias="0.23" />
 
     <TextView
-        android:id="@+id/Status_message"
+        android:id="@+id/profile_message_tV"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -137,10 +137,22 @@
         android:layout_height="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.617"
+        app:layout_constraintHorizontal_bias="0.629"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.23"
+        app:layout_constraintVertical_bias="0.246"
+        app:srcCompat="@drawable/icon_build" />
+
+    <ImageView
+        android:id="@+id/build_message_iv"
+        android:layout_width="17dp"
+        android:layout_height="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.672"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.295"
         app:srcCompat="@drawable/icon_build" />
 
     <ImageView
