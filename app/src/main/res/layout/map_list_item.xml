@@ -11,6 +11,7 @@
         android:id="@+id/previewImage"
         android:layout_width="411dp"
         android:layout_height="200dp"
+        android:background="#E9E9EB"
         android:src="@drawable/ic_launcher_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,24 +21,17 @@
         android:id="@+id/mapTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#E9E9EB"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:text="mapTitle"
         android:textAlignment="center"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        android:textStyle="bold"
+        android:textColor="#373737"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/previewImage" />
-
-    <android.widget.Button
-        android:id="@+id/start_btn"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="@drawable/star_item_select"
-        android:backgroundTint="#FFC107"
-        android:hapticFeedbackEnabled="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
