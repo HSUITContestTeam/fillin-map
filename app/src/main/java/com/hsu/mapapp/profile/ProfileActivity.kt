@@ -126,6 +126,9 @@ class ProfileActivity : AppCompatActivity() {
                     .addOnSuccessListener { document ->
                         profileBinding.profileNameTV.text = document.get("name").toString()
                         profileBinding.profileMessageTV.text = document.get("Message").toString()
+                        if(profileBinding.profileMessageTV.text == "null"){
+                            profileBinding.profileMessageTV.text = ""
+                        }
 
                         val progressDialog = ProgressDialog(this)
                         progressDialog.setMessage("Fetching Image ...")
