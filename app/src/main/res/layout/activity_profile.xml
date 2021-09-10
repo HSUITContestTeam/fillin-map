@@ -19,8 +19,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_email_tV"
-        app:layout_constraintVertical_bias="0.145" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.637" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/logout_btn"
@@ -113,57 +113,55 @@
         app:layout_constraintVertical_bias="0.05"
         tools:srcCompat="@drawable/login_id" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/profile_modify_btn"
-        android:layout_width="0dp"
+    <Button
+        android:id="@+id/profileModifyButton"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="#FFFFFF"
-        android:text="프로필 수정"
-        android:textAlignment="viewStart"
-        android:visibility="gone"
+        android:text="프로필 편집"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.517"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_email_tV"
-        app:layout_constraintVertical_bias="0.139" />
-
-    <ImageView
-        android:id="@+id/build_name_iv"
-        android:layout_width="17dp"
-        android:layout_height="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.629"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.246"
-        app:srcCompat="@drawable/icon_build" />
+        app:layout_constraintVertical_bias="0.114" />
 
     <ImageView
         android:id="@+id/build_message_iv"
-        android:layout_width="17dp"
-        android:layout_height="20dp"
+        android:layout_width="18dp"
+        android:layout_height="25dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.672"
+        app:layout_constraintHorizontal_bias="0.884"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/build_name_iv"
+        app:layout_constraintVertical_bias="0.016"
+        app:srcCompat="@android:drawable/ic_menu_edit" />
+
+    <ImageView
+        android:id="@+id/build_name_iv"
+        android:layout_width="18dp"
+        android:layout_height="25dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.884"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.295"
-        app:srcCompat="@drawable/icon_build" />
+        app:layout_constraintVertical_bias="0.24"
+        app:srcCompat="@android:drawable/ic_menu_edit" />
 
     <ImageView
         android:id="@+id/build_profile_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.622"
+        app:layout_constraintHorizontal_bias="0.645"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.169"
-        app:srcCompat="@drawable/icon_build" />
+        app:layout_constraintVertical_bias="0.179"
+        app:srcCompat="@android:drawable/ic_menu_camera" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
