@@ -104,9 +104,8 @@
 
     <ImageView
         android:id="@+id/profile_image_iV"
-        android:layout_width="113dp"
-        android:layout_height="113dp"
-        android:background="#A39E9A9A"
+        android:layout_width="156dp"
+        android:layout_height="120dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

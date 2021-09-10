@@ -146,7 +146,7 @@ class ProfileFragment : Fragment(R.layout.activity_profile) {
                         urlProfile = document.get("photoUrl").toString()
                         userID = document.get("uid").toString()
                         Glide.with(this)
-                            .load(urlProfile)
+                            .load(urlProfile).circleCrop()
                             .into(profileBinding.profileImageIV)
                         if (progressDialog.isShowing)
                             progressDialog.dismiss()
@@ -386,7 +386,7 @@ class ProfileFragment : Fragment(R.layout.activity_profile) {
 
     private fun setImage(uri: Uri) {
         Glide.with(this)
-            .load(uri)
+            .load(uri).circleCrop()
             .into(profileBinding.profileImageIV)
     }
 
