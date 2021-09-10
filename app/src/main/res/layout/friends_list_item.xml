@@ -5,6 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <TextView
+        android:id="@+id/FirendsMessage"
+        android:layout_width="196dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/message_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.317"
+        app:layout_constraintStart_toEndOf="@+id/FriendsIMG"
+        app:layout_constraintTop_toBottomOf="@+id/Friends_name"
+        app:layout_constraintVertical_bias="0.0" />
+
     <Button
         android:id="@+id/message_btn"
         android:layout_width="wrap_content"
@@ -13,55 +25,38 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/info_btn"
         app:layout_constraintHorizontal_bias="0.912"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName3"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/info_btn"
         android:layout_width="86dp"
         android:layout_height="48dp"
-        android:layout_marginTop="4dp"
         android:layout_marginEnd="32dp"
         android:background="#FFFFFF"
         android:text="Info"
         android:textColor="#757575"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName3" />
-
-    <EditText
-        android:id="@+id/editTextTextPersonName3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
-        android:text="Use description Here"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.82"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Friends_name" />
+        app:layout_constraintTop_toBottomOf="@+id/FirendsMessage" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/FriendsIMG"
         android:layout_width="128dp"
         android:layout_height="127dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.505"
         tools:srcCompat="@drawable/login_id" />
 
     <TextView
         android:id="@+id/Friends_name"
         android:layout_width="129dp"
         android:layout_height="33dp"
+        android:layout_marginTop="16dp"
         android:text="User Name"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.588"
+        app:layout_constraintHorizontal_bias="0.609"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
