@@ -9,6 +9,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="transparent10">#1A000000</color>
     <color name="transparent0">#00000000</color>
+    <color name="color_main">#1f57ed</color>
+    <color name="color_fab">#edb51f</color>
 
     <!--
     투명도

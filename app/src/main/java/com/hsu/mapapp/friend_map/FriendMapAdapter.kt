@@ -40,10 +40,6 @@ class FriendMapAdapter(private var data: LiveData<ArrayList<MapItemList>>) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun setOnclick() {
-            binding.startBtn.setOnClickListener {
-                binding.startBtn.isSelected = isStartBtnSelected
-                isStartBtnSelected = !isStartBtnSelected
-            }
 
             itemView.setOnClickListener {
                 val position = adapterPosition

@@ -142,6 +142,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
             } else { // 슬라이딩 페이지 닫기
                 binding.slidingList.startAnimation(rightAnimation)
             }
+            println("clicked")
         }
     }
 
@@ -159,12 +160,12 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                 binding.MapListRecyclerView.adapter = mapAdapter // RecyclerView와 CustomAdapter 연결
                 mapAdapter.notifyDataSetChanged()
 
-                /*// 처음은 첫번째 index의 지도로 교체
+                // 처음은 첫번째 index의 지도로 교체
                 if (mapViewModel.mapLiveData.value?.size != 0) {
                     selectedMapId = mapViewModel.fetch().value?.get(0)?.mapId.toString()
                     mapIdViewModel.setMapId(selectedMapId)
                     fragmentTransaction(mapViewModel.fetch().value?.get(0)?.mapSort.toString())
-                }*/
+                }
 
                 // 지도 목록에서 map 클릭하면 mapFragment 바뀜
                 mapAdapter.setOnItemClickListener(object : MapAdapter.OnItemClickListener {
@@ -186,6 +187,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
             }
 
         mapViewModel.mapLiveData.observe(viewLifecycleOwner, dataObserver)
+        setRecyclerDeco()
     }
 
     // 프래그먼트 교체
@@ -382,8 +384,8 @@ class MapFragment : Fragment(R.layout.fragment_map) {
             ObjectAnimator.ofFloat(binding.fabCapture, "translationY", 0f).apply { start() }
             ObjectAnimator.ofFloat(binding.fabMain, View.ROTATION, 45f, 0f).apply { start() }
         } else { // 플로팅 액션 버튼 열기 - 닫혀있는 플로팅 버튼 꺼내는 애니메이션
-            ObjectAnimator.ofFloat(binding.fabShare, "translationY", -360f).apply { start() }
-            ObjectAnimator.ofFloat(binding.fabCapture, "translationY", -180f).apply { start() }
+            ObjectAnimator.ofFloat(binding.fabShare, "translationY", -480f).apply { start() }
+            ObjectAnimator.ofFloat(binding.fabCapture, "translationY", -240f).apply { start() }
             ObjectAnimator.ofFloat(binding.fabMain, View.ROTATION, 0f, 45f).apply { start() }
         }
 
@@ -468,7 +470,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
 
         fos?.use {
             // Finally writing the bitmap to the output stream that we opened
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
             Toast.makeText(this.context, "Captured View and saved to Gallery", Toast.LENGTH_SHORT)
                 .show()
         }
