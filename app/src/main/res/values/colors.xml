@@ -11,6 +11,7 @@
     <color name="transparent0">#00000000</color>
     <color name="color_main">#1f57ed</color>
     <color name="color_fab">#edb51f</color>
+    <color name="wave_end">#ebf0fd</color>
 
     <!--
     투명도

@@ -52,6 +52,7 @@ class LoginActivity : AppCompatActivity() {
         firestore = FirebaseFirestore.getInstance() //Firestore선언
         fbAuth = FirebaseAuth.getInstance() // Firebase Auth 선언
         auth = Firebase.auth
+
     }
 
     //---------------------------- 회원가입 ----------------------------------//

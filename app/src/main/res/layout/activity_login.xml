@@ -7,109 +7,111 @@
     android:background="@color/white"
     android:foregroundTint="#070707">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/login_create_user_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button_round_gray"
-        android:fontFamily="sans-serif"
-        android:text="회원가입"
-        android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.952"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.016" />
-
 
     <EditText
         android:id="@+id/login_id_eT"
         android:layout_width="230dp"
         android:layout_height="40dp"
-        android:background="@drawable/login_border"
+        android:layout_marginBottom="32dp"
         android:ems="10"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/login_pwd_eT"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.731"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/login_pwd_eT"
         android:layout_width="230dp"
         android:layout_height="40dp"
-        android:background="@drawable/login_border"
+        android:layout_marginBottom="32dp"
         android:ems="10"
         android:inputType="textPassword"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/login_LOGIN_btn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.392"
-        app:layout_constraintStart_toEndOf="@+id/login_pwd_iV"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.629" />
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
-        android:id="@+id/login_pwd_iV"
-        android:layout_width="72dp"
-        android:layout_height="68dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.088"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_id_iV"
-        app:layout_constraintVertical_bias="0.061"
-        app:srcCompat="@drawable/login_password" />
-
-    <ImageView
-        android:id="@+id/login_main_iV"
-        android:layout_width="178dp"
-        android:layout_height="163dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.103"
-        app:srcCompat="@drawable/login_profile" />
-
-    <ImageView
-        android:id="@+id/login_id_iV"
+    <TextView
+        android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/login_id_eT"
+        android:text="Fill in map"
+        android:textColor="#1F57ED"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/login_id_eT"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/login_id" />
+        app:layout_constraintTop_toBottomOf="@+id/waveHeader" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/login_LOGIN_btn"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:background="#1F57ED"
+        android:fontFamily="sans-serif"
+        android:text="로그인"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/login_create_user_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/login_create_user_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/button_round_black"
+        android:layout_marginBottom="32dp"
+        android:background="#FFFFFF"
         android:fontFamily="sans-serif"
-        android:text="login"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="회원가입"
+        android:textColor="#1F57ED"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/login_google_btn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.51"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_main_iV"
-        app:layout_constraintVertical_bias="0.698" />
+        style="?android:attr/borderlessButtonStyle"/>
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/login_google_btn"
-        android:layout_width="match_parent"
+        android:layout_width="230dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="64dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_LOGIN_btn">
+        app:layout_constraintStart_toStartOf="parent">
 
     </com.google.android.gms.common.SignInButton>
+
+    <com.scwang.wave.MultiWaveHeader
+        android:id="@+id/waveHeader"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        app:mwhColorAlpha="0.45"
+        app:mwhVelocity="5"
+        app:mwhStartColor="@color/color_main"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:text="ID"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/login_id_eT"
+        app:layout_constraintStart_toStartOf="@+id/login_id_eT" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:text="PW"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/login_pwd_eT"
+        app:layout_constraintStart_toStartOf="@+id/login_pwd_eT" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

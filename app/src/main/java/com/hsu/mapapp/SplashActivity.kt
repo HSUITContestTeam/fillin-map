@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.View
 import com.hsu.mapapp.login.LoginActivity
 
 class SplashActivity : AppCompatActivity() {
