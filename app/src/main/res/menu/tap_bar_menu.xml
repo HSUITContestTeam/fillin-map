@@ -12,5 +12,5 @@
     <item
         android:id="@+id/settingFragment"
         android:icon="@android:drawable/ic_menu_preferences"
-        android:title="더 보기" />
+        android:title="프로필" />
 </menu>
