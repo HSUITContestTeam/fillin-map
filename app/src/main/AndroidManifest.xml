@@ -33,7 +33,8 @@
         <activity android:name=".profile.ProfileModifyActivity" />
         <activity android:name=".profile.ProfileActivity" />
         <activity android:name=".profile.CropImg" />
-        <activity android:name=".login.LoginActivity" />
+        <activity android:name=".login.LoginActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name=".MainActivity" />
         <activity android:name=".settings.NoticeActivity" />
         <activity android:name=".settings.AppinfoActivity" />
