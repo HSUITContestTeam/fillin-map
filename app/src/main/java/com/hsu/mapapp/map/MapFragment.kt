@@ -161,11 +161,11 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                 mapAdapter.notifyDataSetChanged()
 
                 // 처음은 첫번째 index의 지도로 교체
-                if (mapViewModel.mapLiveData.value?.size != 0) {
+                /*if (mapViewModel.mapLiveData.value?.size != 0) {
                     selectedMapId = mapViewModel.fetch().value?.get(0)?.mapId.toString()
                     mapIdViewModel.setMapId(selectedMapId)
                     fragmentTransaction(mapViewModel.fetch().value?.get(0)?.mapSort.toString())
-                }
+                }*/
 
                 // 지도 목록에서 map 클릭하면 mapFragment 바뀜
                 mapAdapter.setOnItemClickListener(object : MapAdapter.OnItemClickListener {
