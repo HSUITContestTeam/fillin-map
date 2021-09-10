@@ -395,7 +395,7 @@ class ProfileFragment : Fragment(R.layout.activity_profile) {
             .setGuidelines(CropImageView.Guidelines.ON)
             .setCropShape(CropImageView.CropShape.RECTANGLE) // default is rectangle
             .getIntent(requireActivity())
-        requireActivity().startActivityForResult(intent, CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE);
+        startActivityForResult(intent, CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE);
     }
 
     private fun pickFromGallery() {
