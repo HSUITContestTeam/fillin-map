@@ -54,7 +54,8 @@ class ProfileFragment : Fragment(R.layout.activity_profile) {
         _binding =  ActivityProfileBinding.inflate(inflater, container, false)
         // appbar - 뒤로 가기 버튼 없애기
         (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(false)
-
+        // 액션바 제목 변경
+        (activity as AppCompatActivity).supportActionBar!!.title = "프로필"
         firestore = FirebaseFirestore.getInstance()
 
         setProfileModifyBtnClickEvent()

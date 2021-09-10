@@ -27,6 +27,8 @@ class UpdatePasswordFragment : Fragment(R.layout.activity_update_password) {
         updatePasswordBtnEvent()
         // appbar - 뒤로 가기 버튼 없애기
         (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(false)
+        // 액션바 제목 변경
+        (activity as AppCompatActivity).supportActionBar!!.title = "비밀번호 재설정"
         return updatePasswordBinding.root
     }
     private fun updatePasswordBtnEvent() {
