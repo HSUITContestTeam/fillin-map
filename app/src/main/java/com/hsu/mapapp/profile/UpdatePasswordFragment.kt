@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.snackbar.Snackbar
@@ -24,6 +25,8 @@ class UpdatePasswordFragment : Fragment(R.layout.activity_update_password) {
         // Inflate the layout for this fragment
         _binding =  ActivityUpdatePasswordBinding.inflate(inflater, container, false)
         updatePasswordBtnEvent()
+        // appbar - 뒤로 가기 버튼 없애기
+        (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(false)
         return updatePasswordBinding.root
     }
     private fun updatePasswordBtnEvent() {

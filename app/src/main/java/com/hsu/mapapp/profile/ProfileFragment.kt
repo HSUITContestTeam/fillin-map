@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -45,17 +46,15 @@ class ProfileFragment : Fragment(R.layout.activity_profile) {
     private var firestore: FirebaseFirestore? = null
     private val uid = Firebase.auth.currentUser?.uid
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         _binding =  ActivityProfileBinding.inflate(inflater, container, false)
+        // appbar - 뒤로 가기 버튼 없애기
+        (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(false)
+
         firestore = FirebaseFirestore.getInstance()
 
         setProfileModifyBtnClickEvent()
