@@ -271,7 +271,7 @@ class MapSeoulFragment : Fragment() {
                                 ClickedIMGS.remove("$mapName")
                             }.addOnFailureListener {
                                 richPathView.findRichPathByName(mapName.toString())?.fillColor =
-                                    Color.parseColor("#d2d2d2")
+                                    Color.parseColor("#ffffff")
                             }
 
                             val uidColorRef = storage.reference.child("mapColor/$selectedMapId")
@@ -280,7 +280,7 @@ class MapSeoulFragment : Fragment() {
                                 ClickedIMGS.remove("$mapName")
                             }.addOnFailureListener {
                                 richPathView.findRichPathByName(mapName.toString())?.fillColor =
-                                    Color.parseColor("#d2d2d2")
+                                    Color.parseColor("#ffffff")
                             }
                         }
                     }
