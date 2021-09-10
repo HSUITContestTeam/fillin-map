@@ -28,6 +28,9 @@ class CreateUserActivity : AppCompatActivity() {
         createUseBinding = ActivityCreateUserBinding.inflate(layoutInflater)
         setContentView(createUseBinding.root)
 
+        // 액션바 제목 변경
+        supportActionBar?.title = "회원가입"
+
         firestore = FirebaseFirestore.getInstance() //Firestore선언
         fbAuth = FirebaseAuth.getInstance() // Firebase Auth 선언
         auth = Firebase.auth
