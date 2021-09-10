@@ -99,9 +99,9 @@ class MapSeoulFragment : Fragment() {
         super.onResume()
         if (AllIMGS.isEmpty())
             initialImageViewHashMap()
-        uploadColorFromStorage()
         setALLIMGSsize() // 이미지뷰 사이즈 초기화
         imageWithFirebase() // 이미지뷰 서버에 업로드 및 가져오기
+        uploadColorFromStorage()
         LoadingDialog.hideLoading() // 로딩 애니메이션 종료
     }
 
@@ -119,19 +119,25 @@ class MapSeoulFragment : Fragment() {
 
     //-----------------------------map color Firebase로부터 가져오기----------------------------------//
     private fun uploadColorFromStorage() {
+        richPathView = binding.icMapOfSouthKorea
+        val mapOfKoreaRegions = resources.getStringArray(R.array.map_of_korea_regions)
+        for (region in mapOfKoreaRegions) {
+            richPathView.findRichPathByName("$region")
+                ?.setOnPathClickListener { mapName = "$region" }
+        }
+
         val uidRef = storage.reference.child("mapColor/$selectedMapId")
         uidRef.listAll()
             .addOnSuccessListener(OnSuccessListener<ListResult> { result ->
                 for (fileRef in result.items) {
                     val localFile = File.createTempFile(fileRef.name, "txt")
-                    Log.d("fileName", fileRef.name)
                     fileRef.getFile(localFile).addOnSuccessListener {
                         activity?.let {
                             val colorValue: String = localFile.readText()
-                            Log.d("colorValue", colorValue)
                             localFile.delete()
                             richPathView.findRichPathByName(fileRef.name)?.fillColor =
-                                Color.parseColor(colorValue)
+                                    Color.parseColor(colorValue)
+
                         }
                     }.addOnFailureListener { }
                 }
