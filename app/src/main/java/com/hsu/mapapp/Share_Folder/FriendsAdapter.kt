@@ -1,9 +1,12 @@
 package com.hsu.mapapp.Share_Folder
 
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.hsu.mapapp.R
 import com.hsu.mapapp.databinding.FriendsListItemBinding
 
 
@@ -19,12 +22,22 @@ class FriendsAdapter(private val context:ShareFragment) :
         datas_friends.clear()
         datas_friends.addAll(newData)
         println("friendsListCount : ${datas_friends.size} ")
+
     }
 
     inner class ViewHolder (private val binding : FriendsListItemBinding) :
             RecyclerView.ViewHolder(binding.root){
                 fun setFriendsName(item: FriendsItemList){
                     binding.FriendsName.text = item.FriendsName
+                }
+                fun SetFriendsImage(item:FriendsItemList){
+                    Glide.with(context)
+                    .load(item.photoUrl)
+                    .error(R.drawable.login_id)
+                    .into(binding.FriendsIMG)
+                }
+                fun SetFriendsMessage(item:FriendsItemList){
+                    binding.FirendsMessage.text = item.Message
                 }
                 fun Message_btn_OnClick(){
                     binding.messageBtn.isSelected = isStartBtnSelected
@@ -49,6 +62,8 @@ class FriendsAdapter(private val context:ShareFragment) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.setFriendsName(datas_friends[position])
         holder.Message_btn_OnClick()
+        holder.SetFriendsMessage(datas_friends[position])
+        holder.SetFriendsImage(datas_friends[position])
         holder.setOnClick()
     }
 

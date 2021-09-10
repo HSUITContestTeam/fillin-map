@@ -1,8 +1,10 @@
 package com.hsu.mapapp.Share_Folder
 
 data class FriendsItemList(
-     var FriendsName : String,
-     var uid : String
+     val FriendsName : String,
+     val uid : String,
+     val photoUrl : String,
+     val Message:String
         ){
-    constructor():this("","")
+    constructor():this("","","","")
 }

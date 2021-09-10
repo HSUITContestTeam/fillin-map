@@ -97,7 +97,12 @@ class ShareFragment : Fragment(R.layout.fragment_friends) {
                                 data_friends.apply {
                                     val name = document.get("name").toString()
                                     val uid = document.get("uid").toString()
-                                    add(FriendsItemList(name,uid))
+                                    val photoUrl = document.get("photoUrl").toString()
+                                    var Message = document.get("Message").toString()
+                                    if(Message == "null"){
+                                        Message = ""
+                                    }
+                                    add(FriendsItemList(name,uid,photoUrl, Message))
                                     adapter.setData(data_friends)
                                     adapter.notifyDataSetChanged()
                                 }
