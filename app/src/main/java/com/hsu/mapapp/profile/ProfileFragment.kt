@@ -3,6 +3,7 @@ package com.hsu.mapapp.profile
 import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -49,7 +50,7 @@ class ProfileFragment : Fragment(R.layout.activity_profile) {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding =  ActivityProfileBinding.inflate(inflater, container, false)
         // appbar - 뒤로 가기 버튼 없애기
@@ -58,9 +59,7 @@ class ProfileFragment : Fragment(R.layout.activity_profile) {
         (activity as AppCompatActivity).supportActionBar!!.title = "프로필"
         firestore = FirebaseFirestore.getInstance()
 
-        setProfileModifyBtnClickEvent()
-        setUpdatePasswordBtn()
-
+        // 로그아웃 이벤트
         profileBinding.logoutBtn.setOnClickListener {
             val builder = AlertDialog.Builder(requireActivity())
             builder.setMessage("정말로 로그아웃 하시겠습니까?")
@@ -74,6 +73,7 @@ class ProfileFragment : Fragment(R.layout.activity_profile) {
             builder.show()
         }
 
+        // 회원탈퇴 이벤트
         profileBinding.deleteAccountBtn.setOnClickListener {
             val builder = AlertDialog.Builder(requireActivity())
             builder.setMessage("정말로 탈퇴 하시겠습니까?")
@@ -99,7 +99,7 @@ class ProfileFragment : Fragment(R.layout.activity_profile) {
             .requestEmail()
             .build()
 
-        googleSignInClient = GoogleSignIn.getClient(activity, gso)
+        googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
 
         //----------------------------------------------------------//
 
@@ -118,13 +118,23 @@ class ProfileFragment : Fragment(R.layout.activity_profile) {
 
         // 프로필 사진 설정
         profileBinding.buildProfileIv.setOnClickListener {
-            //startActivity(Intent(this, CropImg::class.java))
             pickFromGallery()
         }
+
+        // 비밀번호 재설정
+        setUpdatePasswordBtn()
+
+        // 프로필 편집 기능 ON/OFF 설정
+        modifyProfile()
+
         return profileBinding.root
     }
 
-
+    override fun onResume() {
+        super.onResume()
+        // 프로필 편집 기능 off
+        setModifyOff()
+    }
     //---------------------프로필 표시----------------------//
     private fun setProfile() {
         val user = Firebase.auth.currentUser
@@ -175,13 +185,32 @@ class ProfileFragment : Fragment(R.layout.activity_profile) {
         }
     }
 
-    // 프로필 수정 버튼 이벤트
-    private fun setProfileModifyBtnClickEvent() {
-        profileBinding.profileModifyBtn.setOnClickListener {
-            startActivity(Intent(activity, CropImg::class.java))
-            activity?.overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_right)
+    //---------------------프로필 편집 기능 ON/OFF----------------------//
+    private fun modifyProfile(){
+        profileBinding.profileModifyButton.setOnClickListener {
+            if(profileBinding.buildMessageIv.visibility == View.INVISIBLE){
+                setModifyOn() // 프로필 편집 기능 ON
+            } else{
+                setModifyOff() // 프로필 편집 기능 OFF
+            }
+
         }
     }
+    // 프로필 편집 기능 ON
+    private fun setModifyOn() {
+        profileBinding.buildMessageIv.apply{visibility = View.VISIBLE}
+        profileBinding.buildNameIv.apply{visibility = View.VISIBLE}
+        profileBinding.buildProfileIv.apply{visibility = View.VISIBLE}
+        profileBinding.profileModifyButton.setBackgroundColor(Color.parseColor("#8daaf6"))
+    }
+    // 프로필 편집 기능 OFF
+    private fun setModifyOff() {
+        profileBinding.buildMessageIv.apply{visibility = View.INVISIBLE}
+        profileBinding.buildNameIv.apply{visibility = View.INVISIBLE}
+        profileBinding.buildProfileIv.apply{visibility = View.INVISIBLE}
+        profileBinding.profileModifyButton.setBackgroundColor(Color.parseColor("#1f57ed"))
+    }
+
 
     //---------------------로그아웃----------------------//
     private fun signOut() {
@@ -278,6 +307,7 @@ class ProfileFragment : Fragment(R.layout.activity_profile) {
             builder?.show()
 
         }
+        setModifyOff()
     }
 
 
@@ -325,6 +355,7 @@ class ProfileFragment : Fragment(R.layout.activity_profile) {
             }
             builder?.show()
         }
+        setModifyOff()
     }
 
     //------------------프로필 이미지 크롭----------------------//
@@ -382,6 +413,7 @@ class ProfileFragment : Fragment(R.layout.activity_profile) {
                 progressDialog.dismiss()
             Toast.makeText(activity, "Failed", Toast.LENGTH_SHORT).show()
         }
+
     }
 
     private fun setImage(uri: Uri) {
@@ -406,5 +438,6 @@ class ProfileFragment : Fragment(R.layout.activity_profile) {
         intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
         startActivityForResult(intent, GALLERY_REQUEST_CODE)
     }
+
 
 }

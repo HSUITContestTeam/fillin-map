@@ -48,7 +48,7 @@ class ProfileActivity : AppCompatActivity() {
         profileBinding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(profileBinding.root)
         firestore = FirebaseFirestore.getInstance()
-        setProfileModifyBtnClickEvent()
+
         setUpdatePasswordBtn()
 
         profileBinding.logoutBtn.setOnClickListener {
@@ -163,14 +163,6 @@ class ProfileActivity : AppCompatActivity() {
             }
         } else {
             // No user is signed in
-        }
-    }
-
-    // 프로필 수정 버튼 이벤트
-    private fun setProfileModifyBtnClickEvent() {
-        profileBinding.profileModifyBtn.setOnClickListener {
-            startActivity(Intent(this, CropImg::class.java))
-            overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_right)
         }
     }
 
