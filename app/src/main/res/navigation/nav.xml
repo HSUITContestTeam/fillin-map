@@ -12,8 +12,12 @@
 
     <fragment
         android:id="@+id/settingFragment"
-        android:name="com.hsu.mapapp.SettingFragment"
-        android:label="환경설정" />
+        android:name="com.hsu.mapapp.profile.ProfileFragment"
+        android:label="환경설정" >
+        <action
+            android:id="@+id/action_settingFragment_to_updatePasswordFragment"
+            app:destination="@id/updatePasswordFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/shareFragment"
@@ -27,4 +31,8 @@
         android:id="@+id/friendsSearchFragment"
         android:name="com.hsu.mapapp.Share_Folder.FriendsSearchFragment"
         android:label="친구 찾기" />
+    <fragment
+        android:id="@+id/updatePasswordFragment"
+        android:name="com.hsu.mapapp.profile.UpdatePasswordFragment"
+        android:label="UpdatePasswordFragment" />
 </navigation>
