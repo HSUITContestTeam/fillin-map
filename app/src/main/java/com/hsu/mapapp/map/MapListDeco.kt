@@ -15,7 +15,6 @@ class MapListDeco(private val size: Int) : RecyclerView.ItemDecoration() {
 
         if (parent.getChildAdapterPosition(view) == 0) {
             outRect.top += size
-            outRect.bottom += size
         } else {
             outRect.bottom += size
         }
