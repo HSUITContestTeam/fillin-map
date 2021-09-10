@@ -79,9 +79,9 @@ dependencies {
     implementation 'com.sdsmdg.harjot:vectormaster:1.0.9'
     implementation 'com.github.devsideal:VectorChildFinder:1.0.0'
     implementation 'com.google.firebase:firebase-database-ktx'
-    //colorpicker
+    // colorpicker
     implementation 'com.github.dhaval2404:colorpicker:2.0'
-
-
+    // wave animation
+    implementation 'com.scwang.wave:MultiWaveHeader:1.0.0-alpha-1'
 
 }
