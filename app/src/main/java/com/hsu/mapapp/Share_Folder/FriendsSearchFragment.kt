@@ -88,7 +88,7 @@ class FriendsSearchFragment : Fragment(R.layout.search_friends_list_item) {
             }
             fun SetFriendsImage(item: FriendsSearchItemList){
                     Glide.with(context)
-                    .load(item.photoUrl)
+                    .load(item.photoUrl).circleCrop()
                         .error(drawable)
                     .into(binding.imageView6)
             }
