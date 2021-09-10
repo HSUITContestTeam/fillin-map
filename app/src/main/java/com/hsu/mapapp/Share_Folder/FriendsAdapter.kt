@@ -1,6 +1,5 @@
 package com.hsu.mapapp.Share_Folder
 
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,7 +31,7 @@ class FriendsAdapter(private val context:ShareFragment) :
                 }
                 fun SetFriendsImage(item:FriendsItemList){
                     Glide.with(context)
-                    .load(item.photoUrl)
+                    .load(item.photoUrl).circleCrop()
                     .error(R.drawable.login_id)
                     .into(binding.FriendsIMG)
                 }
