@@ -56,17 +56,17 @@
 
         <ImageView
             android:id="@+id/haenam"
-            android:tag="haenam"
             android:layout_width="140px"
             android:layout_height="166px"
             android:background="#00CC1E1E"
+            android:tag="haenam"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/ic_map_of_south_korea"
             app:layout_constraintEnd_toEndOf="@+id/ic_map_of_south_korea"
-            app:layout_constraintHorizontal_bias="0.134"
+            app:layout_constraintHorizontal_bias="0.13537"
             app:layout_constraintStart_toStartOf="@+id/ic_map_of_south_korea"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.859"
+            app:layout_constraintVertical_bias="0.86271"
             tools:src="@tools:sample/avatars" />
 
         <ImageView
@@ -1785,10 +1785,10 @@
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/ic_map_of_south_korea"
             app:layout_constraintEnd_toEndOf="@+id/ic_map_of_south_korea"
-            app:layout_constraintHorizontal_bias="0.4128"
+            app:layout_constraintHorizontal_bias="0.412735"
             app:layout_constraintStart_toStartOf="@+id/ic_map_of_south_korea"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5996"
+            app:layout_constraintVertical_bias="0.599625"
             tools:src="@tools:sample/avatars" />
 
         <ImageView
@@ -2093,10 +2093,10 @@
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/ic_map_of_south_korea"
             app:layout_constraintEnd_toEndOf="@+id/ic_map_of_south_korea"
-            app:layout_constraintHorizontal_bias="0.473"
+            app:layout_constraintHorizontal_bias="0.4721"
             app:layout_constraintStart_toStartOf="@+id/ic_map_of_south_korea"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.791"
+            app:layout_constraintVertical_bias="0.8026"
             tools:src="@tools:sample/avatars" />
 
         <ImageView
@@ -2107,10 +2107,10 @@
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/ic_map_of_south_korea"
             app:layout_constraintEnd_toEndOf="@+id/ic_map_of_south_korea"
-            app:layout_constraintHorizontal_bias="0.293"
+            app:layout_constraintHorizontal_bias="0.2912"
             app:layout_constraintStart_toStartOf="@+id/ic_map_of_south_korea"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.75"
+            app:layout_constraintVertical_bias="0.7593"
             tools:src="@tools:sample/avatars" />
 
         <ImageView
@@ -2121,102 +2121,108 @@
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/ic_map_of_south_korea"
             app:layout_constraintEnd_toEndOf="@+id/ic_map_of_south_korea"
-            app:layout_constraintHorizontal_bias="0.214"
+            app:layout_constraintHorizontal_bias="0.2037"
             app:layout_constraintStart_toStartOf="@+id/ic_map_of_south_korea"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.748"
+            app:layout_constraintVertical_bias="0.7585"
             tools:src="@tools:sample/avatars" />
 
         <ImageView
             android:id="@+id/muan"
-            android:tag="muan"
             android:layout_width="100px"
             android:layout_height="100px"
+            android:tag="muan"
             android:visibility="visible"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintVertical_bias="0.5"
             app:layout_constraintBottom_toBottomOf="@+id/ic_map_of_south_korea"
             app:layout_constraintEnd_toEndOf="@+id/ic_map_of_south_korea"
+            app:layout_constraintHorizontal_bias="0.15098"
             app:layout_constraintStart_toStartOf="@+id/ic_map_of_south_korea"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.77445"
             tools:src="@tools:sample/avatars" />
+
         <ImageView
             android:id="@+id/mokpo"
-            android:tag="mokpo"
             android:layout_width="100px"
             android:layout_height="100px"
+            android:tag="mokpo"
             android:visibility="visible"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintVertical_bias="0.5"
             app:layout_constraintBottom_toBottomOf="@+id/ic_map_of_south_korea"
             app:layout_constraintEnd_toEndOf="@+id/ic_map_of_south_korea"
+            app:layout_constraintHorizontal_bias="0.14965"
             app:layout_constraintStart_toStartOf="@+id/ic_map_of_south_korea"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.7825"
             tools:src="@tools:sample/avatars" />
+
         <ImageView
             android:id="@+id/yeongam"
-            android:tag="yeongam"
             android:layout_width="100px"
             android:layout_height="100px"
+            android:tag="yeongam"
             android:visibility="visible"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintVertical_bias="0.5"
             app:layout_constraintBottom_toBottomOf="@+id/ic_map_of_south_korea"
             app:layout_constraintEnd_toEndOf="@+id/ic_map_of_south_korea"
+            app:layout_constraintHorizontal_bias="0.16857"
             app:layout_constraintStart_toStartOf="@+id/ic_map_of_south_korea"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.7944"
             tools:src="@tools:sample/avatars" />
+
         <ImageView
             android:id="@+id/boseong"
-            android:tag="boseong"
             android:layout_width="100px"
             android:layout_height="100px"
+            android:tag="boseong"
             android:visibility="visible"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintVertical_bias="0.5"
             app:layout_constraintBottom_toBottomOf="@+id/ic_map_of_south_korea"
             app:layout_constraintEnd_toEndOf="@+id/ic_map_of_south_korea"
+            app:layout_constraintHorizontal_bias="0.3394"
             app:layout_constraintStart_toStartOf="@+id/ic_map_of_south_korea"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.79775"
             tools:src="@tools:sample/avatars" />
+
         <ImageView
             android:id="@+id/goheung"
-            android:tag="goheung"
             android:layout_width="100px"
             android:layout_height="100px"
+            android:tag="goheung"
             android:visibility="visible"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintVertical_bias="0.5"
             app:layout_constraintBottom_toBottomOf="@+id/ic_map_of_south_korea"
             app:layout_constraintEnd_toEndOf="@+id/ic_map_of_south_korea"
+            app:layout_constraintHorizontal_bias="0.37452"
             app:layout_constraintStart_toStartOf="@+id/ic_map_of_south_korea"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.8326"
             tools:src="@tools:sample/avatars" />
+
         <ImageView
             android:id="@+id/jangheung"
-            android:tag="jangheung"
             android:layout_width="100px"
             android:layout_height="100px"
+            android:tag="jangheung"
             android:visibility="visible"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintVertical_bias="0.5"
             app:layout_constraintBottom_toBottomOf="@+id/ic_map_of_south_korea"
             app:layout_constraintEnd_toEndOf="@+id/ic_map_of_south_korea"
+            app:layout_constraintHorizontal_bias="0.27584"
             app:layout_constraintStart_toStartOf="@+id/ic_map_of_south_korea"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.83535"
             tools:src="@tools:sample/avatars" />
+
         <ImageView
             android:id="@+id/gangjin"
-            android:tag="gangjin"
             android:layout_width="100px"
             android:layout_height="100px"
+            android:tag="gangjin"
             android:visibility="visible"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintVertical_bias="0.5"
             app:layout_constraintBottom_toBottomOf="@+id/ic_map_of_south_korea"
             app:layout_constraintEnd_toEndOf="@+id/ic_map_of_south_korea"
+            app:layout_constraintHorizontal_bias="0.2363"
             app:layout_constraintStart_toStartOf="@+id/ic_map_of_south_korea"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.8358"
             tools:src="@tools:sample/avatars" />
 
         <ImageView
@@ -2227,10 +2233,10 @@
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/ic_map_of_south_korea"
             app:layout_constraintEnd_toEndOf="@+id/ic_map_of_south_korea"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_bias="0.0848"
             app:layout_constraintStart_toStartOf="@+id/ic_map_of_south_korea"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5"
+            app:layout_constraintVertical_bias="0.856"
             tools:src="@tools:sample/avatars" />
 
         <ImageView
@@ -2241,10 +2247,10 @@
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/ic_map_of_south_korea"
             app:layout_constraintEnd_toEndOf="@+id/ic_map_of_south_korea"
-            app:layout_constraintHorizontal_bias="0.742"
+            app:layout_constraintHorizontal_bias="0.2257"
             app:layout_constraintStart_toStartOf="@+id/ic_map_of_south_korea"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.444"
+            app:layout_constraintVertical_bias="0.8725"
             tools:src="@tools:sample/avatars" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
