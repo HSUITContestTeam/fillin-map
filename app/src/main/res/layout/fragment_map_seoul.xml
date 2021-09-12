@@ -2253,6 +2253,48 @@
             app:layout_constraintVertical_bias="0.8725"
             tools:src="@tools:sample/avatars" />
 
+        <ImageView
+            android:id="@+id/sinan"
+            android:layout_width="100px"
+            android:layout_height="100px"
+            android:tag="sinan"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/ic_map_of_south_korea"
+            app:layout_constraintEnd_toEndOf="@+id/ic_map_of_south_korea"
+            app:layout_constraintHorizontal_bias="0.102"
+            app:layout_constraintStart_toStartOf="@+id/ic_map_of_south_korea"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.735"
+            tools:src="@tools:sample/avatars" />
+
+        <ImageView
+            android:id="@+id/tongyeong"
+            android:layout_width="100px"
+            android:layout_height="100px"
+            android:tag="tongyeong"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/ic_map_of_south_korea"
+            app:layout_constraintEnd_toEndOf="@+id/ic_map_of_south_korea"
+            app:layout_constraintHorizontal_bias="0.663"
+            app:layout_constraintStart_toStartOf="@+id/ic_map_of_south_korea"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.763"
+            tools:src="@tools:sample/avatars" />
+
+        <ImageView
+            android:id="@+id/jeungpyeong"
+            android:layout_width="100px"
+            android:layout_height="100px"
+            android:tag="jeungpyeong"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/ic_map_of_south_korea"
+            app:layout_constraintEnd_toEndOf="@+id/ic_map_of_south_korea"
+            app:layout_constraintHorizontal_bias="0.457"
+            app:layout_constraintStart_toStartOf="@+id/ic_map_of_south_korea"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.415"
+            tools:src="@tools:sample/avatars" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

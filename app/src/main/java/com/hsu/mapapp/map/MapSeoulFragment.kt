@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
-import android.content.Context.MODE_PRIVATE
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.*
@@ -19,6 +18,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -41,9 +41,6 @@ import com.richpath.RichPathView
 import java.io.*
 import java.util.*
 import kotlin.collections.set
-import android.os.Environment
-import android.widget.Toast
-import javax.xml.transform.stream.StreamResult
 
 
 class MapSeoulFragment : Fragment() {
@@ -223,8 +220,8 @@ class MapSeoulFragment : Fragment() {
 
         val mapOfKoreaRegions = resources.getStringArray(R.array.map_of_korea_regions)
         for (region in mapOfKoreaRegions) {
-            richPathView.findRichPathByName("$region")
-                ?.setOnPathClickListener { mapName = "$region" }
+            richPathView.findRichPathByName(region)
+                ?.setOnPathClickListener { mapName = region }
         }
 
         richPathView.setOnPathClickListener {
