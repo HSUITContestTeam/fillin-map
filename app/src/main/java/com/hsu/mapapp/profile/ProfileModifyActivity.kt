@@ -190,27 +190,4 @@ class ProfileModifyActivity : AppCompatActivity() {
 
     }
 
-<<<<<<< Updated upstream
-=======
-    //-----------------------------사용자 프로필 수정----------------------------------//
-    private fun updateName() {
-        Log.d("saveBtn", "clicked1")
-        // update User Name
-        val user = Firebase.auth.currentUser
-        val profileUpdates = userProfileChangeRequest {
-            displayName = profileModifyBinding.profilemodifyNameET.text.toString()
-            //photoUri = Uri.parse("https://example.com/jane-q-user/profile.jpg")
-        }
-
-        user!!.updateProfile(profileUpdates)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Log.d("name", "수정")
-                    profileModifyBinding.profilemodifyNameTV.text = user.displayName + "으로 변경되었습니다"
-                }
-            }
-        // [END update_profile]
-
-    }
->>>>>>> Stashed changes
 }
