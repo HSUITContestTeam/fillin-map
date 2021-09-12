@@ -8,4 +8,6 @@
         <item>색칠하기</item>
         <item>삭제하기</item>
     </string-array>
+    <string name="no_permission">App has no permission %1$s. Some features would not work correctly.</string>
+    <string name="req_permission_reason">App requires %1$s permission. Could you allow the permission?</string>
 </resources>
