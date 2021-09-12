@@ -9,6 +9,8 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
+import android.location.Address
+import android.location.Geocoder
 import android.media.ExifInterface
 import android.net.Uri
 import android.os.Build
@@ -313,14 +315,14 @@ class MapSeoulFragment : Fragment() {
                 if (currentImageUri != null) {
                     try {
                         // 이미지 uri를 절대 경로로 바꾸기
-                        var imagePath = ""
+                        var imagePath: String? = ""
                         currentImageUri?.let { it1 ->
-                            imagePath = createCopyAndReturnRealPath(it1).toString()
+                            imagePath = createCopyAndReturnRealPath(it1)
                         }
                         // 이미지뷰 회전 체크
                         var exif: ExifInterface? = null
                         try {
-                            exif = ExifInterface(imagePath)
+                            exif = ExifInterface(imagePath!!)
                         } catch (e: IOException) {
                             e.printStackTrace()
                         }
@@ -344,6 +346,7 @@ class MapSeoulFragment : Fragment() {
                         Log.d("mapName is ", "$mapName")
                         Log.d("width", width.toString())
                         Log.d("height", height.toString())
+                        getGps(imagePath!!)
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
@@ -399,9 +402,64 @@ class MapSeoulFragment : Fragment() {
         } catch (e: IOException) {
             e.printStackTrace()
         }
-        val path = file.absolutePath
+        return file.absolutePath
+    }
 
-        return path
+    //-----------------------------이미지뷰 회전 관련 함수----------------------------------//
+    fun rotateBitmap(bitmap: Bitmap, orientation: Int): Bitmap? {
+        val matrix = Matrix()
+        when (orientation) {
+            ExifInterface.ORIENTATION_NORMAL -> return bitmap
+            ExifInterface.ORIENTATION_FLIP_HORIZONTAL -> matrix.setScale((-1).toFloat(), 1F)
+            ExifInterface.ORIENTATION_ROTATE_180 -> matrix.setRotate(180F)
+            ExifInterface.ORIENTATION_FLIP_VERTICAL -> {
+                matrix.setRotate(180F)
+                matrix.postScale((-1).toFloat(), 1F)
+            }
+            ExifInterface.ORIENTATION_TRANSPOSE -> {
+                matrix.setRotate(90F)
+                matrix.postScale((-1).toFloat(), 1F)
+            }
+            ExifInterface.ORIENTATION_ROTATE_90 -> matrix.setRotate(90F)
+            ExifInterface.ORIENTATION_TRANSVERSE -> {
+                matrix.setRotate((-90).toFloat())
+                matrix.postScale((-1).toFloat(), 1F)
+            }
+            ExifInterface.ORIENTATION_ROTATE_270 -> matrix.setRotate((-90).toFloat())
+            else -> return bitmap
+        }
+        return try {
+            val bmRotated =
+                Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+            bitmap.recycle()
+            bmRotated
+        } catch (e: OutOfMemoryError) {
+            e.printStackTrace()
+            null
+        }
+    }
+    // 이미지 gps 구하기
+    private fun getGps(photoPath: String) {
+        val exif = androidx.exifinterface.media.ExifInterface(photoPath)
+        val lat = GPS(exif).latitude.toDouble()
+        val lng = GPS(exif).longitude.toDouble()
+        Log.d("latitude", lat.toString())
+        Log.d("longtitude", lng.toString())
+        val g = Geocoder(context)
+        var address: List<Address>? = null
+        try {
+            address = g.getFromLocation(lat, lng, 10)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            Log.d("test", "입출력오류")
+        }
+        if (address != null) {
+            if (address.isEmpty()) {
+                Log.d("test", "주소찾기 오류")
+            } else {
+                Log.d("찾은 주소", address[0].getAddressLine(0).toString())
+            }
+        }
     }
 
     //-----------------------------색 변경 activiy lancher----------------------------------//
@@ -450,41 +508,6 @@ class MapSeoulFragment : Fragment() {
             ClickedIMGS.remove("$mapName")
         }
     }
-
-    //-----------------------------이미지뷰 회전 관련 함수----------------------------------//
-    fun rotateBitmap(bitmap: Bitmap, orientation: Int): Bitmap? {
-        val matrix = Matrix()
-        when (orientation) {
-            ExifInterface.ORIENTATION_NORMAL -> return bitmap
-            ExifInterface.ORIENTATION_FLIP_HORIZONTAL -> matrix.setScale((-1).toFloat(), 1F)
-            ExifInterface.ORIENTATION_ROTATE_180 -> matrix.setRotate(180F)
-            ExifInterface.ORIENTATION_FLIP_VERTICAL -> {
-                matrix.setRotate(180F)
-                matrix.postScale((-1).toFloat(), 1F)
-            }
-            ExifInterface.ORIENTATION_TRANSPOSE -> {
-                matrix.setRotate(90F)
-                matrix.postScale((-1).toFloat(), 1F)
-            }
-            ExifInterface.ORIENTATION_ROTATE_90 -> matrix.setRotate(90F)
-            ExifInterface.ORIENTATION_TRANSVERSE -> {
-                matrix.setRotate((-90).toFloat())
-                matrix.postScale((-1).toFloat(), 1F)
-            }
-            ExifInterface.ORIENTATION_ROTATE_270 -> matrix.setRotate((-90).toFloat())
-            else -> return bitmap
-        }
-        return try {
-            val bmRotated =
-                Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
-            bitmap.recycle()
-            bmRotated
-        } catch (e: OutOfMemoryError) {
-            e.printStackTrace()
-            null
-        }
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         binding.root.removeAllViewsInLayout()
