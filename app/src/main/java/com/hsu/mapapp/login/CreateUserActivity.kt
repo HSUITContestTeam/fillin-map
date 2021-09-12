@@ -154,4 +154,21 @@ class CreateUserActivity : AppCompatActivity() {
         return flag == 0
 
     }
+
+    // ----------------------상단 액션바 hide-------------------------
+    override fun onStart() {
+        super.onStart()
+        this.supportActionBar!!.hide()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        this.supportActionBar!!.show()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        this.supportActionBar!!.hide()
+    }
+    // --------------------------------------------------------------
 }
