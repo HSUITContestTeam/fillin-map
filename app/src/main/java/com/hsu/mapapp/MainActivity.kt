@@ -14,8 +14,8 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.hsu.mapapp.databinding.ActivityMainBinding
-
-
+import android.content.res.ColorStateList
+import android.graphics.Color
 
 
 class MainActivity : AppCompatActivity() {
@@ -53,6 +53,19 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(nhf.navController, appbarc)
 
         mainBinding.bottomNavigationView.setupWithNavController(nhf.navController)
+
+        val iconColorStates = ColorStateList(
+            arrayOf(
+                intArrayOf(-android.R.attr.state_checked),
+                intArrayOf(android.R.attr.state_checked)
+            ), intArrayOf(
+                Color.parseColor("#b5b8bd"),
+                Color.parseColor("#5E656B")
+            )
+        )
+
+        mainBinding.bottomNavigationView.itemIconTintList = iconColorStates
+        mainBinding.bottomNavigationView.itemTextColor = iconColorStates
 
     }
 

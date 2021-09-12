@@ -3,14 +3,14 @@
 
     <item
         android:id="@+id/shareFragment"
-        android:icon="@android:drawable/ic_menu_share"
+        android:icon="@drawable/baseline_people_24"
         android:title="공유" />
     <item
         android:id="@+id/mapFragment"
-        android:icon="@android:drawable/ic_menu_mapmode"
+        android:icon="@drawable/baseline_loyalty_24"
         android:title="지도" />
     <item
         android:id="@+id/settingFragment"
-        android:icon="@android:drawable/ic_menu_preferences"
+        android:icon="@drawable/baseline_account_circle_24"
         android:title="프로필" />
 </menu>

@@ -12,6 +12,7 @@
     <color name="color_main">#1f57ed</color>
     <color name="color_fab">#edb51f</color>
     <color name="wave_end">#ebf0fd</color>
+    <color name="light_gray">#E9E9EB</color>
 
     <!--
     투명도

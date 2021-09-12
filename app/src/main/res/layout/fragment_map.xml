@@ -89,7 +89,7 @@
         android:layout_width="200dp"
         android:layout_height="match_parent"
         android:layout_gravity="end"
-        android:background="#E9E9EB"
+        android:background="@color/light_gray"
         android:gravity="center"
         android:visibility="invisible">
 
