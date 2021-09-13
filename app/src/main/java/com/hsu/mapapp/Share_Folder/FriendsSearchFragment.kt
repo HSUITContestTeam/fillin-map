@@ -47,7 +47,7 @@ class FriendsSearchFragment : Fragment(R.layout.search_friends_list_item) {
 
         _binding = FragmentSearchFriendsBinding.inflate(inflater, container, false)
 
-        drawable = resources.getDrawable(R.drawable.login_id)
+        drawable = resources.getDrawable(R.drawable.profile_icon_1)
         binding.SearchBtn.setOnClickListener {
 
             (binding.FriendsSearchRecycler.adapter as FriendsSearchAdapter).search(binding.SearchText.text.toString(),searchOption)
