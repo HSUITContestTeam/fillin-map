@@ -1,40 +1,66 @@
 package com.hsu.mapapp
 
+import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
-import androidx.activity.result.contract.ActivityResultContracts
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
+import androidx.core.app.ActivityCompat
 
 class PermissionActivity : AppCompatActivity() {
+    private val PERMISSIONS_REQUEST_CODE = 100
+    var REQUIRED_PERMISSIONS = arrayOf<String>(
+        Manifest.permission.ACCESS_FINE_LOCATION,
+        Manifest.permission.ACCESS_COARSE_LOCATION
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requestSinglePermission(android.Manifest.permission.READ_EXTERNAL_STORAGE)
     }
-    //-----------------------------하나의 동적 권한 요청----------------------------------//
+    override fun onRequestPermissionsResult(
+        permsRequestCode: Int,
+        permissions: Array<String?>,
+        grandResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(permsRequestCode, permissions, grandResults)
+        if (permsRequestCode == PERMISSIONS_REQUEST_CODE && grandResults.size == REQUIRED_PERMISSIONS.size) {
 
-    private fun requestSinglePermission(permission: String) { // 한번에 하나의 권한만 요청하는 예제
-        if (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED) // 권한 유무 확인
-            return
-        val requestPermLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { // 권한 요청 컨트랙트
-            if (it == false) { // permission is not granted!
-                android.app.AlertDialog.Builder(this).apply {
-                    setTitle("Warning")
-                    setMessage(getString(R.string.no_permission, permission))
-                }.show()
+            // 요청 코드가 PERMISSIONS_REQUEST_CODE 이고, 요청한 퍼미션 개수만큼 수신되었다면
+            var check_result = true
+
+            // 모든 퍼미션을 허용했는지 체크합니다.
+            for (result in grandResults) {
+                if (result != PackageManager.PERMISSION_GRANTED) {
+                    check_result = false
+                    break
+                }
             }
-        }
-        if (shouldShowRequestPermissionRationale(permission)) { // 권한 설명 필수 여부 확인
-            // you should explain the reason why this app needs the permission.
-            android.app.AlertDialog.Builder(this).apply {
-                setTitle("Reason")
-                setMessage(getString(R.string.req_permission_reason, permission))
-                setPositiveButton("Allow") { _, _ -> requestPermLauncher.launch(permission) }
-                setNegativeButton("Deny") { _, _ -> }
-            }.show()
-        } else {
-            // should be called in onCreate()
-            requestPermLauncher.launch(permission) // 권한 요청 시작
+            if (check_result) {
+                //위치 값을 가져올 수 있음
+            } else {
+                // 거부한 퍼미션이 있다면 앱을 사용할 수 없는 이유를 설명해주고 앱을 종료합니다.2 가지 경우가 있습니다.
+                if (ActivityCompat.shouldShowRequestPermissionRationale(
+                        this,
+                        REQUIRED_PERMISSIONS[0]
+                    )
+                    || ActivityCompat.shouldShowRequestPermissionRationale(
+                        this,
+                        REQUIRED_PERMISSIONS[1]
+                    )
+                ) {
+                    Toast.makeText(
+                        this,
+                        "퍼미션이 거부되었습니다. 앱을 다시 실행하여 퍼미션을 허용해주세요.",
+                        Toast.LENGTH_LONG
+                    ).show()
+                } else {
+                    Toast.makeText(
+                        this,
+                        "퍼미션이 거부되었습니다. 설정(앱 정보)에서 퍼미션을 허용해야 합니다. ",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
         }
     }
 }
