@@ -9,7 +9,7 @@
 
     <ImageView
         android:id="@+id/previewImage"
-        android:layout_width="411dp"
+        android:layout_width="0dp"
         android:layout_height="200dp"
         android:background="#E9E9EB"
         android:src="@drawable/ic_launcher_background"

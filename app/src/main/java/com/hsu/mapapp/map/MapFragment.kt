@@ -218,7 +218,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
     override fun onContextItemSelected(item: MenuItem): Boolean {
 
         when (item.itemId) {
-            0 -> {
+/*            1 -> {
                 val builder = AlertDialog.Builder(requireContext())
                 val inflater =
                     requireActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -240,9 +240,9 @@ class MapFragment : Fragment(R.layout.fragment_map) {
 
                 builder.show()
 
-            }
+            }*/
 
-            1 -> {
+            0 -> {
                 val builder = androidx.appcompat.app.AlertDialog.Builder(requireContext())
                 builder.setMessage("정말로 지도를 삭제 하시겠습니까?")
 
@@ -284,7 +284,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
             builder.setPositiveButton("저장") { dialog, which ->
                 val newMapTitle = mapTitle.text
                 val mapListItems = resources.getStringArray(R.array.map_list_array)
-                val imageUri = getURLForResource(R.drawable.base_map)
+                val imageUri = getURLForResource(R.drawable.map_of_south_korea_img)
                 val uniqueID = UUID.randomUUID().toString()
                 var newData =
                     MapItemList(newMapTitle.toString(), imageUri, mapListItems[spinnerSelected], uniqueID)
