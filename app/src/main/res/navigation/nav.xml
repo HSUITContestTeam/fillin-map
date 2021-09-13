@@ -8,8 +8,12 @@
     <fragment
         android:id="@+id/mapFragment"
         android:name="com.hsu.mapapp.map.MapFragment"
-        android:label="MapFragment" />
-
+        android:label="MapFragment">
+        <argument
+            android:name="argsString"
+            app:argType="string"
+            android:defaultValue=""/>
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.hsu.mapapp.profile.ProfileFragment"
@@ -39,5 +43,14 @@
         android:id="@+id/cameraFragment"
         android:name="com.hsu.mapapp.camera.CameraFragment"
         android:label="fragment_camera"
-        tools:layout="@layout/fragment_camera" />
+        tools:layout="@layout/fragment_camera" >
+        <action
+            android:id="@+id/action_cameraFragment_to_mapFragment"
+            app:destination="@id/mapFragment">
+        <argument
+            android:name="argsString"
+            app:argType="string"
+            android:defaultValue=""/>
+        </action>
+    </fragment>
 </navigation>
