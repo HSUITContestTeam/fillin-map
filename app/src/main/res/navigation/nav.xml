@@ -11,9 +11,9 @@
         android:label="MapFragment" />
 
     <fragment
-        android:id="@+id/settingFragment"
+        android:id="@+id/profileFragment"
         android:name="com.hsu.mapapp.profile.ProfileFragment"
-        android:label="환경설정" >
+        android:label="환경설정">
         <action
             android:id="@+id/action_settingFragment_to_updatePasswordFragment"
             app:destination="@id/updatePasswordFragment" />
@@ -35,4 +35,9 @@
         android:id="@+id/updatePasswordFragment"
         android:name="com.hsu.mapapp.profile.UpdatePasswordFragment"
         android:label="UpdatePasswordFragment" />
+    <fragment
+        android:id="@+id/cameraFragment"
+        android:name="com.hsu.mapapp.camera.CameraFragment"
+        android:label="fragment_camera"
+        tools:layout="@layout/fragment_camera" />
 </navigation>
