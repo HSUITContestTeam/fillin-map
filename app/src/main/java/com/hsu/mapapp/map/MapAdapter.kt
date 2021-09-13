@@ -56,8 +56,8 @@ class MapAdapter(private var data: LiveData<ArrayList<MapItemList>>) :
             // 지도편집 floating menu
             itemView.setOnCreateContextMenuListener { menu, v, menuInfo ->
                 menu.setHeaderTitle("지도 편집")
-                menu.add(layoutPosition, 0, 0, "제목 변경하기")
-                menu.add(layoutPosition, 1, 1, "지도 삭제하기")
+                /*menu.add(layoutPosition, 0, 0, "제목 변경하기")*/
+                menu.add(layoutPosition, 0, 0, "지도 삭제하기")
             }
         }
     }
