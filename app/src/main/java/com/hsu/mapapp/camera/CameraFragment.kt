@@ -60,15 +60,15 @@ class CameraFragment : Fragment(R.layout.fragment_camera) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (!checkLocationServicesStatus()) {
-
             showDialogForLocationServiceSetting();
         } else {
-
             checkRunTimePermission();
         }
         // 카메라 실행
         dispatchTakePictureIntent()
-        getCurrentGPS()
+
+        //
+
     }
 
     override fun onCreateView(
@@ -77,6 +77,17 @@ class CameraFragment : Fragment(R.layout.fragment_camera) {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_camera, container, false)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getRegionName()
+    }
+    //-----------------------------주소에서 지역 이름 가져오기----------------------------------//
+    private fun getRegionName(){
+        val address = getCurrentGPS()
+        Log.d("Address", address)
+
     }
 
     //-----------------------------카메라 실행----------------------------------//
@@ -218,7 +229,7 @@ class CameraFragment : Fragment(R.layout.fragment_camera) {
     }
 
     //-----------------------------현재 위치 구하기----------------------------------//
-    private fun getCurrentGPS() {
+    private fun getCurrentGPS(): String {
         val gpsTracker = GpsTracker(requireActivity())
 
         val latitude: Double = gpsTracker.getLatitude()
@@ -226,10 +237,10 @@ class CameraFragment : Fragment(R.layout.fragment_camera) {
 //        val latitude = 36.96533962688972
 //        val longitude = 127.6113665915116
         val address: String = getCurrentAddress(latitude, longitude)
-        Log.d("Address", address)
 
-        Toast.makeText(requireActivity(), "현재위치 \n위도 $latitude\n경도 $longitude", Toast.LENGTH_LONG)
+        Toast.makeText(requireActivity(), "현재위치 \n위도 $latitude\n경도 $longitude", Toast.LENGTH_SHORT)
             .show()
+        return address
     }
 
     fun getCurrentAddress(latitude: Double, longitude: Double): String {
@@ -243,14 +254,14 @@ class CameraFragment : Fragment(R.layout.fragment_camera) {
             )
         } catch (ioException: IOException) {
             //네트워크 문제
-            Toast.makeText(requireContext(), "지오코더 서비스 사용불가", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), "지오코더 서비스 사용불가", Toast.LENGTH_SHORT).show()
             return "지오코더 서비스 사용불가"
         } catch (illegalArgumentException: IllegalArgumentException) {
-            Toast.makeText(requireContext(), "잘못된 GPS 좌표", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), "잘못된 GPS 좌표", Toast.LENGTH_SHORT).show()
             return "잘못된 GPS 좌표"
         }
         if (addresses.isEmpty()) {
-            Toast.makeText(requireContext(), "주소 미발견", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), "주소 미발견", Toast.LENGTH_SHORT).show()
             return "주소 미발견"
         }
         val address: Address = addresses[0]
@@ -284,7 +295,7 @@ class CameraFragment : Fragment(R.layout.fragment_camera) {
                 )
             ) {
                 // 3-2. 요청을 진행하기 전에 사용자가에게 퍼미션이 필요한 이유를 설명해줄 필요가 있습니다.
-                Toast.makeText(requireContext(), "이 앱을 실행하려면 위치 접근 권한이 필요합니다.", Toast.LENGTH_LONG)
+                Toast.makeText(requireContext(), "이 앱을 실행하려면 위치 접근 권한이 필요합니다.", Toast.LENGTH_SHORT)
                     .show()
                 // 3-3. 사용자게에 퍼미션 요청을 합니다. 요청 결과는 onRequestPermissionResult에서 수신됩니다.
                 ActivityCompat.requestPermissions(
