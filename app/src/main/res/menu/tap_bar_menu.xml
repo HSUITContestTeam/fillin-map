@@ -9,10 +9,10 @@
         android:id="@+id/mapFragment"
         android:icon="@drawable/baseline_loyalty_24"
         android:title="지도" />
-    <item
-        android:id="@+id/cameraFragment"
-        android:icon="@drawable/appicontext"
-        android:title="카메라" />
+<!--    <item-->
+<!--        android:id="@+id/cameraFragment"-->
+<!--        android:icon="@drawable/appicontext"-->
+<!--        android:title="카메라" />-->
     <item
         android:id="@+id/profileFragment"
         android:icon="@drawable/baseline_account_circle_24"
