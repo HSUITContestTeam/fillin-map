@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.hsu.mapapp.databinding.MapListItemBinding
 import com.hsu.mapapp.map.MapItemList
 import java.io.*
@@ -24,14 +25,16 @@ class FriendMapAdapter(private var data: LiveData<ArrayList<MapItemList>>) :
         return ViewHolder(binding)
     }
 
+
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        data.value!![position].let { item ->
+        data.value!!.get(position).let { item ->
             binding.mapTitle.text = item.mapTitle
             binding.previewImage.setImageURI(item.previewImage.toUri())
+            Glide.with(binding.previewImage.context).load(item.previewImage)
+                .into(binding.previewImage)
         }
         viewHolder.setOnclick()
     }
-
     override fun getItemCount(): Int {
         return data.value!!.size
     }

@@ -16,7 +16,7 @@
         android:padding="10dp"
         android:text="지도 추가하기"
         android:textAlignment="center"
-        android:textColor="#673AB7"
+        android:textColor="@color/color_main"
         android:textSize="24sp"
         android:textStyle="bold" />
 
