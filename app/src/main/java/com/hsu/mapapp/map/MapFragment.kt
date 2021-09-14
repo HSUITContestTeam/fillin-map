@@ -26,11 +26,9 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat.requestPermissions
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -38,12 +36,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.hsu.mapapp.R
 import com.hsu.mapapp.databinding.FragmentMapBinding
 import com.hsu.mapapp.utils.OnSwipeTouchListener
+import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStream
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.io.*
-import java.lang.RuntimeException
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class MapFragment : Fragment(R.layout.fragment_map) {
@@ -317,11 +315,6 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                 position: Int,
                 id: Long
             ) {
-                Toast.makeText(
-                    requireContext(),
-                    "selected : ${mapSortSpinner.getItemAtPosition(position)}",
-                    Toast.LENGTH_SHORT
-                ).show()
                 spinnerSelected = position
             }
 
@@ -360,8 +353,6 @@ class MapFragment : Fragment(R.layout.fragment_map) {
 
         // 플로팅 버튼 클릭 이벤트 - 캡처
         binding.fabCapture.setOnClickListener {
-            Toast.makeText(this.context, "캡처 버튼 클릭!", Toast.LENGTH_SHORT).show()
-
             // FAB 버튼 제외하고 화면 캡쳐
             val bitmap = getScreenShotFromView(binding.mapPage)
 
@@ -372,12 +363,10 @@ class MapFragment : Fragment(R.layout.fragment_map) {
 
         // 플로팅 버튼 클릭 이벤트 - 공유
         binding.fabShare.setOnClickListener {
-            Toast.makeText(this.context, "카메라 버튼 클릭!", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun toggleFab() {
-        Toast.makeText(this.context, "메인 버튼 클릭!", Toast.LENGTH_SHORT).show()
         // 플로팅 액션 버튼 닫기 - 열려있는 플로팅 버튼 집어넣는 애니메이션
         if (isFabOpen) {
             ObjectAnimator.ofFloat(binding.fabShare, "translationY", 0f).apply { start() }
@@ -471,8 +460,6 @@ class MapFragment : Fragment(R.layout.fragment_map) {
         fos?.use {
             // Finally writing the bitmap to the output stream that we opened
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
-            Toast.makeText(this.context, "Captured View and saved to Gallery", Toast.LENGTH_SHORT)
-                .show()
         }
 
     }

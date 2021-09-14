@@ -236,7 +236,7 @@ class ProfileFragment : Fragment(R.layout.activity_profile) {
         // firebase authentication 에서 회원정보 삭제
         user.delete()
             .addOnCompleteListener { task ->
-                Toast.makeText(activity, "회원 정보 삭제 완료", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "회원 탈퇴가 성공적으로 완료되었습니다.", Toast.LENGTH_SHORT).show()
             }
 
         signOut() // 로그아웃
@@ -397,7 +397,6 @@ class ProfileFragment : Fragment(R.layout.activity_profile) {
 
         val storageReference = FirebaseStorage.getInstance().getReference("ProfileImage/$userID")
         storageReference.putFile(uriPhoto!!).addOnSuccessListener {
-            Toast.makeText(activity, "Successfully uploaded", Toast.LENGTH_SHORT).show()
             storageReference.downloadUrl.addOnSuccessListener { uri ->
                 val userInfo = AddUser()
                 val fbFirestore = FirebaseFirestore.getInstance()
@@ -411,7 +410,6 @@ class ProfileFragment : Fragment(R.layout.activity_profile) {
         }.addOnFailureListener {
             if (progressDialog.isShowing)
                 progressDialog.dismiss()
-            Toast.makeText(activity, "Failed", Toast.LENGTH_SHORT).show()
         }
 
     }
