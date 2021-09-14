@@ -28,10 +28,10 @@ class FriendMapViewModel(private val uid: String) : ViewModel() {
                 for (map in mapList) {
                     listData.add(
                         MapItemList(
-                            map["mapTitle"].toString(),
-                            map["previewImage"].toString(),
-                            map["mapSort"].toString(),
-                            map["mapId"].toString()
+                            map.getValue("mapTitle"),
+                            map.getValue("previewImage"),
+                            map.getValue("mapSort"),
+                            map.getValue("mapId")
                         )
                     )
                 }
