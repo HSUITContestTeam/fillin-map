@@ -3,6 +3,7 @@ package com.hsu.mapapp.Share_Folder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.hsu.mapapp.R
@@ -36,12 +37,14 @@ class FriendsAdapter(private val context:ShareFragment) :
                     .into(binding.FriendsIMG)
                 }
                 fun SetFriendsMessage(item:FriendsItemList){
-                    binding.FirendsMessage.text = item.Message
+                    if (item.Message.isNotEmpty()) {
+                        binding.FirendsMessage.isVisible = true
+                        binding.FirendsMessage.text = item.Message
+                    } else {
+                        binding.FirendsMessage.isVisible = false
+                    }
                 }
-                fun Message_btn_OnClick(){
-                    binding.messageBtn.isSelected = isStartBtnSelected
-                    isStartBtnSelected = !isStartBtnSelected
-                }
+
                 fun setOnClick(){
                     itemView.setOnClickListener {
                         val position = adapterPosition
@@ -60,7 +63,6 @@ class FriendsAdapter(private val context:ShareFragment) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.setFriendsName(datas_friends[position])
-        holder.Message_btn_OnClick()
         holder.SetFriendsMessage(datas_friends[position])
         holder.SetFriendsImage(datas_friends[position])
         holder.setOnClick()
