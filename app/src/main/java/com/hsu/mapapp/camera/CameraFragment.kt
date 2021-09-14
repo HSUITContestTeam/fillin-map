@@ -234,8 +234,6 @@ class CameraFragment : Fragment(R.layout.fragment_camera) {
 
         val latitude: Double = gpsTracker.getLatitude()
         val longitude: Double = gpsTracker.getLongitude()
-//        val latitude = 36.96533962688972
-//        val longitude = 127.6113665915116
         val address: String = getCurrentAddress(latitude, longitude)
 
         Toast.makeText(requireActivity(), "현재위치 \n위도 $latitude\n경도 $longitude", Toast.LENGTH_SHORT)

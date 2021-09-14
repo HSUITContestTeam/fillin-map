@@ -372,7 +372,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
 
         // 플로팅 버튼 클릭 이벤트 - 공유
         binding.fabShare.setOnClickListener {
-            Toast.makeText(this.context, "공유 버튼 클릭!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this.context, "카메라 버튼 클릭!", Toast.LENGTH_SHORT).show()
         }
     }
 
