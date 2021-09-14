@@ -37,28 +37,36 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var fbAuth : FirebaseAuth
     private lateinit var firestore: FirebaseFirestore
-    // 권한 설정
     private var REQUIRED_PERMISSIONS = arrayOf(
         Manifest.permission.ACCESS_FINE_LOCATION,
         Manifest.permission.ACCESS_COARSE_LOCATION,
         Manifest.permission.READ_EXTERNAL_STORAGE,
         Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        Manifest.permission.CAMERA
+        Manifest.permission.CAMERA,
+        Manifest.permission.ACCESS_MEDIA_LOCATION,
+        Manifest.permission.INTERNET,
+        Manifest.permission.VIBRATE
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         loginBinding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(loginBinding.root)
-        // 다중 권한 설정
+        // 다중 권한 요청
         requestMultiplePermission(REQUIRED_PERMISSIONS)
-        if(hasPermission(Manifest.permission.ACCESS_FINE_LOCATION) && hasPermission(Manifest.permission.ACCESS_COARSE_LOCATION)&& hasPermission(
-                Manifest.permission.READ_EXTERNAL_STORAGE)&&
-            hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)&&
-            hasPermission(Manifest.permission.CAMERA)){
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
-        }
+//        if(hasPermission(Manifest.permission.ACCESS_FINE_LOCATION) &&
+//            hasPermission(Manifest.permission.ACCESS_COARSE_LOCATION)&&
+//            hasPermission(Manifest.permission.READ_EXTERNAL_STORAGE)&&
+//            hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)&&
+//            hasPermission(Manifest.permission.CAMERA)&&
+//            hasPermission(Manifest.permission.ACCESS_MEDIA_LOCATION)&&
+//            hasPermission(Manifest.permission.INTERNET) &&
+//            hasPermission(Manifest.permission.VIBRATE))
+//        {
+//
+//        }else{
+//
+//        }
         setCreateUserBtnEvent()
         setLoginBtnEvent()
         setGoogleLogin()
