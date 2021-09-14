@@ -76,7 +76,6 @@ class LoginActivity : AppCompatActivity() {
 
                     //인증받은 사용자인지 확인.
                     if (currentUser?.isEmailVerified!!) {
-                        Toast.makeText(applicationContext, "로그인 성공", Toast.LENGTH_SHORT).show()
                         updateUI(currentUser, email, password)
                     } else {
                         Toast.makeText(applicationContext, "이메일 인증을 하지 않았습니다.", Toast.LENGTH_SHORT).show()
@@ -92,7 +91,6 @@ class LoginActivity : AppCompatActivity() {
     // UI 업데이트
     private fun updateUI(currentUser: FirebaseUser? = null, email: EditText, password: EditText) {
         if (currentUser != null) { // 입력한 계정이 있음
-            Toast.makeText(applicationContext, "로그인 성공", Toast.LENGTH_SHORT).show()
             val mainIntent = Intent(this, MainActivity::class.java)
             startActivity(mainIntent)
         }
@@ -183,7 +181,7 @@ class LoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "로그인 성공")
-                    val user = auth!!.currentUser
+                    val user = auth.currentUser
                     loginSuccess(user)
                 } else {
                     // If sign in fails, display a message to the user.
