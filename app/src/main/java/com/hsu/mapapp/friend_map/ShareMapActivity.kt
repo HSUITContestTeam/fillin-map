@@ -1,5 +1,6 @@
 package com.hsu.mapapp.friend_map
 
+import LoadingDialog
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
@@ -12,17 +13,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.firestore.FirebaseFirestore
 import com.hsu.mapapp.R
 import com.hsu.mapapp.databinding.FragmentFriendMapBinding
-import com.hsu.mapapp.map.MapGangwondoFragment
-import com.hsu.mapapp.map.MapIdViewModel
-import com.hsu.mapapp.map.MapItemList
-import com.hsu.mapapp.map.MapSeoulFragment
+import com.hsu.mapapp.map.*
 import com.hsu.mapapp.utils.OnSwipeTouchListener
 import java.util.*
 
 class ShareMapActivity : AppCompatActivity() {
     private lateinit var binding: FragmentFriendMapBinding
+    private var firestore: FirebaseFirestore? = null
 
     private var data = MutableLiveData<ArrayList<MapItemList>>()
     private lateinit var mapAdapter: FriendMapAdapter
@@ -48,8 +48,17 @@ class ShareMapActivity : AppCompatActivity() {
         mapViewModel = ViewModelProvider(this).get(FriendMapViewModel::class.java)
         mapIdViewModel = ViewModelProvider(this).get(MapIdViewModel::class.java)
 
+        setActionBarTitle(message)
         setSlidingAnimation() // 지도목록 스와이핑, 슬라이딩 설정
         setRecycler() // 리사이클러뷰 (지도목록 슬라이딩 화면) 설정
+    }
+    private fun setActionBarTitle(uid: String) {
+        firestore = FirebaseFirestore.getInstance()
+        val myRef = firestore?.collection("users")?.document(uid)
+        myRef!!.get().addOnSuccessListener { document ->
+            val name: String = document.get("name") as String
+            supportActionBar!!.title = name+"의 지도를 선택하세요 😀"
+        }
     }
 // ----------------------슬라이딩 Layout 애니메이션-------------------------
 
@@ -140,12 +149,24 @@ class ShareMapActivity : AppCompatActivity() {
                         selectedMapId = mapViewModel.mapLiveData.value?.get(position)?.mapId.toString()
                         mapIdViewModel.setMapId(selectedMapId)
                         fragmentTransaction(mapViewModel.mapLiveData.value?.get(position)?.mapSort.toString())
+
+                        // 액션바 제목 변경
+                        supportActionBar!!.title = mapViewModel.mapLiveData.value?.get(position)?.mapTitle.toString()
+
+                        // 로딩 애니메이션 시작
+                        LoadingDialog.displayLoadingWithText(this@ShareMapActivity, "잠시만 기다려 주세요", false)
                     }
                 })
             }
         mapViewModel.mapLiveData.observe(this, dataObserver)
+        setRecyclerDeco()
     }
-
+    private fun setRecyclerDeco() {
+        // 지도 목록 위아래 margin 설정
+        val size = resources.getDimensionPixelSize(R.dimen.map_list_vertical_margin)
+        val vertical_margin = MapListDeco(size)
+        binding.MapListRecyclerView.addItemDecoration(vertical_margin)
+    }
     // 프래그먼트 교체
     fun fragmentTransaction(mapSort: String) {
         seoulFragment = MapSeoulFragment()
