@@ -10,6 +10,8 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
+import android.location.Address
+import android.location.Geocoder
 import android.media.ExifInterface
 import android.net.Uri
 import android.os.Build
@@ -43,6 +45,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ListResult
 import com.google.firebase.storage.UploadTask
 import com.hsu.mapapp.R
+import com.hsu.mapapp.camera.GpsTracker
 import com.hsu.mapapp.databinding.FragmentMapSeoulBinding
 import com.richpath.RichPathView
 import java.io.*
@@ -654,7 +657,7 @@ class MapSeoulFragment : Fragment() {
         fos?.use {
             // Finally writing the bitmap to the output stream that we opened
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
-            Toast.makeText(this.context, "Captured View and saved to Gallery", Toast.LENGTH_SHORT)
+            Toast.makeText(this.context, "현재 위치 "+getCurrentGPS(), Toast.LENGTH_SHORT)
                 .show()
         }
     }
@@ -667,6 +670,44 @@ class MapSeoulFragment : Fragment() {
             type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension)
         }
         return type
+    }
+    //-----------------------------현재 위치 구하기----------------------------------//
+    private fun getCurrentGPS(): String {
+        val gpsTracker = GpsTracker(requireActivity())
+
+        val latitude: Double = gpsTracker.getLatitude()
+        val longitude: Double = gpsTracker.getLongitude()
+        val address: String = getCurrentAddress(latitude, longitude)
+        val string = address.split(" ")
+
+//        Toast.makeText(requireActivity(), "현재위치 \n위도 $latitude\n경도 $longitude", Toast.LENGTH_SHORT)
+//            .show()
+        return string[1]+" "+string[2]
+    }
+
+    fun getCurrentAddress(latitude: Double, longitude: Double): String {
+        //지오코더... GPS를 주소로 변환
+        val geocoder = Geocoder(requireContext(), Locale.getDefault())
+        val addresses: List<Address> = try {
+            geocoder.getFromLocation(
+                latitude,
+                longitude,
+                7
+            )
+        } catch (ioException: IOException) {
+            //네트워크 문제
+            Toast.makeText(requireContext(), "지오코더 서비스 사용불가", Toast.LENGTH_SHORT).show()
+            return "지오코더 서비스 사용불가"
+        } catch (illegalArgumentException: IllegalArgumentException) {
+            Toast.makeText(requireContext(), "잘못된 GPS 좌표", Toast.LENGTH_SHORT).show()
+            return "잘못된 GPS 좌표"
+        }
+        if (addresses.isEmpty()) {
+            Toast.makeText(requireContext(), "주소 미발견", Toast.LENGTH_SHORT).show()
+            return "주소 미발견"
+        }
+        val address: Address = addresses[0]
+        return address.getAddressLine(0).toString() + "\n"
     }
     override fun onDestroy() {
         super.onDestroy()
