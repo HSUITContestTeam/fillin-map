@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.protobuf.Internal
 import com.hsu.mapapp.databinding.MapListItemBinding
 import java.io.*
+import kotlin.coroutines.coroutineContext
 
 
 class MapAdapter(private var data: LiveData<ArrayList<MapItemList>>) :
@@ -29,6 +31,8 @@ class MapAdapter(private var data: LiveData<ArrayList<MapItemList>>) :
         data.value!!.get(position).let { item ->
             binding.mapTitle.text = item.mapTitle
             binding.previewImage.setImageURI(item.previewImage.toUri())
+            Glide.with(binding.previewImage.context).load(item.previewImage)
+                .into(binding.previewImage)
         }
         viewHolder.setOnclick()
     }

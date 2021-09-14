@@ -284,7 +284,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
             builder.setPositiveButton("저장") { dialog, which ->
                 val newMapTitle = mapTitle.text
                 val mapListItems = resources.getStringArray(R.array.map_list_array)
-                val imageUri = getURLForResource(R.drawable.map_of_south_korea_img)
+                val imageUri = "https://user-images.githubusercontent.com/67352902/133182377-7ee9c82d-6826-4c3a-9175-837493215ce4.png"
                 val uniqueID = UUID.randomUUID().toString()
                 var newData =
                     MapItemList(newMapTitle.toString(), imageUri, mapListItems[spinnerSelected], uniqueID)
