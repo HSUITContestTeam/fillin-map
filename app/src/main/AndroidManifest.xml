@@ -31,9 +31,9 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-        <activity
-            android:name=".PermissionActivity"
-            android:exported="true" />
+<!--        <activity-->
+<!--            android:name=".PermissionActivity"-->
+<!--            android:exported="true" />-->
         <activity
             android:name=".friend_map.ShareMapActivity"
             android:exported="true" />
