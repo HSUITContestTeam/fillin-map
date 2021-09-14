@@ -19,7 +19,6 @@ import com.hsu.mapapp.map.MapIdViewModel
 import com.hsu.mapapp.map.MapItemList
 import com.hsu.mapapp.map.MapSeoulFragment
 import com.hsu.mapapp.utils.OnSwipeTouchListener
-import com.richpath.RichPathView
 import java.util.*
 
 class ShareMapActivity : AppCompatActivity() {
@@ -97,16 +96,15 @@ class ShareMapActivity : AppCompatActivity() {
         })
 
         // 일단 버튼으로 열고닫기 하도록.. 해놨음 ㅜ
-        binding.button2.setOnClickListener {
+        binding.mapListToggleBtn.setOnClickListener {
             // 슬라이딩 페이지 꺼내기
             if (!isPageOpen) {
-                binding.slidingList.visibility = View.VISIBLE
+                binding.slidingList.setVisibility(View.VISIBLE)
                 binding.slidingList.startAnimation(leftAnimation)
-                binding.button2.text = "close"
             } else { // 슬라이딩 페이지 닫기
                 binding.slidingList.startAnimation(rightAnimation)
-                binding.button2.text = "open"
             }
+            println("clicked")
         }
     }
 
