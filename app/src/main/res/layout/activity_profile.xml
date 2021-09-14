@@ -7,20 +7,128 @@
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/profileModifyButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:backgroundTint="#DCE4FC"
+        android:text="프로필 편집"
+        android:textColor="#616161"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/profile_image_iV"
+        android:layout_width="156dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="55dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.062"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.099"
+        tools:srcCompat="@drawable/login_id" />
+
+    <ImageView
+        android:id="@+id/build_message_iv"
+        android:layout_width="18dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="9dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.786"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/build_name_iv"
+        app:layout_constraintVertical_bias="0.001"
+        app:srcCompat="@android:drawable/ic_menu_edit" />
+
+    <ImageView
+        android:id="@+id/build_name_iv"
+        android:layout_width="18dp"
+        android:layout_height="25dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.786"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.177"
+        app:srcCompat="@android:drawable/ic_menu_edit" />
+
+    <ImageView
+        android:id="@+id/build_profile_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.369"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.329"
+        app:srcCompat="@android:drawable/ic_menu_camera" />
+
+    <TextView
+        android:id="@+id/profile_email_tV"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="18dp"
+        android:text="이메일@com"
+        android:textAlignment="viewStart"
+        android:textColor="#000000"
+        app:layout_constraintStart_toEndOf="@+id/profile_image_iV"
+        app:layout_constraintTop_toBottomOf="@+id/profile_message_tV" />
+
+    <TextView
+        android:id="@+id/profile_name_tV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:background="#61FFFFFF"
+        android:text="닉네임"
+        android:textAlignment="viewStart"
+        android:textColor="#000000"
+        app:layout_constraintBottom_toBottomOf="@+id/profile_image_iV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/profile_image_iV"
+        app:layout_constraintTop_toTopOf="@+id/profile_image_iV"
+        app:layout_constraintVertical_bias="0.158" />
+
+    <TextView
+        android:id="@+id/profile_message_tV"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="18dp"
+        android:background="#61FFFFFF"
+        android:hint="상태 메세지 입력"
+        android:textAlignment="viewStart"
+        android:textColor="#000000"
+        app:layout_constraintStart_toEndOf="@+id/profile_image_iV"
+        app:layout_constraintTop_toBottomOf="@+id/profile_name_tV" />
+
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/password_change_btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="16dp"
         android:background="#FFFFFF"
         android:text="비밀번호 재설정"
         android:textAlignment="viewStart"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.637" />
+        app:layout_constraintVertical_bias="0.499" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/logout_btn"
@@ -55,113 +163,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password_change_btn"
         app:layout_constraintVertical_bias="0.007" />
-
-    <TextView
-        android:id="@+id/profile_email_tV"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="이메일@com"
-        android:textAlignment="center"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_name_tV"
-        app:layout_constraintVertical_bias="0.09" />
-
-    <TextView
-        android:id="@+id/profile_name_tV"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="#61FFFFFF"
-        android:text="닉네임"
-        android:textAlignment="center"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.23" />
-
-    <TextView
-        android:id="@+id/profile_message_tV"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="#61FFFFFF"
-        android:hint="상태 메세지 입력"
-        android:textAlignment="center"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.28" />
-
-    <ImageView
-        android:id="@+id/profile_image_iV"
-        android:layout_width="156dp"
-        android:layout_height="120dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.05"
-        tools:srcCompat="@drawable/login_id" />
-
-    <Button
-        android:id="@+id/profileModifyButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="프로필 편집"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.517"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_email_tV"
-        app:layout_constraintVertical_bias="0.114" />
-
-    <ImageView
-        android:id="@+id/build_message_iv"
-        android:layout_width="18dp"
-        android:layout_height="25dp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.884"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/build_name_iv"
-        app:layout_constraintVertical_bias="0.016"
-        app:srcCompat="@android:drawable/ic_menu_edit" />
-
-    <ImageView
-        android:id="@+id/build_name_iv"
-        android:layout_width="18dp"
-        android:layout_height="25dp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.884"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.24"
-        app:srcCompat="@android:drawable/ic_menu_edit" />
-
-    <ImageView
-        android:id="@+id/build_profile_iv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.645"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.179"
-        app:srcCompat="@android:drawable/ic_menu_camera" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
