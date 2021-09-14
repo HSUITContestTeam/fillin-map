@@ -31,19 +31,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Fill in map"
-        android:textColor="#1F57ED"
-        android:textSize="34sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/login_id_eT"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/waveHeader" />
-
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/login_LOGIN_btn"
         android:layout_width="230dp"
@@ -87,12 +74,12 @@
         android:id="@+id/waveHeader"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        app:mwhColorAlpha="0.45"
-        app:mwhVelocity="5"
-        app:mwhStartColor="@color/color_main"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:mwhColorAlpha="0.45"
+        app:mwhStartColor="@color/color_main"
+        app:mwhVelocity="5" />
 
     <TextView
         android:id="@+id/textView5"
@@ -113,5 +100,15 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/login_pwd_eT"
         app:layout_constraintStart_toStartOf="@+id/login_pwd_eT" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/login_id_eT"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/waveHeader"
+        app:srcCompat="@drawable/appicontext2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

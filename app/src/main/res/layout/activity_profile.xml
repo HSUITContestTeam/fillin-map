@@ -6,19 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/profileModifyButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:backgroundTint="#DCE4FC"
-        android:text="프로필 편집"
-        android:textColor="#616161"
-        android:textSize="13sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ImageView
         android:id="@+id/profile_image_iV"
         android:layout_width="156dp"
@@ -34,43 +21,37 @@
 
     <ImageView
         android:id="@+id/build_message_iv"
-        android:layout_width="18dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="9dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="4dp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.786"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/build_name_iv"
-        app:layout_constraintVertical_bias="0.001"
-        app:srcCompat="@android:drawable/ic_menu_edit" />
+        app:layout_constraintEnd_toEndOf="@+id/profile_message_tV"
+        app:layout_constraintTop_toTopOf="@+id/profile_message_tV"
+        app:srcCompat="@drawable/baseline_edit_black_48"
+        tools:srcCompat="@drawable/baseline_edit_black_48" />
 
     <ImageView
         android:id="@+id/build_name_iv"
-        android:layout_width="18dp"
-        android:layout_height="25dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="4dp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.786"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.177"
-        app:srcCompat="@android:drawable/ic_menu_edit" />
+        app:layout_constraintEnd_toEndOf="@+id/profile_name_tV"
+        app:layout_constraintTop_toTopOf="@+id/profile_name_tV"
+        app:srcCompat="@drawable/baseline_edit_black_48"
+        tools:srcCompat="@drawable/baseline_edit_black_48" />
 
     <ImageView
         android:id="@+id/build_profile_iv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="4dp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.369"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.329"
-        app:srcCompat="@android:drawable/ic_menu_camera" />
+        app:layout_constraintBottom_toBottomOf="@+id/profile_image_iV"
+        app:layout_constraintEnd_toEndOf="@+id/profile_image_iV"
+        app:srcCompat="@drawable/baseline_add_a_photo_black_24"
+        tools:srcCompat="@drawable/baseline_add_a_photo_black_48" />
 
     <TextView
         android:id="@+id/profile_email_tV"
@@ -112,6 +93,19 @@
         android:textColor="#000000"
         app:layout_constraintStart_toEndOf="@+id/profile_image_iV"
         app:layout_constraintTop_toBottomOf="@+id/profile_name_tV" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/profileModifyButton"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:backgroundTint="#DCE4FC"
+        android:text="프로필 편집"
+        android:textColor="#616161"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/password_change_btn"
