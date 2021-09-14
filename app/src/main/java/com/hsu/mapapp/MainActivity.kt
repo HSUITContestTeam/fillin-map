@@ -4,7 +4,6 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -12,6 +11,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
@@ -41,10 +41,10 @@ class MainActivity : AppCompatActivity() {
     }
     private fun WelcomeUserMessage() {
         welcom = 1
-        val myRef = firebase.collection("users")?.document("$uid")
+        val myRef = firebase.collection("users").document("$uid")
         myRef.get()
             .addOnSuccessListener {
-                Toast.makeText(this,it.get("name").toString()+"님 환영",Toast.LENGTH_LONG).show()
+                Snackbar.make(mainBinding.root,it.get("name").toString()+"님 환영합니다😉",Snackbar.LENGTH_LONG).show()
             }
     }
 

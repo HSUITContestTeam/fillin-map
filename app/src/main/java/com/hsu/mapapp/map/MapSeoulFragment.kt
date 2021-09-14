@@ -505,7 +505,6 @@ class MapSeoulFragment : Fragment() {
                 uriColor = Uri.fromFile(file)
                 storageReference.putFile(uriColor).addOnSuccessListener {
                     deleteImageFromMap() // 이미지 삭제
-                    Toast.makeText(this.context, "Successfully uploaded", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -657,7 +656,7 @@ class MapSeoulFragment : Fragment() {
         fos?.use {
             // Finally writing the bitmap to the output stream that we opened
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
-            Toast.makeText(this.context, "현재 위치 "+getCurrentGPS(), Toast.LENGTH_SHORT)
+            Toast.makeText(this.context, "현재 위치는 ${getCurrentGPS()} 입니다.", Toast.LENGTH_LONG)
                 .show()
         }
     }
@@ -696,14 +695,11 @@ class MapSeoulFragment : Fragment() {
             )
         } catch (ioException: IOException) {
             //네트워크 문제
-            Toast.makeText(requireContext(), "지오코더 서비스 사용불가", Toast.LENGTH_SHORT).show()
             return "지오코더 서비스 사용불가"
         } catch (illegalArgumentException: IllegalArgumentException) {
-            Toast.makeText(requireContext(), "잘못된 GPS 좌표", Toast.LENGTH_SHORT).show()
             return "잘못된 GPS 좌표"
         }
         if (addresses.isEmpty()) {
-            Toast.makeText(requireContext(), "주소 미발견", Toast.LENGTH_SHORT).show()
             return "주소 미발견"
         }
         val address: Address = addresses[0]
