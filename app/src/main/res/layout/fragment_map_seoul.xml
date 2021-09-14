@@ -532,16 +532,19 @@
             app:layout_constraintStart_toStartOf="@+id/ic_map_of_south_korea"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@tools:sample/avatars" />
+
         <ImageView
             android:id="@+id/hwacheon"
-            android:tag="hwacheon"
             android:layout_width="100px"
             android:layout_height="100px"
+            android:tag="hwacheon"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/ic_map_of_south_korea"
             app:layout_constraintEnd_toEndOf="@+id/ic_map_of_south_korea"
+            app:layout_constraintHorizontal_bias="0.467555"
             app:layout_constraintStart_toStartOf="@+id/ic_map_of_south_korea"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.13999"
             tools:src="@tools:sample/avatars" />
         <ImageView
             android:id="@+id/chuncheon"
@@ -560,6 +563,8 @@
             android:layout_width="100px"
             android:layout_height="100px"
             android:visibility="visible"
+            app:layout_constraintHorizontal_bias="0.59"
+            app:layout_constraintVertical_bias="0.223"
             app:layout_constraintBottom_toBottomOf="@+id/ic_map_of_south_korea"
             app:layout_constraintEnd_toEndOf="@+id/ic_map_of_south_korea"
             app:layout_constraintStart_toStartOf="@+id/ic_map_of_south_korea"
