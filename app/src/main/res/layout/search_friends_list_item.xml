@@ -11,13 +11,13 @@
         android:id="@+id/add_friends_btn"
         android:layout_width="130dp"
         android:layout_height="48dp"
-        android:layout_marginStart="3dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
-        android:backgroundTint="#000000"
-        android:text="Add"
+        android:backgroundTint="@color/blue_A700"
+        android:text="친구추가"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.9"
         app:layout_constraintStart_toEndOf="@+id/friends_search_name"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -25,30 +25,37 @@
         android:id="@+id/imageView6"
         android:layout_width="82dp"
         android:layout_height="86dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/login_id" />
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/profile_icon_1" />
 
     <TextView
         android:id="@+id/friends_search_name"
         android:layout_width="129dp"
         android:layout_height="33dp"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="14dp"
         android:text="User Name"
+        android:textColor="@color/black"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView6"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.235" />
+        app:layout_constraintVertical_bias="0.188" />
 
     <TextView
         android:id="@+id/FriendsMessageSearch"
-        android:layout_width="261dp"
-        android:layout_height="38dp"
-        android:layout_marginStart="12dp"
+        android:layout_width="268dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="14dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView6"
-        app:layout_constraintTop_toBottomOf="@+id/friends_search_name" />
+        app:layout_constraintTop_toBottomOf="@+id/friends_search_name"
+        app:layout_constraintVertical_bias="0.75" />
 </androidx.constraintlayout.widget.ConstraintLayout>
