@@ -6,12 +6,14 @@
 
 추억이 담긴 사진과 지도 정보를 저장하고 공유할 수 있는 지도 채우기 어플인 FILLIN MAP
 ### :tv:시연 영상 / 설명 영상 (누르면 이동😚)
+<center>
 <a href="https://youtu.be/bkH-0xRsxOM">
     <img src="http://img.youtube.com/vi/bkH-0xRsxOM/0.jpg"/>
 </a>
 <a href="https://youtu.be/R4jrzsnGyE0">
     <img src="http://img.youtube.com/vi/R4jrzsnGyE0/0.jpg"/>
 </a>
+</center>
 
 
 ## ScreenShots
