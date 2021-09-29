@@ -59,3 +59,18 @@
 
 
 ## About Us
+- <a href="https://github.com/yuseon-Lim">
+    <img src="https://avatars.githubusercontent.com/u/67352902?v=4" vertical-align="middle" height="30" /> Yuseon Lim
+</a>
+
+- <a href="https://github.com/im-shung">
+    <img src="https://avatars.githubusercontent.com/u/67851738?v=4" vertical-align="middle" height="30" /> Im shung
+</a>
+
+- <a href="https://github.com/yehang218">
+    <img src="https://avatars.githubusercontent.com/u/69100145?v=4" vertical-align="middle" height="30" /> yehang218
+</a>
+
+- <a href="https://github.com/ksb3458">
+    <img src="https://avatars.githubusercontent.com/u/86918962?v=4" vertical-align="middle" height="30" /> ksb3458
+</a>
